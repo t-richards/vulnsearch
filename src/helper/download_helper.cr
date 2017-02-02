@@ -3,7 +3,7 @@ require "http/client"
 module Vulnsearch
   class DownloadHelper
     BASE_URI = URI.parse("https://nvd.nist.gov")
-    OUTPUT_DIRECTORY = "data"
+    OUTPUT_DIRECTORY = "public/data"
 
     def initialize()
       @http_client = HTTP::Client.new(BASE_URI)

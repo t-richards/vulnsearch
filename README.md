@@ -1,18 +1,32 @@
 # vulnsearch
 
-TODO: Write a description here
+A fast, well-behaved replacement for other CVE search tools.
 
-## Installation
+## System requirements
 
-TODO: Write installation instructions here
+ - Crystal `~> 0.20.5`
+ - Shards `~> 0.7.1`
+ - PostgreSQL `~> 9.6.1` (`postgres` user with no password)
+
+## Getting started
+
+```bash
+# Install dependencies
+$ shards install
+
+# Compile application
+$ crystal build -o bin/vulnsearch src/vulnsearch.cr
+
+# Create required database schema
+$ bin/vulnsearch --migrate
+
+# Run application
+$ bn/vulnsearch
+```
 
 ## Usage
 
-TODO: Write usage instructions here
-
-## Development
-
-TODO: Write development instructions here
+TBD...
 
 ## Contributing
 

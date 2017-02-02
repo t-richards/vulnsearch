@@ -10,14 +10,15 @@
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
         <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data</a>
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Update</a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item" href="/fetch" data-method="post">Fetch from NVD</a>
+          <a class="dropdown-item" href="/fetch" data-method="post">Fetch data files from NVD</a>
+          <a class="dropdown-item" href="/load" data-method="post">Load data files into database</a>
         </div>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+    <form action="/search" class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>

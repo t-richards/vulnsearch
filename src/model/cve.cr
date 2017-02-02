@@ -2,6 +2,7 @@ require "db"
 
 class Cve
   DB.mapping({
-    title: String
+    id: String,
+    summary: String
   })
 end

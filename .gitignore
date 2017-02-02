@@ -2,5 +2,5 @@
 /lib/
 /bin/
 /.shards/
-/data/*
-!/data/.gitkeep
+/public/data/*
+!/public/data/.gitkeep
