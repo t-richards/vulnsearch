@@ -13,18 +13,17 @@ module Vulnsearch
     def download(year)
       out_path = File.join(OUTPUT_DIRECTORY, "nvdcve-2.0-#{year}.xml.gz")
       unless needs_download?(out_path)
-        puts "Already downloaded #{out_path}"
-        return
+        return "Already downloaded #{out_path}"
       end
 
       request_path = "/feeds/xml/cve/nvdcve-2.0-#{year}.xml.gz"
       response = @http_client.get(request_path)
       if response.success?
         File.write(out_path, response.body)
-        puts "Successfully downloaded #{out_path}"
-      else
-        puts "ERROR: Download failed for #{year}"
+        return "Successfully downloaded #{out_path}"
       end
+
+      return "ERROR: Download failed for #{year}"
     end
 
     def needs_download?(path)

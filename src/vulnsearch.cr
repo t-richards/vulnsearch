@@ -6,18 +6,21 @@ require "kemal"
 
 module Vulnsearch
   get "/" do
-    "Hello World!"
+    render "src/views/home.ecr", "src/views/layouts/default.ecr"
   end
 
   post "/fetch" do
+    results = [] of String
     dd = DownloadHelper.new
     final_year = Time.new.year
 
     (2002..final_year - 1).each do |year|
-      dd.download(year)
+      results << dd.download(year)
     end
 
-    dd.download(final_year)
+    results << dd.download(final_year)
+
+    render "src/views/fetch.ecr", "src/views/layouts/default.ecr"
   end
 end
 
