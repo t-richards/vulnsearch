@@ -1,17 +1,6 @@
 require "db"
+require "pg"
 
-module Vulnsearch
-  module Db
-    class Connection
-      @db : DB::Database
-
-      def initialize(db_uri : String)
-        @db = DB.open(db_uri)
-      end
-
-      def db()
-        return @db
-      end
-    end
-  end
-end
+VULNDB = DB.open(
+  ENV.fetch("DATABASE_URI", "postgres://postgres@localhost:5432/vulnsearch_dev")
+)

@@ -21,7 +21,8 @@ $ crystal build -o bin/vulnsearch src/vulnsearch.cr
 $ bin/vulnsearch --migrate
 
 # Run application
-$ bn/vulnsearch
+# Visit http://localhost:3000/ in your browser!
+$ bin/vulnsearch
 ```
 
 ## Usage
