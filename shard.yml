@@ -1,0 +1,22 @@
+name: vulnsearch
+version: 0.1.0
+
+authors:
+  - Tom Richards <>
+
+targets:
+  vulnsearch:
+    main: src/vulnsearch.cr
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+    branch: master
+  db:
+    github: crystal-lang/crystal-db
+  pg:
+    github: will/crystal-pg
+
+crystal: 0.20.5
+
+license: MIT
