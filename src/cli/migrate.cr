@@ -5,4 +5,9 @@ Kemal.config.extra_options do |opts|
     puts "I'm migrating!"
     exit 0
   end
+
+  opts.on("--version", "Prints the version of this application") do
+    puts "Vulnsearch #{Vulnsearch::VERSION}"
+    exit 0
+  end
 end
