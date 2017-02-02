@@ -1,9 +1,8 @@
 require "./vulnsearch/*"
 
-require "./db/*"
-require "./controllers/*"
 require "./cli/*"
-require "./helper/*"
-require "./model/*"
+require "./controllers/*"
+require "./helpers/*"
+require "./models/*"
 
 Kemal.run

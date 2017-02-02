@@ -14,8 +14,11 @@ dependencies:
     branch: master
   db:
     github: crystal-lang/crystal-db
-  pg:
-    github: will/crystal-pg
+  sqlite3:
+    github: crystal-lang/crystal-sqlite3
+  kemal-session:
+    github: kemalcr/kemal-session
+    branch: master
 
 crystal: 0.20.5
 

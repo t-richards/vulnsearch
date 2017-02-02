@@ -1,6 +1,5 @@
 require "kemal"
-require "db"
-require "pg"
+require "kemal-session"
 
 module Vulnsearch
   class HomeController
@@ -10,12 +9,17 @@ module Vulnsearch
 
     get "/search" do |env|
       q = "%#{env.params.query["q"]}%"
-      cves = Cve.from_rs(VULNDB.query("SELECT id, summary FROM cves WHERE id LIKE $1", q))
+      cves = Cve.from_rs(VULNDB.query("SELECT id, summary FROM cves WHERE id LIKE ? OR summary LIKE ?", q, q))
 
       render "src/views/home/search.ecr", "src/views/layouts/default.ecr"
     end
 
-    post "/fetch" do
+    get "/fetch" do |env|
+      results = env.session.string("fetch_results")
+      render "src/views/home/fetch.ecr", "src/views/layouts/default.ecr"
+    end
+
+    post "/fetch" do |env|
       results = [] of String
       dd = DownloadHelper.new
       final_year = Time.new.year
@@ -25,8 +29,9 @@ module Vulnsearch
       end
 
       results << dd.download(final_year)
+      env.session.string("fetch_results", results.join("<br />"))
 
-      render "src/views/home/fetch.ecr", "src/views/layouts/default.ecr"
+      env.redirect "/fetch"
     end
   end
 end

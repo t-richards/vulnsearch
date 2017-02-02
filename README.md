@@ -4,9 +4,9 @@ A fast, well-behaved replacement for other CVE search tools.
 
 ## System requirements
 
- - Crystal `~> 0.20.5`
- - Shards `~> 0.7.1`
- - PostgreSQL `~> 9.6.1` (`postgres` user with no password)
+ - Crystal `~> 0.20`
+ - Shards `~> 0.7`
+ - libsqlite3 `~> 3.16`
 
 ## Getting started
 
@@ -14,15 +14,12 @@ A fast, well-behaved replacement for other CVE search tools.
 # Install dependencies
 $ shards install
 
-# Compile application
-$ crystal build -o bin/vulnsearch src/vulnsearch.cr
-
 # Create required database schema
-$ bin/vulnsearch --migrate
+$ crystal run src/vulnsearch.cr -- --migrate
 
 # Run application
 # Visit http://localhost:3000/ in your browser!
-$ bin/vulnsearch
+$ crystal run src/vulnsearch.cr
 ```
 
 ## Usage

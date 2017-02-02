@@ -1,4 +1,5 @@
 /doc/
+/db/*.sqlite3
 /lib/
 /bin/
 /.shards/
