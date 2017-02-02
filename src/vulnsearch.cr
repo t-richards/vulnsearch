@@ -18,7 +18,7 @@ module Vulnsearch
   end
 
   get "/search" do |env|
-    q = env.params.query["q"]
+    q = "%#{env.params.query["q"]}%"
     cves = Cve.from_rs(db.query("SELECT id, summary FROM cves WHERE id LIKE $1", q))
 
     render "src/views/search.ecr", "src/views/layouts/default.ecr"
