@@ -9,6 +9,8 @@ module Vulnsearch
     end
 
     def load!()
+      load_into_db(@data_files[0])
+      return
       @data_files.each do |file|
         load_into_db(file)
       end
@@ -28,7 +30,10 @@ module Vulnsearch
       if nvd
         nvd.children.each do |entry|
           puts entry["id"]
-          puts entry.xpath_node("//vuln:summary")
+          puts entry.namespaces
+          summary = entry.xpath_node("/vuln:summary")
+          puts summary if summary.not_nil!
+          return
         end
       end
     end
