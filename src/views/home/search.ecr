@@ -1,6 +1,10 @@
 <div class="container">
   <% cves.each do |cve| %>
-    <%= cve.id %><br />
-    <%= cve.summary %>
+    <div class="card">
+      <div class="card-block">
+        <%= cve.id %><br />
+        <%= cve.summary %>
+      </div>
+    </div>
   <% end %>
 </div>

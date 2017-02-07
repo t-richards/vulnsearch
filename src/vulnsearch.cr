@@ -1,4 +1,4 @@
-require "./vulnsearch/*"
+require "./config/*"
 
 require "./cli/*"
 require "./controllers/*"
