@@ -8,12 +8,14 @@ module Vulnsearch
       @data_files = Dir.glob(pattern)
     end
 
-    def load!()
+    def load_all_files()
       load_into_db(@data_files[0])
-      return
+      return 0
       @data_files.each do |file|
         load_into_db(file)
       end
+
+      0
     end
 
     def load_into_db(nvdcve_file)

@@ -9,21 +9,12 @@ Kemal.config.extra_options do |opts|
   end
 
   opts.on("--fetch", "Fetch the latest data from NVD") do
-    results = [] of String
     dd = Vulnsearch::DownloadHelper.new
-    final_year = Time.new.year
-
-    (2002..final_year - 1).each do |year|
-      exit 1 unless dd.download(year)
-    end
-
-    exit 1 unless dd.download(final_year)
-    exit 0
+    exit dd.download_all()
   end
 
   opts.on("--load", "Load data from XML files into database") do
     loader = Vulnsearch::FileLoader.new
-    loader.load!()
-    exit 0
+    exit loader.load_all_files()
   end
 end

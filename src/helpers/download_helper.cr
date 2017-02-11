@@ -31,5 +31,16 @@ module Vulnsearch
     def needs_download?(path)
       !File.readable?(path)
     end
+
+    def download_all()
+      final_year = Time.new.year
+
+      (2002..final_year - 1).each do |year|
+        return 1 unless download(year)
+      end
+
+      return 1 unless download(final_year)
+      0
+    end
   end
 end
