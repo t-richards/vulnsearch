@@ -4,7 +4,7 @@ module Vulnsearch
   class DownloadHelper
     BASE_URI = URI.parse("https://nvd.nist.gov")
 
-    def initialize()
+    def initialize
       @http_client = HTTP::Client.new(BASE_URI)
       Dir.mkdir_p(Vulnsearch::XML_DATA_DIR)
     end
@@ -32,7 +32,7 @@ module Vulnsearch
       !File.readable?(path)
     end
 
-    def download_all()
+    def download_all
       final_year = Time.new.year
 
       (2002..final_year - 1).each do |year|

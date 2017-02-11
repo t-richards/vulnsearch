@@ -3,12 +3,12 @@ require "zlib"
 
 module Vulnsearch
   class FileLoader
-    def initialize()
+    def initialize
       pattern = File.join(Vulnsearch::XML_DATA_DIR, "*.xml.gz")
       @data_files = Dir.glob(pattern)
     end
 
-    def load_all_files()
+    def load_all_files
       load_into_db(@data_files[0])
       return 0
       @data_files.each do |file|
