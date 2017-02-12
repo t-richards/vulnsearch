@@ -11,15 +11,13 @@ A fast, well-behaved replacement for other CVE search tools.
 ## Getting started
 
 ```bash
-# Install dependencies
-$ shards install
-
-# Create sqlite3 database file and load schema
-$ bin/micrate up
+# Install deps, migrate database, compile app
+# Use `make help` to get information about available make targets
+$ make
 
 # Run application
 # Visit http://localhost:3000/ in your browser!
-$ crystal run src/vulnsearch.cr
+$ bin/vulnsearch
 ```
 
 ## Usage

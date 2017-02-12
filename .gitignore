@@ -1,6 +1,7 @@
-/doc/
-/db/*.sqlite3
-/lib/
 /.shards/
+/bin/vulnsearch
+/db/*.sqlite3
+/doc/
+/lib/
 /public/data/*
 !/public/data/.gitkeep
