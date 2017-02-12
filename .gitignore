@@ -1,7 +1,6 @@
 /doc/
 /db/*.sqlite3
 /lib/
-/bin/
 /.shards/
 /public/data/*
 !/public/data/.gitkeep

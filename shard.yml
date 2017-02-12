@@ -19,6 +19,8 @@ dependencies:
   kemal-session:
     github: kemalcr/kemal-session
     branch: master
+  micrate:
+    github: juanedi/micrate
 
 crystal: 0.20.5
 

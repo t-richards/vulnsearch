@@ -14,8 +14,8 @@ A fast, well-behaved replacement for other CVE search tools.
 # Install dependencies
 $ shards install
 
-# Create required database schema
-$ crystal run src/vulnsearch.cr -- --migrate
+# Create sqlite3 database file and load schema
+$ bin/micrate up
 
 # Run application
 # Visit http://localhost:3000/ in your browser!
