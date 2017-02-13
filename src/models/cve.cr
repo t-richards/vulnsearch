@@ -5,4 +5,9 @@ class Cve
     id:      String,
     summary: String,
   })
+
+  def initialize
+    @id = ""
+    @summary = ""
+  end
 end

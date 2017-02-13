@@ -34,4 +34,4 @@ db: ## Migrate database
 all:
 	$(MAKE) deps
 	$(MAKE) db
-	$(MAKE) bin/vulnsearch
+	$(MAKE) vulnsearch

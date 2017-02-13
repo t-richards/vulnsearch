@@ -1,3 +1,4 @@
+require "../models/cve"
 require "xml"
 require "zlib"
 
@@ -9,8 +10,6 @@ module Vulnsearch
     end
 
     def load_all_files
-      load_into_db(@data_files[0])
-      return 0
       @data_files.each do |file|
         load_into_db(file)
       end
@@ -28,15 +27,18 @@ module Vulnsearch
         end
       end
 
-      nvd = xml_doc.first_element_child
-      if nvd
-        nvd.children.each do |entry|
-          puts entry["id"]
-          puts entry.namespaces
-          summary = entry.xpath_node("/vuln:summary")
-          puts summary if summary.not_nil!
-          return
+      entries = xml_doc.xpath_nodes("//*[local-name()=\"entry\"]")
+      entries.each do |entry|
+        cve = Cve.new
+        cve.id = entry["id"]
+        entry.children.each do |child|
+          case child.name
+          when "summary"
+            cve.summary = child.content
+          end
         end
+
+        puts cve.inspect
       end
     end
   end
