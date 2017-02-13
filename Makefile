@@ -1,8 +1,7 @@
 .DEFAULT_GOAL := all
 
-vulnsearch: bin/vulnsearch ## Compile application
-
-bin/vulnsearch: src/vulnsearch.cr
+.PHONY: vulnsearch
+vulnsearch: ## Compile application
 	crystal build -o bin/vulnsearch src/vulnsearch.cr
 
 .PHONY: help
