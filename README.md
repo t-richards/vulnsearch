@@ -4,18 +4,25 @@ A fast, well-behaved replacement for other CVE search tools.
 
 ## System requirements
 
- - Crystal `~> 0.20`
- - Shards `~> 0.7`
- - libsqlite3 `~> 3.16`
+ - [Crystal][crystal] `~> 0.20`
+ - [Shards][shards] `~> 0.7`
+ - [libsqlite3][sqlite] `~> 3.16`
+ - GNU Make
 
 ## Getting started
 
 ```bash
-# Install deps, migrate database, compile app
+# Install dependencies, migrate database, compile application
 # Use `make help` to get information about available make targets
 $ make
 
-# Run application
+# Download `.xml` CVE data from NVD
+$ bin/vulnsearch --fetch
+
+# Load CVE data from `.xml` files into database
+$ bin/vulnsearch --load
+
+# Run web application
 # Visit http://localhost:3000/ in your browser!
 $ bin/vulnsearch
 ```
@@ -31,3 +38,7 @@ TBD...
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
 5. Create a new Pull Request
+
+[crystal]: https://crystal-lang.org/
+[shards]: https://github.com/crystal-lang/shards
+[sqlite]: https://www.sqlite.org/
