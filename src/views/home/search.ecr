@@ -1,9 +1,18 @@
 <div class="container">
+  <div class="row">
+    <%= cves.size %> results found.
+  </div>
   <% cves.each do |cve| %>
     <div class="card">
       <div class="card-block">
-        <%= cve.id %><br />
-        <%= cve.summary %>
+        <h4 class="card-title"><%= HTML.escape(cve.id) %></h4>
+        <p class="card-text">
+          <%= HTML.escape(cve.summary) %>
+        </p>
+        <ul>
+          <li>Published: <%= HTML.escape(cve.published.to_s) %></li>
+          <li>Last Modified: <%= HTML.escape(cve.last_modified.to_s) %></li>
+        </ul>
       </div>
     </div>
   <% end %>
