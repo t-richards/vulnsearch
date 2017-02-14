@@ -1,0 +1,15 @@
+<div class="jumbotron">
+  <div class="container">
+    <h1>Search for CVEs by identifier, summary, ...</h1>
+    <form action="/search">
+      <div class="form-group row">
+        <% if query %>
+          <input class="form-control col-sm-8" type="text" name="q" value="<%= HTML.escape(query) %>" placeholder="Search">
+        <% else %>
+          <input class="form-control col-sm-8" type="text" name="q" placeholder="Search">
+        <% end %>
+        <button class="btn btn-outline-primary col-sm-4" type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
