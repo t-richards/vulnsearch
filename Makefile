@@ -30,6 +30,10 @@ deps: ## Install required Crystal dependencies via shards
 db: ## Migrate database
 	bin/micrate up
 
+.PHONY: test
+test: ## Run unit tests / specs
+	KEMAL_ENV=test crystal spec spec/vulnsearch.cr
+
 .PHONY: all ## Targets required to run application
 all:
 	$(MAKE) deps

@@ -12,13 +12,16 @@ dependencies:
   kemal:
     github: kemalcr/kemal
     branch: master
+  spec-kemal:
+    github: kemalcr/spec-kemal
+    branch: master
+  kemal-session:
+    github: kemalcr/kemal-session
+    branch: master
   db:
     github: crystal-lang/crystal-db
   sqlite3:
     github: crystal-lang/crystal-sqlite3
-  kemal-session:
-    github: kemalcr/kemal-session
-    branch: master
   micrate:
     github: juanedi/micrate
 

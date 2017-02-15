@@ -6,11 +6,11 @@ shards:
 
   kemal:
     github: kemalcr/kemal
-    commit: 72dc6cf77513e7b392dbeea260eaee4ffb9624b0
+    commit: 9607083e595e8eb4954fe3c3819694e913eeaf05
 
   kemal-session:
     github: kemalcr/kemal-session
-    commit: 9c6a473fa5680c82487edcdfc3258d6fc6f74b60
+    commit: aa3b9fc9c195f4ea16214f2026cdf5a22d9216a6
 
   kilt:
     github: jeromegn/kilt
@@ -27,6 +27,10 @@ shards:
   radix:
     github: luislavena/radix
     version: 0.3.7
+
+  spec-kemal:
+    github: kemalcr/spec-kemal
+    commit: 05cc810f5f5ed890f16bcb06461000b97c625959
 
   sqlite3:
     github: crystal-lang/crystal-sqlite3
