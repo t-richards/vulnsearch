@@ -1,6 +1,9 @@
 dist: trusty
 sudo: false
 language: crystal
+install:
+  - make deps
+before_script:
+  - make db
 script:
-  - make
-  - make test
+  - make vulnsearch && make test
