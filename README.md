@@ -1,5 +1,7 @@
 # vulnsearch
 
+[![Build Status](https://travis-ci.org/t-richards/vulnsearch.svg?branch=master)](https://travis-ci.org/t-richards/vulnsearch)
+
 A fast, well-behaved replacement for other CVE search tools.
 
 ## System requirements
