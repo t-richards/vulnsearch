@@ -3,25 +3,21 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="/vendor/css/bootstrap/4.0.0-alpha.6/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/app.css">
   </head>
   <body>
-    <%= render "src/views/shared/nav.ecr" %>
-    <%= render "src/views/shared/searchform.ecr" %>
+    <%-= render "src/views/shared/nav.ecr" %>
+    <%-= render "src/views/shared/searchform.ecr" %>
 
-    <%= content %>
+    <%-= content %>
 
     <hr />
     <div class="container">
       <footer>
-        <p>&copy; <%= Time.now.year %> <a href="https://tomrichards.net/">Tom Richards</a></p>
+        <p><a href="https://github.com/t-richards/vulnsearch">Vulnsearch</a> is free and open source software, licensed under the <a href="https://github.com/t-richards/vulnsearch/blob/master/LICENSE">MIT License</a>.</p>
+        <p>Copyright &copy; <%= Time.now.year %> <a href="https://tomrichards.net/">Tom Richards</a></p>
       </footer>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ujs/1.2.2/rails.min.js" integrity="sha384-1mu0Iv+bx3s4hl7YqH6uPRc+ny+K/hrO+mnm6YoxtZibR39JTB9edf4FM6AQWKmE" crossorigin="anonymous"></script>
   </body>
 </html>

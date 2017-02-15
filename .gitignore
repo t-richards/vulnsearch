@@ -3,5 +3,4 @@
 /db/*.sqlite3
 /doc/
 /lib/
-/public/data/*
-!/public/data/.gitkeep
+/public/data/

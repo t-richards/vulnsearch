@@ -31,6 +31,10 @@ $ bin/vulnsearch
 
 TBD...
 
+## Credits
+
+"Protection" icon by [Chanut is Industries][chanut-is-industries], licensed under [CC BY 3.0 US][cc-by-30-us].
+
 ## Contributing
 
 1. Fork it ( https://github.com/t-richards/vulnsearch/fork )
@@ -42,3 +46,5 @@ TBD...
 [crystal]: https://crystal-lang.org/
 [shards]: https://github.com/crystal-lang/shards
 [sqlite]: https://www.sqlite.org/
+[chanut-is-industries]: https://thenounproject.com/chanut-is/
+[cc-by-30-us]: https://creativecommons.org/licenses/by/3.0/us/
