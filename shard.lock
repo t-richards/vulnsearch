@@ -6,7 +6,7 @@ shards:
 
   kemal:
     github: kemalcr/kemal
-    commit: 9607083e595e8eb4954fe3c3819694e913eeaf05
+    commit: 54e501e964ceb5053f16fd3061c005dd875b5f9e
 
   kemal-session:
     github: kemalcr/kemal-session
