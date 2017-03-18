@@ -38,20 +38,23 @@ module Vulnsearch
 
     def load_into_db(entry)
       cve = Cve.new
-      cve.id = entry["id"]
+
       entry.children.each do |child|
         case child.name
+        when "cve-id"
+          cve.id = child.content
         when "summary"
           cve.summary = child.content
         when "published-datetime"
           cve.published = Time::Format::ISO_8601_DATE_TIME.parse(child.content)
         when "last-modified-datetime"
           cve.last_modified = Time::Format::ISO_8601_DATE_TIME.parse(child.content)
+        when "cwe"
+          cve.cwe_id = child["id"]
         end
       end
-
       begin
-        VULNDB.exec("INSERT INTO cves VALUES (?, ?, ?, ?)", cve.id, cve.summary, cve.published, cve.last_modified)
+        VULNDB.exec("INSERT INTO cves (id, summary, cwe_id, published, last_modified) VALUES (?, ?, ?, ?, ?)", cve.id, cve.summary, cve.cwe_id, cve.published, cve.last_modified)
       rescue e : SQLite3::Exception
         # This exception handler intentionally left blank
       end

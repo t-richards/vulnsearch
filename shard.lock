@@ -20,13 +20,9 @@ shards:
     github: juanedi/micrate
     version: 0.3.0
 
-  multipart:
-    github: RX14/multipart.cr
-    version: 0.1.2
-
   radix:
     github: luislavena/radix
-    version: 0.3.7
+    version: 0.3.8
 
   spec-kemal:
     github: kemalcr/spec-kemal

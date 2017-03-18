@@ -13,6 +13,7 @@
         </p>
       </div>
       <div class="card-footer text-muted">
+        CWE ID: <%= HTML.escape(cve.cwe_id.to_s) %><br />
         Published: <%= HTML.escape(cve.published.to_s) %><br />
         Last Modified: <%= HTML.escape(cve.last_modified.to_s) %>
       </div>
