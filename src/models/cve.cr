@@ -2,11 +2,11 @@ require "db"
 
 class Cve
   DB.mapping({
-    id:      String,
-    summary: String,
-    cwe_id: String,
-    published: Time,
-    last_modified: Time
+    id:            String,
+    summary:       String,
+    cwe_id:        String,
+    published:     Time,
+    last_modified: Time,
   })
 
   def initialize
