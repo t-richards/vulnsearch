@@ -2,15 +2,15 @@ version: 1.0
 shards:
   db:
     github: crystal-lang/crystal-db
-    version: 0.3.3
+    version: 0.4.0
 
   kemal:
     github: kemalcr/kemal
-    commit: 54e501e964ceb5053f16fd3061c005dd875b5f9e
+    version: 0.18.0
 
   kemal-session:
     github: kemalcr/kemal-session
-    commit: aa3b9fc9c195f4ea16214f2026cdf5a22d9216a6
+    version: 0.7.0
 
   kilt:
     github: jeromegn/kilt
@@ -20,15 +20,19 @@ shards:
     github: juanedi/micrate
     version: 0.3.0
 
+  multipart:
+    github: RX14/multipart.cr
+    version: 0.1.2
+
   radix:
     github: luislavena/radix
     version: 0.3.8
 
   spec-kemal:
     github: kemalcr/spec-kemal
-    commit: 05cc810f5f5ed890f16bcb06461000b97c625959
+    version: 0.4.0
 
   sqlite3:
     github: crystal-lang/crystal-sqlite3
-    version: 0.8.1
+    version: 0.8.2
 

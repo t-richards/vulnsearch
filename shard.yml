@@ -1,5 +1,5 @@
 name: vulnsearch
-version: 0.0.1
+version: 0.0.2
 
 authors:
   - Tom Richards <tom@tomrichards.net>
@@ -11,19 +11,22 @@ targets:
 dependencies:
   kemal:
     github: kemalcr/kemal
-    branch: master
+    version: 0.18.0
   spec-kemal:
     github: kemalcr/spec-kemal
-    branch: master
+    version: 0.4.0
   kemal-session:
     github: kemalcr/kemal-session
-    branch: master
+    version: 0.7.0
   db:
     github: crystal-lang/crystal-db
+    version: 0.4.0
   sqlite3:
     github: crystal-lang/crystal-sqlite3
+    version: 0.8.2
   micrate:
     github: juanedi/micrate
+    version: 0.3.0
 
 crystal: 0.20.5
 
