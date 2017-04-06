@@ -2,7 +2,7 @@
 
 .PHONY: vulnsearch
 vulnsearch: ## Compile application
-	crystal build -o bin/vulnsearch src/vulnsearch.cr
+	shards build
 
 .PHONY: help
 help:
@@ -36,6 +36,5 @@ test: ## Run unit tests / specs
 
 .PHONY: all ## Targets required to run application
 all:
-	$(MAKE) deps
-	$(MAKE) db
 	$(MAKE) vulnsearch
+	$(MAKE) db

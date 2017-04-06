@@ -25,7 +25,7 @@ module Vulnsearch
                     XML::ParserOptions::NONET |
                     XML::ParserOptions::NOBLANKS
       xml_doc = File.open(nvdcve_file, "r") do |file|
-        Zlib::Inflate.gzip(file) do |inflate|
+        Gzip::Reader.open(file) do |inflate|
           XML.parse(inflate.gets_to_end, parser_opts)
         end
       end

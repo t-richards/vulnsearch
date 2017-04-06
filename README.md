@@ -6,8 +6,8 @@ A fast, well-behaved replacement for other CVE search tools.
 
 ## System requirements
 
- - [Crystal][crystal] `~> 0.20`
- - [Shards][shards] `~> 0.7`
+ - [Crystal][crystal] `~> 0.21.1`
+ - [Shards][shards] `~> 0.7.1`
  - [libsqlite3][sqlite] `~> 3.16`
  - GNU Make
 
@@ -18,7 +18,7 @@ A fast, well-behaved replacement for other CVE search tools.
 # Use `make help` to get information about available make targets
 $ make
 
-# Download `.xml` CVE data from NVD
+# Download CVE data from NVD (`.xml.gz` files)
 $ bin/vulnsearch --fetch
 
 # Load CVE data from `.xml` files into database with indexing; ~15 minutes.
