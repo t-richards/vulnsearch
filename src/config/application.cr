@@ -2,6 +2,7 @@ require "db"
 require "sqlite3"
 require "kemal"
 require "kemal-session"
+require "kemal-flash"
 
 VULNDB = DB.open(
   ENV.fetch("DATABASE_URI", "sqlite3:./db/vulnsearch_dev.sqlite3")

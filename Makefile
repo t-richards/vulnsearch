@@ -1,12 +1,12 @@
 .DEFAULT_GOAL := all
 
-.PHONY: vulnsearch
-vulnsearch: ## Compile application
-	shards build
-
 .PHONY: help
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+.PHONY: vulnsearch
+vulnsearch: ## Compile application
+	crystal build -o bin/vulnsearch src/vulnsearch.cr
 
 .PHONY: dist
 dist: ## Compile application for production
@@ -36,5 +36,6 @@ test: ## Run unit tests / specs
 
 .PHONY: all ## Targets required to run application
 all:
-	$(MAKE) vulnsearch
+	$(MAKE) deps
+	$(MAKE) dist
 	$(MAKE) db

@@ -1,5 +1,6 @@
 <div class="jumbotron">
   <div class="container">
+    <%-= render "src/views/shared/flash.ecr" %>
     <h1>Search for CVEs by identifier, summary, ...</h1>
     <form action="/search">
       <div class="form-group row">
@@ -7,7 +8,7 @@
         <button class="btn btn-outline-primary col-sm-4" type="submit">Search</button>
       </div>
       <p class="form-text text-muted">
-        Examples: <kbd>CVE-2014-0160</kbd>, <kbd>OpenSSL</kbd>, <kbd>cross-site request forgery</kbd>
+        Examples: <kbd>"CVE-2014-0160"</kbd>, <kbd>WordPress AND "before 4."</kbd>, <kbd>XSS OR "cross-site scripting"</kbd>
       </p>
     </form>
   </div>

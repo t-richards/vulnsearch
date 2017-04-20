@@ -1,6 +1,8 @@
 require "db"
 
 class Cve
+  MAX_RESULTS = 1000
+
   DB.mapping({
     id:            String,
     summary:       String,
@@ -17,7 +19,11 @@ class Cve
     @last_modified = Time.new
   end
 
+  def self.search(query)
+    from_rs(VULNDB.query(default_search_query, query))
+  end
+
   def self.default_search_query
-    "SELECT * FROM cves WHERE id LIKE ? OR summary LIKE ? ORDER BY id DESC LIMIT 10000"
+    "SELECT * FROM cves WHERE cves MATCH ? ORDER BY rank LIMIT #{MAX_RESULTS}"
   end
 end

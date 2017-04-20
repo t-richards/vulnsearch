@@ -7,10 +7,15 @@ module Vulnsearch
 
     def self.search(env)
       query = env.params.query.fetch("q", "")
-      like_query = "%#{query}%"
-      cves = Cve.from_rs(
-        VULNDB.query(Cve.default_search_query, like_query, like_query)
-      )
+      cves = Array(Cve).new
+
+      return render_default "home/search" if query == ""
+
+      begin
+        cves = Cve.search(query)
+      rescue ex : SQLite3::Exception
+        env.flash["error"] = "Something went wrong while processing your query. Please ensure that your search conforms to the <a target='_blank' href='https://sqlite.org/fts5.html#full_text_query_syntax'>SQLite FTS5 query syntax</a> and try again."
+      end
 
       render_default "home/search"
     end

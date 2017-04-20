@@ -8,6 +8,10 @@ shards:
     github: kemalcr/kemal
     version: 0.18.3
 
+  kemal-flash:
+    github: neovintage/kemal-flash
+    version: 0.1.0
+
   kemal-session:
     github: kemalcr/kemal-session
     commit: ba901eaae84aa6b9b15d1d25253e38c95e99dc8a
