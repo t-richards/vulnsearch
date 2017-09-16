@@ -21,7 +21,7 @@ $ make
 # Download CVE data from NVD (`.xml.gz` files)
 $ bin/vulnsearch --fetch
 
-# Load CVE data from `.xml` files into database with fulltext indexing; ~30 seconds.
+# Load CVE data from `.xml` files into database with fulltext indexing; ~20 seconds.
 $ bin/vulnsearch --load
 
 # Run web application

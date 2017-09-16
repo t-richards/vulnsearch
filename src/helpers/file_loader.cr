@@ -13,11 +13,13 @@ module Vulnsearch
     def load_all_files
       VULNDB.exec("PRAGMA synchronous = OFF")
       VULNDB.exec("PRAGMA journal_mode = memory")
+      VULNDB.exec("BEGIN TRANSACTION")
       @data_files.each do |file|
         print "Loading data from #{file}... "
         parse_data(file)
         puts "Done."
       end
+      VULNDB.exec("COMMIT")
 
       0
     end
@@ -34,9 +36,7 @@ module Vulnsearch
 
       entries = xml_doc.xpath_nodes("//*[local-name()=\"entry\"]")
       entries.each do |entry|
-        VULNDB.exec("BEGIN TRANSACTION")
         load_into_db(entry)
-        VULNDB.exec("COMMIT")
       end
     end
 
