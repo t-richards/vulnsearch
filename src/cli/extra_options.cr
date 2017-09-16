@@ -14,4 +14,9 @@ Kemal.config.extra_options do |opts|
     loader = Vulnsearch::FileLoader.new
     exit loader.load_all_files
   end
+
+  opts.invalid_option do |opt|
+    STDERR.puts "Invalid option: #{opt}"
+    exit 1
+  end
 end

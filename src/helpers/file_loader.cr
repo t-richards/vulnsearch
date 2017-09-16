@@ -11,6 +11,8 @@ module Vulnsearch
     end
 
     def load_all_files
+      VULNDB.exec("PRAGMA synchronous = OFF")
+      VULNDB.exec("PRAGMA journal_mode = memory")
       @data_files.each do |file|
         print "Loading data from #{file}... "
         parse_data(file)
@@ -32,7 +34,9 @@ module Vulnsearch
 
       entries = xml_doc.xpath_nodes("//*[local-name()=\"entry\"]")
       entries.each do |entry|
+        VULNDB.exec("BEGIN TRANSACTION")
         load_into_db(entry)
+        VULNDB.exec("COMMIT")
       end
     end
 
@@ -53,11 +57,7 @@ module Vulnsearch
           cve.cwe_id = child["id"]
         end
       end
-      begin
-        VULNDB.exec("INSERT INTO cves (id, summary, cwe_id, published, last_modified) VALUES (?, ?, ?, ?, ?)", cve.id, cve.summary, cve.cwe_id, cve.published, cve.last_modified)
-      rescue e : SQLite3::Exception
-        # This exception handler intentionally left blank
-      end
+      VULNDB.exec("INSERT INTO cves (id, summary, cwe_id, published, last_modified) VALUES (?, ?, ?, ?, ?)", cve.id, cve.summary, cve.cwe_id, cve.published, cve.last_modified)
     end
   end
 end

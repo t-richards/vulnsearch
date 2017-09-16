@@ -36,10 +36,10 @@ module Vulnsearch
       final_year = Time.new.year
 
       (2002..final_year - 1).each do |year|
-        return 1 unless download(year)
+        download(year)
       end
 
-      return 1 unless download(final_year)
+      download(final_year)
       0
     end
   end

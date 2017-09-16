@@ -24,6 +24,6 @@ class Cve
   end
 
   def self.default_search_query
-    "SELECT * FROM cves WHERE cves MATCH ? ORDER BY rank LIMIT #{MAX_RESULTS}"
+    "SELECT * FROM cves WHERE cves MATCH ? ORDER BY rank DESC LIMIT #{MAX_RESULTS}"
   end
 end

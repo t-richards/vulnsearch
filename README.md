@@ -6,7 +6,7 @@ A fast, well-behaved replacement for other CVE search tools.
 
 ## System requirements
 
- - [Crystal][crystal] `= 0.22.0`
+ - [Crystal][crystal] `= 0.23.1`
  - [Shards][shards] `~> 0.7.1`
  - [libsqlite3][sqlite] `~> 3.16`
  - GNU Make
@@ -22,8 +22,6 @@ $ make
 $ bin/vulnsearch --fetch
 
 # Load CVE data from `.xml` files into database with fulltext indexing; ~30 seconds.
-# Loading slowly? Create a ramdisk and use it. For example,
-# DATABASE_URI=sqlite3:/mnt/ramdisk/vulnsearch.sqlite3 bin/micrate up && bin/vulnsearch --load
 $ bin/vulnsearch --load
 
 # Run web application

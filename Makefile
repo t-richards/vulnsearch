@@ -6,11 +6,12 @@ help:
 
 .PHONY: vulnsearch
 vulnsearch: ## Compile application
-	crystal build -o bin/vulnsearch src/vulnsearch.cr
+	shards build
 
 .PHONY: dist
 dist: ## Compile application for production
-	crystal build --release -o bin/vulnsearch src/vulnsearch.cr
+	shards build --release
+	strip bin/vulnsearch
 
 .PHONY: dev
 dev: ## Run application in development
