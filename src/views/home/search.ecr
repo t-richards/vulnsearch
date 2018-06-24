@@ -7,7 +7,7 @@
   <% cves.each do |cve| %>
     <div class="card my-3">
       <h3 class="card-header"><%= HTML.escape(cve.id) %></h4>
-      <div class="card-block">
+      <div class="card-body">
         <p class="card-text">
           <%= HTML.escape(cve.summary) %>
         </p>
