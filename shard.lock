@@ -1,20 +1,20 @@
 version: 1.0
 shards:
+  core:
+    github: vladfaust/core
+    version: 0.4.0
+
   db:
     github: crystal-lang/crystal-db
     version: 0.5.0
 
-  kemal:
-    github: kemalcr/kemal
-    version: 0.23.0
+  migrate:
+    github: vladfaust/migrate.cr
+    version: 0.2.2
 
-  kilt:
-    github: jeromegn/kilt
-    version: 0.4.0
-
-  micrate:
-    github: juanedi/micrate
-    version: 0.3.3
+  prism:
+    github: vladfaust/prism
+    version: 0.2.1
 
   radix:
     github: luislavena/radix
@@ -23,4 +23,8 @@ shards:
   sqlite3:
     github: crystal-lang/crystal-sqlite3
     version: 0.10.0
+
+  time_format:
+    github: vladfaust/time_format.cr
+    version: 0.1.1
 

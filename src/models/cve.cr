@@ -1,29 +1,13 @@
-require "db"
-
 class Cve
-  MAX_RESULTS = 1000
+  include Core::Schema
+  include Core::Query
+  include Core::Validation
 
-  DB.mapping({
-    id:            String,
-    summary:       String,
-    cwe_id:        String,
-    published:     Time,
-    last_modified: Time,
-  })
-
-  def initialize
-    @id = ""
-    @summary = ""
-    @cwe_id = ""
-    @published = Time.new
-    @last_modified = Time.new
-  end
-
-  def self.search(query)
-    from_rs(VULNDB.query(default_search_query, query))
-  end
-
-  def self.default_search_query
-    "SELECT * FROM cves WHERE cves MATCH ? ORDER BY rank DESC LIMIT #{MAX_RESULTS}"
+  schema :cves do
+    primary_key :id, String
+    field :summary, String
+    field :cwe_id, String
+    field :published, Time
+    field :last_modified, Time
   end
 end

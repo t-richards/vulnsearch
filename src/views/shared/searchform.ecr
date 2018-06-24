@@ -7,7 +7,7 @@
     </p>
     <form action="/search">
       <div class="input-group">
-        <input class="form-control form-control-lg col-sm-8" type="text" name="q" value="<%= HTML.escape(query) %>" placeholder="Search query" aria-describedby="searchHelpBlock">
+        <input class="form-control form-control-lg col-sm-8" type="text" name="q" value="<%= HTML.escape(query || "") %>" placeholder="Search query" aria-describedby="searchHelpBlock">
         <button class="btn btn-outline-primary col-sm-4" type="submit">Search</button>
       </div>
     </form>
