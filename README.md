@@ -1,7 +1,5 @@
 # vulnsearch
 
-[![Build Status](https://travis-ci.org/t-richards/vulnsearch.svg?branch=master)](https://travis-ci.org/t-richards/vulnsearch)
-
 A fast, well-behaved replacement for other CVE search tools.
 
 ## System requirements
@@ -14,9 +12,11 @@ A fast, well-behaved replacement for other CVE search tools.
 ## Getting started
 
 ```bash
-# Install dependencies, migrate database, compile application
-# Use `make help` to get information about available make targets
-$ make
+# Install dependencies, compile application
+$ shards build
+
+# Migrate database
+$ bin/micrate up
 
 # Download CVE data from NVD (`.xml.gz` files)
 $ bin/vulnsearch --fetch

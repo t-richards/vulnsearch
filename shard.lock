@@ -2,37 +2,25 @@ version: 1.0
 shards:
   db:
     github: crystal-lang/crystal-db
-    version: 0.4.2
+    version: 0.5.0
 
   kemal:
     github: kemalcr/kemal
-    version: 0.18.3
-
-  kemal-flash:
-    github: neovintage/kemal-flash
-    version: 0.1.0
-
-  kemal-session:
-    github: kemalcr/kemal-session
-    version: 0.8.0
+    version: 0.23.0
 
   kilt:
     github: jeromegn/kilt
-    version: 0.3.3
+    version: 0.4.0
 
   micrate:
     github: juanedi/micrate
-    version: 0.3.0
+    version: 0.3.3
 
   radix:
     github: luislavena/radix
     version: 0.3.8
 
-  spec-kemal:
-    github: kemalcr/spec-kemal
-    version: 0.4.0
-
   sqlite3:
     github: crystal-lang/crystal-sqlite3
-    commit: e6d5ad33c31a81357846e8dc280cfcd72d49412d
+    version: 0.10.0
 

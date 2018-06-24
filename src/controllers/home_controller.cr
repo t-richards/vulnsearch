@@ -14,7 +14,7 @@ module Vulnsearch
       begin
         cves = Cve.search(query)
       rescue ex : SQLite3::Exception
-        env.flash["error"] = "Something went wrong while processing your query. Please ensure that your search conforms to the <a target='_blank' href='https://sqlite.org/fts5.html#full_text_query_syntax'>SQLite FTS5 query syntax</a> and try again."
+        return "Something went wrong while processing your query. Please ensure that your search conforms to the <a target='_blank' href='https://sqlite.org/fts5.html#full_text_query_syntax'>SQLite FTS5 query syntax</a> and try again."
       end
 
       render_default "home/search"
