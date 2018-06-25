@@ -1,20 +1,17 @@
+require "db"
 require "sqlite3"
-require "core"
-require "core/logger/standard"
 
-# This service provides a global access to Core's Repository.
+# This service provides a global access to the database
 class Services::Repository
-  class_getter! instance : Core::Repository?
+  class_getter! db : ::DB::Database
 
-  def self.init(database_url : String, logger : Core::Logger)
-    @@instance = Core::Repository.new(
-      DB.open(database_url),
-      logger,
-    )
+  def self.init
+    uri = ENV.fetch("DATABASE_URI", "sqlite3:./db/vulnsearch_dev.sqlite3")
+    @@db = DB.open(uri)
+    pp @db
   end
 end
 
-# A globally accessible repository instance (essentialy a shortcut).
-def repo
-  Services::Repository.instance
+def db
+  Services::Repository.db
 end

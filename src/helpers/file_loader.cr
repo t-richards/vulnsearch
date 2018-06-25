@@ -11,15 +11,15 @@ module Vulnsearch
     end
 
     def load_all_files
-      VULNDB.exec("PRAGMA synchronous = OFF")
-      VULNDB.exec("PRAGMA journal_mode = memory")
-      VULNDB.exec("BEGIN TRANSACTION")
+      db.exec("PRAGMA synchronous = OFF")
+      db.exec("PRAGMA journal_mode = memory")
+      db.exec("BEGIN TRANSACTION")
       @data_files.each do |file|
         print "Loading data from #{file}... "
         parse_data(file)
         puts "Done."
       end
-      VULNDB.exec("COMMIT")
+      db.exec("COMMIT")
 
       0
     end
@@ -57,7 +57,7 @@ module Vulnsearch
           cve.cwe_id = child["id"]
         end
       end
-      VULNDB.exec("INSERT INTO cves (id, summary, cwe_id, published, last_modified) VALUES (?, ?, ?, ?, ?)", cve.id, cve.summary, cve.cwe_id, cve.published, cve.last_modified)
+      db.exec("INSERT INTO cves (id, summary, cwe_id, published, last_modified) VALUES (?, ?, ?, ?, ?)", cve.id, cve.summary, cve.cwe_id, cve.published, cve.last_modified)
     end
   end
 end

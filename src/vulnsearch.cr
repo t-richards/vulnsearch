@@ -1,20 +1,37 @@
-require "prism"
+# Stdlib
+require "option_parser"
 
+# App
 require "./services/repo"
-require "./router"
-require "./actions/**"
 require "./config/*"
 require "./models/*"
+require "./helpers/*"
 
-router = Router.new
-logger = Logger.new(STDOUT)
-log_handler = Prism::LogHandler.new(logger)
-static_handler = HTTP::StaticFileHandler.new("public", directory_listing: false)
-handlers = [log_handler, static_handler, router]
+# Parse options here
+OptionParser.parse! do |parser|
+  parser.on("-f", "--fetch", "Fetch the latest data from NVD") do
+    dd = Vulnsearch::DownloadHelper.new
+    exit dd.download_all
+  end
 
-host = ENV.fetch("HOST", "0.0.0.0")
-port = ENV.fetch("PORT", "5000").to_i
+  parser.on("-l", "--load", "Load data from XML files into database") do
+    loader = Vulnsearch::FileLoader.new
+    exit loader.load_all_files
+  end
 
-server = Prism::Server.new(handlers, host, port, true, logger)
-logger.info("Welcome to Vulnsearch v#{Vulnsearch::VERSION}")
-server.listen
+  parser.on("-s", "--search", "Search for things") do |query|
+    # Query thing here
+    results = db.query("SELECT * FROM cves WHERE cves MATCH ? ORDER BY rank DESC LIMIT 1000", query)
+    pp results
+  end
+
+  parser.on("-h", "--help", "Show this help") do
+    puts parser
+  end
+
+  parser.invalid_option do |opt|
+    STDERR.puts "Invalid option: #{opt}"
+    STDERR.puts parser
+    exit 1
+  end
+end

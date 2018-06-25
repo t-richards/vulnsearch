@@ -1,13 +1,17 @@
-class Cve
-  include Core::Schema
-  include Core::Query
-  include Core::Validation
+class Vulnsearch::Cve
+  DB.mapping({
+    id:            String,
+    summary:       String,
+    cwe_id:        String,
+    published:     Time,
+    last_modified: Time,
+  })
 
-  schema :cves do
-    primary_key :id, String
-    field :summary, String
-    field :cwe_id, String
-    field :published, Time
-    field :last_modified, Time
+  def initialize
+    @id = ""
+    @summary = ""
+    @cwe_id = ""
+    @published = Time.new
+    @last_modified = Time.new
   end
 end
