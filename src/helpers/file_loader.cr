@@ -15,10 +15,8 @@ module Vulnsearch
       db.exec("PRAGMA journal_mode = memory")
       db.exec("BEGIN TRANSACTION")
       @data_files.each do |file|
-        print "Loading data from #{file}... "
+        puts "Loading data from #{file}... "
         parse_data(file)
-        puts "Done."
-        break
       end
       db.exec("COMMIT")
 
@@ -36,17 +34,27 @@ module Vulnsearch
       end
 
       entries = xml_doc.xpath_nodes("//*[local-name()=\"entry\"]")
-      entries.each do |entry|
+      entries.each_with_index do |entry, idx|
+        show_progress(idx, entries.size)
         load_into_db(entry)
       end
+      clear_line
+      puts "Done."
+    end
+
+    def clear_line
+      print "\r                    \r"
+    end
+
+    def show_progress(current, overall)
+      clear_line
+      print "#{current} of #{overall}"
     end
 
     def load_into_db(entry)
       cve = Cve.new
 
       entry.children.each do |child|
-        pp child
-        exit
         case child.name
         when "cve-id"
           cve.id = child.content
