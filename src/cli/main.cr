@@ -1,11 +1,17 @@
 require "logger"
 require "option_parser"
 
-OptionParser.parse! do |parser|
-  parser.banner = "Vulnsearch v#{Vulnsearch::VERSION}"
+opts = OptionParser.parse! do |parser|
+  parser.banner = "Usage: #{PROGRAM_NAME} <flags>"
+
   parser.on("-f", "--fetch", "Fetch the latest data from NVD") do
     dd = Vulnsearch::DownloadHelper.new
     exit dd.download_all
+  end
+
+  parser.on("-h", "--help", "Show this help") do
+    puts parser
+    exit
   end
 
   parser.on("-l", "--load", "Load data from XML files into database") do
@@ -13,13 +19,15 @@ OptionParser.parse! do |parser|
     exit loader.load_all_files
   end
 
-  parser.on("-m DIR", "--migrate DIR", "Migrate the database") do |direction|
+  parser.on("-m up|down", "--migrate up|down", "Migrate the database") do |direction|
     Micrate.logger = Logger.new(STDOUT)
     Micrate::DB.connection_url = db_url
     if direction == "up"
       Micrate::Cli.run_up
+      exit
     elsif direction == "down"
       Micrate::Cli.run_down
+      exit
     else
       STDERR.puts %q(Invalid direction specified. Please specify either "up" or "down")
       exit 1
@@ -30,15 +38,21 @@ OptionParser.parse! do |parser|
     # Query thing here
     results = db.query("SELECT * FROM cves WHERE cves MATCH ? ORDER BY rank DESC LIMIT 1000", query)
     pp results
+    exit
   end
 
-  parser.on("-h", "--help", "Show this help") do
-    puts parser
+  parser.on("-v", "--version", "Show version information") do
+    puts "Vulnsearch v#{Vulnsearch::VERSION}"
+    exit
   end
 
   parser.invalid_option do |opt|
     STDERR.puts "Invalid option: #{opt}"
-    STDERR.puts parser
+    STDERR.puts "Use -h for help"
     exit 1
   end
 end
+
+# No options specified
+STDERR.puts opts
+exit 1
