@@ -1,6 +1,13 @@
-/.shards/
+# Compiled binaries
 /bin/vulnsearch
-/db/*.sqlite3
+
+# Generated documentation
 /doc/
+
+# Third-party libs
 /lib/
-/public/data/
+
+# Runtime data
+/db/*.sqlite3
+/data/*
+!/data/.gitkeep

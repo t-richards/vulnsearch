@@ -45,6 +45,8 @@ module Vulnsearch
       cve = Cve.new
 
       entry.children.each do |child|
+        pp child
+        exit
         case child.name
         when "cve-id"
           cve.id = child.content

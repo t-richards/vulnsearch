@@ -15,26 +15,21 @@ A fast, well-behaved replacement for other CVE search tools.
 $ shards build
 
 # Migrate database
-$ bin/vulnsearch migrate up
+$ bin/vulnsearch --migrate up
 
 # Download CVE data from NVD (`.xml.gz` files)
 $ bin/vulnsearch --fetch
 
 # Load CVE data from `.xml` files into database with fulltext indexing; ~20 seconds.
 $ bin/vulnsearch --load
-
-# Run web application
-# Visit http://localhost:3000/ in your browser!
-$ bin/vulnsearch
 ```
 
 ## Usage
 
-TBD...
-
-## Credits
-
-"Protection" icon by [Chanut is Industries][chanut-is-industries], licensed under [CC BY 3.0 US][cc-by-30-us].
+```bash
+# Run search queries on database contents
+$ bin/vulnsearch -s <query>
+```
 
 ## Contributing
 
@@ -47,5 +42,3 @@ TBD...
 [crystal]: https://crystal-lang.org/
 [shards]: https://github.com/crystal-lang/shards
 [sqlite]: https://www.sqlite.org/
-[chanut-is-industries]: https://thenounproject.com/chanut-is/
-[cc-by-30-us]: https://creativecommons.org/licenses/by/3.0/us/
