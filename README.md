@@ -17,10 +17,10 @@ $ shards build
 # Migrate database
 $ bin/vulnsearch --migrate up
 
-# Download CVE data from NVD (`.xml.gz` files)
+# Download CVE data from NVD (`.json.gz` files)
 $ bin/vulnsearch --fetch
 
-# Load CVE data from `.xml` files into database with fulltext indexing; ~20 seconds.
+# Load CVE data from `.json` files into database; ~3 minutes.
 $ bin/vulnsearch --load
 ```
 

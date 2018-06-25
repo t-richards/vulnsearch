@@ -1,7 +1,7 @@
 -- +micrate Up
 -- SQL in section 'Up' is executed when this migration is applied
-CREATE VIRTUAL TABLE cves USING fts5(id, summary, cwe_id, published, last_modified);
+CREATE TABLE IF NOT EXISTS cves (id, description, cwe_id, severity, exploitability_score, impact_score, published, last_modified);
 
 -- +micrate Down
 -- SQL section 'Down' is executed when this migration is rolled back
-DROP TABLE cves;
+DROP TABLE IF EXISTS cves;
