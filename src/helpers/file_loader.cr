@@ -49,8 +49,19 @@ module Vulnsearch
     end
 
     def load_into_db(cve)
-      desc = begin cve.cve.description.data[0].value rescue "" end
-      cwe_id = begin cve.cve.problemtype.data[0].description[0].value rescue "" end
+      desc = ""
+      begin
+        desc = cve.cve.description.data[0].value
+      rescue
+        # Nothing
+      end
+
+      cwe_id = ""
+      begin
+        cwe_id = cve.cve.problemtype.data[0].description[0].value
+      rescue
+        # Nothing
+      end
 
       db.exec(
         "INSERT INTO cves (id, description, cwe_id, severity, exploitability_score, impact_score, published, last_modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
