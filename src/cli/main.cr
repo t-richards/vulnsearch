@@ -34,10 +34,11 @@ opts = OptionParser.parse! do |parser|
     end
   end
 
-  parser.on("-s", "--search", "Search for things") do |query|
+  parser.on("-s QUERY", "--search QUERY", "Search for things") do |query|
     # Query thing here
     results = db.query("SELECT * FROM cves WHERE cves MATCH ? ORDER BY rank DESC LIMIT 1000", query)
-    pp results
+    cves = Cve.from_rs(results)
+    pp cves
     exit
   end
 

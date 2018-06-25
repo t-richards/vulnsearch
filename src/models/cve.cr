@@ -1,4 +1,4 @@
-class Vulnsearch::Cve
+class Cve
   DB.mapping({
     id:            String,
     summary:       String,
