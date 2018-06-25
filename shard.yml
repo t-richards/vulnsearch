@@ -15,9 +15,9 @@ dependencies:
   sqlite3:
     github: crystal-lang/crystal-sqlite3
     version: ~> 0.10.0
-  migrate:
-    github: vladfaust/migrate.cr
-    version: ~> 0.2.2
+  micrate:
+    github: amberframework/micrate
+    version: ~> 0.3.3
 
 crystal: 0.25.0
 

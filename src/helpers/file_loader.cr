@@ -18,6 +18,7 @@ module Vulnsearch
         print "Loading data from #{file}... "
         parse_data(file)
         puts "Done."
+        break
       end
       db.exec("COMMIT")
 

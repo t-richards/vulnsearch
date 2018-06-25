@@ -4,15 +4,11 @@ shards:
     github: crystal-lang/crystal-db
     version: 0.5.0
 
-  migrate:
-    github: vladfaust/migrate.cr
-    version: 0.2.2
+  micrate:
+    github: amberframework/micrate
+    version: 0.3.3
 
   sqlite3:
     github: crystal-lang/crystal-sqlite3
     version: 0.10.0
-
-  time_format:
-    github: vladfaust/time_format.cr
-    version: 0.1.1
 
