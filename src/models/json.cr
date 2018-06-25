@@ -11,19 +11,19 @@ class JsonCve
   JSON.mapping({
     meta:        {type: JsonCveMeta, key: "CVE_data_meta"},
     description: {type: JsonDescription, key: "description"},
-    problemtype: {type: JsonProblemType }
+    problemtype: {type: JsonProblemType},
   })
 end
 
 class JsonProblemType
   JSON.mapping({
-    data: {type: Array(JsonProblemTypeData), key: "problemtype_data"}
+    data: {type: Array(JsonProblemTypeData), key: "problemtype_data"},
   })
 end
 
 class JsonProblemTypeData
   JSON.mapping({
-    description: {type: Array(JsonDescriptionData), key: "description"}
+    description: {type: Array(JsonDescriptionData), key: "description"},
   })
 end
 
