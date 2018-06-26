@@ -5,6 +5,30 @@ class JsonCveItem
     published:     {type: Time, key: "publishedDate"},
     last_modified: {type: Time, key: "lastModifiedDate"},
   })
+
+  def desc
+    cve.description.data[0].value
+  rescue IndexError
+    ""
+  end
+
+  def cwe_id
+    cve.problemtype.data[0].description[0].value
+  rescue IndexError
+    ""
+  end
+
+  def exploitability_score
+    impact.base_metric_v3.try(&.exploitability_score) || ""
+  end
+
+  def severity
+    impact.base_metric_v3.try(&.cvss_v3).try(&.base_severity) || ""
+  end
+
+  def impact_score
+    impact.base_metric_v3.try(&.impact_score) || ""
+  end
 end
 
 class JsonCve
@@ -29,11 +53,8 @@ end
 
 class JsonImpact
   JSON.mapping({
-    base_metric_v3:       {type: JsonBaseMetricV3?, key: "baseMetricV3"},
-    base_metric_v2:       {type: JsonBaseMetricV2?, key: "baseMetricV2"},
-    severity:             String?,
-    exploitability_score: {type: Float64?, key: "exploitabilityScore"},
-    impact_score:         {type: Float64?, key: "impactScore"},
+    base_metric_v3: {type: JsonBaseMetricV3?, key: "baseMetricV3"},
+    base_metric_v2: {type: JsonBaseMetricV2?, key: "baseMetricV2"},
   })
 end
 

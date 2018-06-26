@@ -9,7 +9,7 @@ module Vulnsearch
         STDERR.puts "No data files found! Fetch data using the -f flag."
         exit 1
       end
-      @data_files.sort!.reverse
+      @data_files.sort!.reverse!
     end
 
     def load_all_files
@@ -19,6 +19,7 @@ module Vulnsearch
       @data_files.each do |file|
         puts "Loading data from #{file}... "
         parse_data(file)
+        break
       end
       db.exec("COMMIT")
 
@@ -49,31 +50,22 @@ module Vulnsearch
     end
 
     def load_into_db(cve)
-      desc = ""
-      begin
-        desc = cve.cve.description.data[0].value
-      rescue
-        # Nothing
-      end
-
-      cwe_id = ""
-      begin
-        cwe_id = cve.cve.problemtype.data[0].description[0].value
-      rescue
-        # Nothing
-      end
+      return if cve.desc.includes?("** REJECT **")
+      return if cve.desc.includes?("** DISPUTED **")
 
       db.exec(
         "INSERT INTO cves (id, description, cwe_id, severity, exploitability_score, impact_score, published, last_modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         cve.cve.meta.id,
-        desc,
-        cwe_id,
-        cve.impact.severity,
-        cve.impact.exploitability_score,
-        cve.impact.impact_score,
+        cve.desc,
+        cve.cwe_id,
+        cve.severity,
+        cve.exploitability_score,
+        cve.impact_score,
         cve.published,
         cve.last_modified
       )
+    rescue e : SQLite3::Exception
+      raise e if e.code != 19
     end
   end
 end
