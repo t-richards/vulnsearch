@@ -7,13 +7,13 @@ class JsonCveItem
   })
 
   def desc
-    cve.description.data[0].value
+    cve.description.description_data[0].value
   rescue IndexError
     ""
   end
 
   def cwe_id
-    cve.problemtype.data[0].description[0].value
+    cve.problemtype.problemtype_data[0].description[0].value
   rescue IndexError
     ""
   end
@@ -36,18 +36,19 @@ class JsonCve
     meta:        {type: JsonCveMeta, key: "CVE_data_meta"},
     description: {type: JsonDescription, key: "description"},
     problemtype: {type: JsonProblemType},
+    affects:     {type: JsonAffects},
   })
 end
 
 class JsonProblemType
   JSON.mapping({
-    data: {type: Array(JsonProblemTypeData), key: "problemtype_data"},
+    problemtype_data: {type: Array(JsonProblemTypeData), key: "problemtype_data"},
   })
 end
 
 class JsonProblemTypeData
   JSON.mapping({
-    description: {type: Array(JsonDescriptionData), key: "description"},
+    description: {type: Array(JsonDescriptionData)},
   })
 end
 
@@ -96,7 +97,7 @@ end
 
 class JsonDescription
   JSON.mapping({
-    data: {type: Array(JsonDescriptionData), key: "description_data"},
+    description_data: {type: Array(JsonDescriptionData), key: "description_data"},
   })
 end
 
@@ -104,5 +105,49 @@ class JsonDescriptionData
   JSON.mapping({
     lang:  String,
     value: String,
+  })
+end
+
+class JsonAffects
+  JSON.mapping({
+    vendor: {type: JsonVendor},
+  })
+end
+
+class JsonVendor
+  JSON.mapping({
+    vendor_data: {type: Array(JsonVendorData)},
+  })
+end
+
+class JsonVendorData
+  JSON.mapping({
+    vendor_name: String,
+    product:     JsonProduct,
+  })
+end
+
+class JsonProduct
+  JSON.mapping({
+    product_data: {type: Array(JsonProductData)},
+  })
+end
+
+class JsonProductData
+  JSON.mapping({
+    product_name: String,
+    version:      {type: JsonVersion},
+  })
+end
+
+class JsonVersion
+  JSON.mapping({
+    version_data: {type: Array(JsonVersionData)},
+  })
+end
+
+class JsonVersionData
+  JSON.mapping({
+    version_value: String,
   })
 end

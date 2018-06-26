@@ -53,6 +53,9 @@ module Vulnsearch
       return if cve.desc.includes?("** REJECT **")
       return if cve.desc.includes?("** DISPUTED **")
 
+      pp cve
+      exit
+
       db.exec(
         "INSERT INTO cves (id, description, cwe_id, severity, exploitability_score, impact_score, published, last_modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         cve.cve.meta.id,
