@@ -50,8 +50,9 @@ module Vulnsearch
     end
 
     def load_into_db(cve)
-      return if cve.desc.includes?("** REJECT **")
       return if cve.desc.includes?("** DISPUTED **")
+      return if cve.desc.includes?("** REJECT **")
+      return if cve.desc.includes?("** RESERVED **")
 
       pp cve
       exit
