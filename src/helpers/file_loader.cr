@@ -19,7 +19,6 @@ module Vulnsearch
       @data_files.each do |file|
         puts "Loading data from #{file}... "
         parse_data(file)
-        break
       end
       db.exec("COMMIT")
 
@@ -53,9 +52,6 @@ module Vulnsearch
       return if cve.desc.includes?("** DISPUTED **")
       return if cve.desc.includes?("** REJECT **")
       return if cve.desc.includes?("** RESERVED **")
-
-      pp cve
-      exit
 
       db.exec(
         "INSERT INTO cves (id, description, cwe_id, severity, exploitability_score, impact_score, published, last_modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
