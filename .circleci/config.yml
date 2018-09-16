@@ -15,6 +15,10 @@ jobs:
           command: shards --version
 
       - run:
+          name: Install dependencies
+          command: shards install
+
+      - run:
           name: Lint code
           command: crystal tool format --check
 
