@@ -27,5 +27,13 @@ jobs:
           command: crystal tool format --check
 
       - run:
+          name: Build app
+          command: shards build
+
+      - run:
+          name: Migrate database
+          command: bin/vulnsearch -m up
+
+      - run:
           name: Run tests
           command: crystal spec
