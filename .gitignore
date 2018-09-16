@@ -1,8 +1,8 @@
 # Compiled binaries
-/bin/vulnsearch
+/bin/*
 
 # Generated documentation
-/doc/
+/docs/
 
 # Third-party libs
 /lib/

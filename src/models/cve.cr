@@ -31,6 +31,7 @@ class Cve
 
     @id = entry["id"]
 
+    # Summary
     @summary = ""
     summary_node = entry.xpath_node("//vuln:summary", namespaces)
     if summary_node
@@ -43,7 +44,14 @@ class Cve
     @severity = ""
     @exploit_score = 0.0
     @impact_score = 0.0
+
+    # Published
     @published = Time.new
+    published_node = entry.xpath_node("//vuln:published-datetime", namespaces)
+    if published_node
+      @published = Time.parse_rfc3339(published_node.inner_text)
+    end
+
     @last_modified = Time.new
   end
 
