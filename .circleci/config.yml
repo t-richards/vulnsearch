@@ -7,6 +7,10 @@ jobs:
       - checkout
 
       - run:
+          name: Install system deps
+          command: sudo apt-get -f install libsqlite3-dev
+
+      - run:
           name: Crystal version
           command: crystal --version
 
