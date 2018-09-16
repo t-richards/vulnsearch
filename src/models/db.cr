@@ -1,5 +1,3 @@
-require "json"
-
 class Cve
   DB.mapping({
     id:            String,

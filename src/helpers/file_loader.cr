@@ -3,10 +3,10 @@ require "zlib"
 module Vulnsearch
   class FileLoader
     def initialize
-      pattern = File.join(Vulnsearch::DATA_DIR, "*.json.gz")
+      pattern = File.join(Vulnsearch::DATA_DIR, "*.xml.gz")
       @data_files = Dir.glob(pattern)
       if @data_files.size < 1
-        STDERR.puts "No data files found! Fetch data using the -f flag."
+        logger.error "No data files found! Fetch data using the -f flag."
         exit 1
       end
       @data_files.sort!.reverse!
@@ -17,7 +17,7 @@ module Vulnsearch
       db.exec("PRAGMA journal_mode = memory")
       db.exec("BEGIN TRANSACTION")
       @data_files.each do |file|
-        puts "Loading data from #{file}... "
+        logger.info "Loading data from #{file}... "
         parse_data(file)
       end
       db.exec("COMMIT")
@@ -35,16 +35,10 @@ module Vulnsearch
           end
         end
       end
-      clear_line
-      puts "Done."
-    end
-
-    def clear_line
-      print "\r                    \r"
+      logger.info "Done parsing #{nvdcve_file}."
     end
 
     def show_progress(current, overall)
-      clear_line
       print "#{current} of #{overall}"
     end
 

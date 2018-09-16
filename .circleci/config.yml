@@ -1,0 +1,23 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: crystallang/crystal
+    steps:
+      - checkout
+
+      - run:
+          name: Crystal version
+          command: crystal --version
+
+      - run:
+          name: Shards version
+          command: shards --version
+
+      - run:
+          name: Lint code
+          command: crystal tool format --check
+
+      - run:
+          name: Run tests
+          command: crystal spec

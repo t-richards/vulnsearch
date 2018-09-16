@@ -5,7 +5,7 @@ opts = OptionParser.parse! do |parser|
   parser.banner = "Usage: #{PROGRAM_NAME} <flags>"
 
   parser.on("-f", "--fetch", "Fetch the latest data from NVD") do
-    dd = Vulnsearch::DownloadHelper.new
+    dd = Nvd::Downloader.new
     exit dd.download_all
   end
 

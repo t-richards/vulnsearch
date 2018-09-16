@@ -8,6 +8,7 @@ module Vulnsearch
   }
   DB_URL = ENV.fetch("DATABASE_URI", "sqlite3:./db/vulnsearch_dev.sqlite3")
   VULNDB = DB.open(DB_URL)
+  LOGGER = Logger.new(STDOUT)
 end
 
 def db
@@ -16,4 +17,8 @@ end
 
 def db_url
   Vulnsearch::DB_URL
+end
+
+def logger
+  Vulnsearch::LOGGER
 end

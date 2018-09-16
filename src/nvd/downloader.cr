@@ -1,7 +1,7 @@
 require "http/client"
 
-module Vulnsearch
-  class DownloadHelper
+module Nvd
+  class Downloader
     BASE_URI = URI.parse("https://nvd.nist.gov")
 
     def initialize
@@ -10,21 +10,22 @@ module Vulnsearch
     end
 
     def download(year)
-      out_path = File.join(Vulnsearch::DATA_DIR, "nvdcve-1.0-#{year}.json.gz")
+      out_path = File.join(Vulnsearch::DATA_DIR, "nvdcve-1.0-#{year}.xml.gz")
       unless needs_download?(out_path)
-        puts "Already downloaded #{out_path}"
+        logger.info "Already downloaded #{out_path}"
         return true
       end
 
-      request_path = "/feeds/json/cve/1.0/nvdcve-1.0-#{year}.json.gz"
+      request_path = "/feeds/xml/cve/2.0/nvdcve-2.0-#{year}.xml.gz"
+      logger.info "Downloading #{year} feed..."
       response = @http_client.get(request_path)
       if response.success?
         File.write(out_path, response.body)
-        puts "Successfully downloaded #{out_path}"
-        return false
+        logger.info "Successfully downloaded #{out_path}"
+        return true
       end
 
-      puts "ERROR: Download failed for #{year}: #{response.status_code}"
+      logger.error "Download failed for #{year}: #{response.status_code}"
       return false
     end
 
