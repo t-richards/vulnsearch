@@ -1,7 +1,7 @@
 -- +micrate Up
 CREATE TABLE IF NOT EXISTS cves (
   id                   text PRIMARY KEY,
-  description          text NOT NULL DEFAULT "",
+  summary              text NOT NULL DEFAULT "",
   cwe_id               text NOT NULL DEFAULT "",
   vendor               text NOT NULL DEFAULT "",
   product              text NOT NULL DEFAULT "",

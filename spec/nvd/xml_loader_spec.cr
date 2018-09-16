@@ -20,5 +20,6 @@ describe Nvd::XmlLoader, "NVD XML loading" do
     cve = Cve.first
     cve.should_not be_nil
     cve.id.should eq("CVE-1999-1341")
+    cve.summary.should eq("Linux kernel before 2.3.18 or 2.2.13pre15, with SLIP and PPP options, allows local unprivileged users to forge IP packets via the TIOCSETD option on tty devices.")
   end
 end

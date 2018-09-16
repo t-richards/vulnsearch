@@ -1,7 +1,7 @@
 class Cve
   DB.mapping({
     id:            String,
-    description:   String,
+    summary:       String,
     cwe_id:        String,
     vendor:        String,
     product:       String,
@@ -14,7 +14,7 @@ class Cve
 
   def initialize
     @id = ""
-    @description = ""
+    @summary = ""
     @cwe_id = ""
     @vendor = ""
     @product = ""
@@ -28,9 +28,15 @@ class Cve
   # TODO(tom): This
   def initialize(entry : XML::Node)
     namespaces = Nvd::Namespaces.namespaces
-    puts entry.xpath_nodes("//vuln:vulnerable-software-list/vuln:product", namespaces)
+
     @id = entry["id"]
-    @description = ""
+
+    @summary = ""
+    summary_node = entry.xpath_node("//vuln:summary", namespaces)
+    if summary_node
+      @summary = summary_node.inner_text
+    end
+
     @cwe_id = ""
     @vendor = ""
     @product = ""
@@ -42,14 +48,14 @@ class Cve
   end
 
   def save!
-    return if description.includes?("** DISPUTED **")
-    return if description.includes?("** REJECT **")
-    return if description.includes?("** RESERVED **")
+    return if summary.includes?("** DISPUTED **")
+    return if summary.includes?("** REJECT **")
+    return if summary.includes?("** RESERVED **")
 
     db.exec(
-      "INSERT INTO cves (id, description, cwe_id, vendor, product, severity, exploit_score, impact_score, published, last_modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO cves (id, summary, cwe_id, vendor, product, severity, exploit_score, impact_score, published, last_modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       id,
-      description,
+      summary,
       cwe_id,
       vendor,
       product,
