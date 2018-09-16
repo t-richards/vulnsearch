@@ -6,5 +6,4 @@ require "micrate"
 # App
 require "./models/*"
 require "./config/*"
-require "./helpers/*"
 require "./nvd/*"

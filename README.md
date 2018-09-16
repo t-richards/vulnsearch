@@ -4,7 +4,7 @@ A fast, well-behaved replacement for other CVE search tools.
 
 ## System requirements
 
- - [Crystal][crystal] `~> 0.25.0`
+ - [Crystal][crystal] `= 0.26.0`
  - [Shards][shards] `~> 0.8.1`
  - [SQLite][sqlite] `~> 3.24.0`
 
@@ -17,10 +17,10 @@ $ shards build
 # Migrate database
 $ bin/vulnsearch --migrate up
 
-# Download CVE data from NVD (`.json.gz` files)
+# Download CVE data from NVD (`.xml.gz` files)
 $ bin/vulnsearch --fetch
 
-# Load CVE data from `.json` files into database; ~3 minutes.
+# Load CVE data from `.xml.gz` files into database; ~3 minutes.
 $ bin/vulnsearch --load
 ```
 

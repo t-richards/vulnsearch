@@ -20,7 +20,7 @@ module Nvd
     def set_part(key, value)
       case key
       when "lastModifiedDate"
-        @last_modified = Time::Format::ISO_8601_DATE_TIME.parse(value)
+        @last_modified = Time.parse_rfc3339(value)
       when "gzSize"
         @gz_size = value.to_i
       when "sha256"
