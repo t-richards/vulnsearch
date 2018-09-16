@@ -2,6 +2,8 @@
 
 A fast, well-behaved replacement for other CVE search tools.
 
+[![CircleCI](https://circleci.com/gh/t-richards/vulnsearch.svg?style=svg)](https://circleci.com/gh/t-richards/vulnsearch)
+
 ## System requirements
 
  - [Crystal][crystal] `= 0.26.0`
