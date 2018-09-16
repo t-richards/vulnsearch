@@ -20,7 +20,7 @@ module Nvd
       @data_files.each do |file|
         logger.info "Loading data from #{file}... "
         parse_data(file)
-        logger.info "Done parsing #{nvdcve_file}."
+        logger.info "Done parsing #{file}."
       end
       db.exec("COMMIT")
 
