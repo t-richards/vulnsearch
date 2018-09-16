@@ -15,5 +15,10 @@ describe Nvd::XmlLoader, "NVD XML loading" do
 
     # CVE rows should increase by 1
     (ending_count - starting_count).should eq(1)
+
+    # Persisted CVE data should be correct
+    cve = Cve.first
+    cve.should_not be_nil
+    cve.id.should eq("CVE-1999-001")
   end
 end

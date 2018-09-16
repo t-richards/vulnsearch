@@ -1,15 +1,15 @@
 -- +micrate Up
 CREATE TABLE IF NOT EXISTS cves (
   id                   text PRIMARY KEY,
-  description          text NOT NULL,
-  cwe_id               text,
-  vendor               text,
-  product              text,
-  severity             text,
-  exploitability_score real,
-  impact_score         real,
-  published            text,
-  last_modified        text
+  description          text NOT NULL DEFAULT "",
+  cwe_id               text NOT NULL DEFAULT "",
+  vendor               text NOT NULL DEFAULT "",
+  product              text NOT NULL DEFAULT "",
+  severity             text NOT NULL DEFAULT "",
+  exploit_score        real NOT NULL DEFAULT 0,
+  impact_score         real NOT NULL DEFAULT 0,
+  published            text NOT NULL DEFAULT "",
+  last_modified        text NOT NULL DEFAULT ""
 );
 
 -- +micrate Down

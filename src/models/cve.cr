@@ -3,6 +3,8 @@ class Cve
     id:            String,
     description:   String,
     cwe_id:        String,
+    vendor:        String,
+    product:       String,
     severity:      String,
     exploit_score: Float64,
     impact_score:  Float64,
@@ -14,6 +16,8 @@ class Cve
     @id = ""
     @description = ""
     @cwe_id = ""
+    @vendor = ""
+    @product = ""
     @severity = ""
     @exploit_score = 0.0
     @impact_score = 0.0
@@ -26,6 +30,8 @@ class Cve
     @id = ""
     @description = ""
     @cwe_id = ""
+    @vendor = ""
+    @product = ""
     @severity = ""
     @exploit_score = 0.0
     @impact_score = 0.0
@@ -39,17 +45,21 @@ class Cve
     return if description.includes?("** RESERVED **")
 
     db.exec(
-      "INSERT INTO cves (id, description, cwe_id, severity, exploitability_score, impact_score, published, last_modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO cves (id, description, cwe_id, vendor, product, severity, exploit_score, impact_score, published, last_modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       id,
       description,
       cwe_id,
+      vendor,
+      product,
       severity,
       exploit_score,
       impact_score,
       published,
       last_modified
     )
-  rescue e : SQLite3::Exception
-    raise e if e.code != 19
+  end
+
+  def self.first
+    from_rs(db.query("SELECT * FROM cves LIMIT 1")).first
   end
 end
