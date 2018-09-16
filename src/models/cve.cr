@@ -1,4 +1,19 @@
 class Cve
+  UPSERT_QUERY = <<-'EOT'
+    INSERT INTO cves (id, summary, cwe_id, vendor, product, severity, exploit_score, impact_score, published, last_modified)
+    VALUES           (?,  ?,       ?,      ?,      ?,       ?,        ?,             ?,            ?,         ?            )
+    ON CONFLICT(id) DO UPDATE SET
+      summary=excluded.summary,
+      cwe_id=excluded.cwe_id,
+      vendor=excluded.vendor,
+      product=excluded.product,
+      severity=excluded.severity,
+      exploit_score=excluded.exploit_score,
+      impact_score=excluded.impact_score,
+      published=excluded.published,
+      last_modified=excluded.last_modified
+  EOT
+
   DB.mapping({
     id:            String,
     summary:       String,
@@ -25,7 +40,7 @@ class Cve
     @last_modified = Time.new
   end
 
-  # TODO(tom): This
+  # Constructs a CVE from an NVD XML "entry" node.
   def initialize(entry : XML::Node)
     namespaces = Nvd::Namespaces.namespaces
 
@@ -55,13 +70,14 @@ class Cve
     @last_modified = Time.new
   end
 
+  # Saves the CVE to the database, or updates the data if it has changed
   def save!
     return if summary.includes?("** DISPUTED **")
     return if summary.includes?("** REJECT **")
     return if summary.includes?("** RESERVED **")
 
     db.exec(
-      "INSERT INTO cves (id, summary, cwe_id, vendor, product, severity, exploit_score, impact_score, published, last_modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      UPSERT_QUERY,
       id,
       summary,
       cwe_id,
