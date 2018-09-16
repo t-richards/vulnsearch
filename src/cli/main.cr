@@ -15,7 +15,7 @@ opts = OptionParser.parse! do |parser|
   end
 
   parser.on("-l", "--load", "Load data from XML files into database") do
-    loader = Nvd::XmlLoader.new
+    loader = Nvd::JsonLoader.new
     exit loader.load_all_files
   end
 
