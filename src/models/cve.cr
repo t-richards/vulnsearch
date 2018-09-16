@@ -27,7 +27,9 @@ class Cve
 
   # TODO(tom): This
   def initialize(entry : XML::Node)
-    @id = ""
+    namespaces = Nvd::Namespaces.namespaces
+    puts entry.xpath_nodes("//vuln:vulnerable-software-list/vuln:product", namespaces)
+    @id = entry["id"]
     @description = ""
     @cwe_id = ""
     @vendor = ""

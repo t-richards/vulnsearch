@@ -9,7 +9,7 @@ describe Nvd::XmlLoader, "NVD XML loading" do
     starting_count = cve_count()
 
     loader = Nvd::XmlLoader.new
-    loader.parse_data("spec/fixtures/nvdcve-2.0-recent.xml.gz")
+    loader.parse_data("spec/fixtures/nvdcve-2.0-recent.xml")
 
     ending_count = cve_count()
 
@@ -19,6 +19,6 @@ describe Nvd::XmlLoader, "NVD XML loading" do
     # Persisted CVE data should be correct
     cve = Cve.first
     cve.should_not be_nil
-    cve.id.should eq("CVE-1999-001")
+    cve.id.should eq("CVE-1999-1341")
   end
 end
