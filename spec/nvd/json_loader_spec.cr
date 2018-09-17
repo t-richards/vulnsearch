@@ -2,14 +2,13 @@ require "../spec_helper"
 
 describe Nvd::JsonLoader, "NVD JSON loading" do
   it "loads CVE entries into the database" do
-    starting_count = cve_count()
-
+    # Load fixture JSON file into database
+    starting_count = Cve.count
     loader = Nvd::JsonLoader.new
     loader.load_file("spec/fixtures/nvdcve-1.0-recent.json")
+    ending_count = Cve.count
 
-    ending_count = cve_count()
-
-    # CVE rows should increase by 1
+    # CVE table rows should increase by 1
     (ending_count - starting_count).should eq(1)
 
     # Persisted CVE data should be correct

@@ -9,13 +9,3 @@ end
 Spec.before_each do
   database_cleaner
 end
-
-def cve_count
-  db.query("SELECT COUNT(*) FROM cves") do |rs|
-    rs.each do
-      return rs.read(Int32)
-    end
-  end
-
-  0
-end

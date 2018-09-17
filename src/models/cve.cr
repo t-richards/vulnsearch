@@ -8,6 +8,7 @@ class Cve
       vendor=excluded.vendor,
       product=excluded.product,
       cvss_v2_score=excluded.cvss_v2_score,
+      cvss_v3_score=excluded.cvss_v3_score,
       published=excluded.published,
       last_modified=excluded.last_modified
   EOT
@@ -68,7 +69,19 @@ class Cve
     )
   end
 
+  # Retrieve first CVE
   def self.first
     from_rs(db.query("SELECT * FROM cves LIMIT 1")).first
+  end
+
+  # Count CVEs
+  def self.count
+    db.query("SELECT COUNT(*) FROM cves") do |rs|
+      rs.each do
+        return rs.read(Int32)
+      end
+    end
+
+    0
   end
 end

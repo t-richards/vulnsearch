@@ -14,15 +14,15 @@ A fast, well-behaved replacement for other CVE search tools.
 
 ```bash
 # Install dependencies, compile application
-$ shards build
+$ shards build --release
 
 # Migrate database
 $ bin/vulnsearch --migrate up
 
-# Download CVE data from NVD (`.xml.gz` files)
+# Download CVE data from NVD (`.json.gz` files)
 $ bin/vulnsearch --fetch
 
-# Load CVE data from `.xml.gz` files into database; ~3 minutes.
+# Load CVE data from `.json.gz` files into database; ~2 minutes.
 $ bin/vulnsearch --load
 ```
 

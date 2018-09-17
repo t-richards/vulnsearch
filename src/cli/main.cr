@@ -14,7 +14,7 @@ opts = OptionParser.parse! do |parser|
     exit
   end
 
-  parser.on("-l", "--load", "Load data from XML files into database") do
+  parser.on("-l", "--load", "Load data from JSON files into database") do
     loader = Nvd::JsonLoader.new
     exit loader.load_all_files
   end
@@ -23,9 +23,11 @@ opts = OptionParser.parse! do |parser|
     Micrate.logger = logger
     Micrate::DB.connection_url = db_url
     if direction == "up"
-      exit Micrate::Cli.run_up
+      Micrate::Cli.run_up
+      exit
     elsif direction == "down"
-      exit Micrate::Cli.run_down
+      Micrate::Cli.run_down
+      exit
     else
       STDERR.puts %q(Invalid direction specified. Please specify either "up" or "down")
       exit 1
