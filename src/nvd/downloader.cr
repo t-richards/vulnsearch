@@ -3,7 +3,7 @@ require "http/client"
 module Nvd
   class Downloader
     BASE_URI = URI.parse("https://nvd.nist.gov")
-    HEADERS = HTTP::Headers{"User-Agent" => "Vulnsearch v#{Vulnsearch::VERSION} (+https://github.com/t-richards/vulnsearch)"}
+    HEADERS  = HTTP::Headers{"User-Agent" => "Vulnsearch v#{Vulnsearch::VERSION} (+https://github.com/t-richards/vulnsearch)"}
 
     def initialize
       @http_client = HTTP::Client.new(BASE_URI)
