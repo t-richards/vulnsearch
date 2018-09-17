@@ -23,15 +23,15 @@ opts = OptionParser.parse! do |parser|
     Micrate.logger = logger
     Micrate::DB.connection_url = db_url
     if direction == "up"
-      Micrate::Cli.run_up
-      exit
+      exit Micrate::Cli.run_up
     elsif direction == "down"
-      Micrate::Cli.run_down
-      exit
+      exit Micrate::Cli.run_down
     else
       STDERR.puts %q(Invalid direction specified. Please specify either "up" or "down")
       exit 1
     end
+  rescue e : Exception
+    STDERR.puts
   end
 
   parser.on("-s QUERY", "--search QUERY", "Search for things") do |query|

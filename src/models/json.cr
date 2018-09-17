@@ -8,6 +8,12 @@ class JsonCveItem
     last_modified: {type: Time, key: "lastModifiedDate"},
   })
 
+  def id
+    cve.meta.id
+  rescue IndexError
+    ""
+  end
+
   def desc
     cve.description.description_data[0].value
   rescue IndexError
@@ -20,16 +26,12 @@ class JsonCveItem
     ""
   end
 
-  def exploitability_score
-    impact.base_metric_v3.try(&.exploitability_score) || ""
+  def cvss_v2_score
+    impact.base_metric_v2.try(&.cvss_v2).try(&.base_score).to_s || ""
   end
 
-  def severity
-    impact.base_metric_v3.try(&.cvss_v3).try(&.base_severity) || ""
-  end
-
-  def impact_score
-    impact.base_metric_v3.try(&.impact_score) || ""
+  def cvss_v3_score
+    impact.base_metric_v3.try(&.cvss_v3).try(&.base_severity).to_s || ""
   end
 end
 
