@@ -3,10 +3,15 @@ require "http/client"
 module Nvd
   class Downloader
     BASE_URI = URI.parse("https://nvd.nist.gov")
+    HEADERS = HTTP::Headers{"User-Agent" => "Vulnsearch v#{Vulnsearch::VERSION} (+https://github.com/t-richards/vulnsearch)"}
 
     def initialize
       @http_client = HTTP::Client.new(BASE_URI)
       Dir.mkdir_p(Vulnsearch::DATA_DIR)
+    end
+
+    def get(request_path : String)
+      @http_client.get(request_path, HEADERS)
     end
 
     def download(year)
@@ -16,9 +21,8 @@ module Nvd
         return true
       end
 
-      request_path = "/feeds/json/cve/1.0/nvdcve-1.0-#{year}.json.gz"
       logger.info "Downloading #{year} feed..."
-      response = @http_client.get(request_path)
+      response = get("/feeds/json/cve/1.0/nvdcve-1.0-#{year}.json.gz")
       if response.success?
         File.write(out_path, response.body)
         logger.info "Successfully downloaded #{out_path}"

@@ -1,5 +1,5 @@
 module Vulnsearch
-  VERSION  = "0.1.0"
+  VERSION = {{ `shards version`.chomp.stringify }}
   DATA_DIR = "data"
   EXAMPLES = {
     "heartbleed" => %q("CVE-2014-0160"),
