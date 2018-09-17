@@ -20,7 +20,7 @@ opts = OptionParser.parse! do |parser|
   end
 
   parser.on("-m up|down", "--migrate up|down", "Migrate the database") do |direction|
-    Micrate.logger = Logger.new(STDOUT)
+    Micrate.logger = logger
     Micrate::DB.connection_url = db_url
     if direction == "up"
       Micrate::Cli.run_up

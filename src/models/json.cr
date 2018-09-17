@@ -1,7 +1,5 @@
 require "json"
 
-# TODO(tom): use xml again maybe
-
 class JsonCveItem
   JSON.mapping({
     cve:           {type: JsonCve},

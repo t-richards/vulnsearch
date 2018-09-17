@@ -4,7 +4,7 @@ require "zlib"
 module Nvd
   class JsonLoader
     def initialize
-      pattern = File.join(Vulnsearch::DATA_DIR, "*.xml.gz")
+      pattern = File.join(Vulnsearch::DATA_DIR, "*.json.gz")
       @data_files = Dir.glob(pattern)
       if @data_files.size < 1
         logger.error "No data files found! Fetch data using the -f flag."
@@ -47,9 +47,7 @@ module Nvd
     end
 
     def core_parse_stuff(content)
-      parse_options = XML::ParserOptions.default | XML::ParserOptions::NOENT
-      doc = XML.parse(content, options: parse_options)
-      entries = doc.xpath_nodes(%{//*[local-name()="entry"]})
+      entries = Array(JsonCveItem).from_json(content, root: "CVE_Items")
       entries.each_with_index do |entry, idx|
         # TODO(tom): Show progress bar maybe
         cve = Cve.new(entry)

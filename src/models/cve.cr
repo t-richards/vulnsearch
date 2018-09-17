@@ -40,39 +40,17 @@ class Cve
     @last_modified = Time.new(1970, 1, 1)
   end
 
-  # Constructs a CVE from an NVD XML "entry" node.
-  def initialize(entry : XML::Node)
-    namespaces = Nvd::Namespaces.namespaces
-
-    @id = entry["id"]
-
-    # Summary
+  def initialize(item : JsonCveItem)
+    @id = item.cve.meta.id
     @summary = ""
-    summary_node = entry.xpath_node("//vuln:summary", namespaces)
-    if summary_node
-      @summary = summary_node.inner_text
-    end
-
     @cwe_id = ""
     @vendor = ""
     @product = ""
     @severity = ""
     @exploit_score = 0.0
     @impact_score = 0.0
-
-    # Published
     @published = Time.new(1970, 1, 1)
-    published_node = entry.xpath_node("//vuln:published-datetime", namespaces)
-    if published_node
-      @published = Time.parse_rfc3339(published_node.inner_text)
-    end
-
-    # Last modified
     @last_modified = Time.new(1970, 1, 1)
-    last_modified_node = entry.xpath_node("//vuln:last-modified-datetime", namespaces)
-    if last_modified_node
-      @last_modified = Time.parse_rfc3339(last_modified_node.inner_text)
-    end
   end
 
   # Saves the CVE to the database, or updates the data if it has changed
