@@ -22,10 +22,14 @@ module Nvd
       end
 
       logger.info "Downloading #{year} feed..."
+
+      start_time = Time.monotonic
       response = get("/feeds/json/cve/1.0/nvdcve-1.0-#{year}.json.gz")
       if response.success?
         File.write(out_path, response.body)
-        logger.info "Successfully downloaded #{out_path}"
+        end_time = Time.monotonic
+        elapsed = end_time - start_time
+        logger.info "Successfully downloaded #{out_path} in #{elapsed}"
         return true
       end
 
