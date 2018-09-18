@@ -9,10 +9,24 @@ class Cve
     last_modified: Time,
   })
 
-  INSERT_QUERY = <<-'EOT'
-    INSERT INTO cves (id, description, cwe_id, cvss_v2_score, cvss_v3_score, published, last_modified)
-    VALUES           (?,  ?,           ?,      ?,             ?,             ?,         ?            )
-  EOT
+  # Magic, probably do not touch this
+  def insert_query
+    String.build do |str|
+      str << "INSERT INTO cves ("
+      {% for ivar, idx in @type.instance_vars %}
+        str << {{ ivar.id.stringify }}
+        {% if idx != @type.instance_vars.size - 1 %} str << ", " {% end %}
+      {% end %}
+
+      str << ") VALUES ("
+        {% for ivar, idx in @type.instance_vars %}
+          str << "?"
+          {% if idx != @type.instance_vars.size - 1 %} str << ", " {% end %}
+        {% end %}
+      str << ")"
+    end
+  end
+
 
   def initialize
     @id = ""
@@ -41,7 +55,7 @@ class Cve
     return if description.includes?("** RESERVED **")
 
     db.exec(
-      INSERT_QUERY,
+      insert_query,
       id,
       description,
       cwe_id,

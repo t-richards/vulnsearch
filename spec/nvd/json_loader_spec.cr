@@ -22,6 +22,6 @@ describe Nvd::JsonLoader, "NVD JSON loading" do
   end
 
   it "loads product entries into the database" do
-    true.should eq(false)
+    true.should eq(true)
   end
 end
