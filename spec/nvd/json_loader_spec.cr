@@ -17,11 +17,14 @@ describe Nvd::JsonLoader, "NVD JSON loading" do
     cve.id.should eq("CVE-1999-1341")
     cve.description.should eq("Linux kernel before 2.3.18 or 2.2.13pre15, with SLIP and PPP options, allows local unprivileged users to forge IP packets via the TIOCSETD option on tty devices.")
     cve.cvss_v2_score.should eq(4.6)
-    cve.published.should eq(Time.new(1999, 10, 22))
+    cve.cvss_v3_score.should eq(0.0)
+
+    # Time
+    cve.published.should eq(Time.utc(1999, 10, 22, 4, 0, 0))
     cve.last_modified.should eq(Time.utc(2018, 9, 11, 14, 32, 0))
   end
 
-  it "loads product entries into the database" do
-    true.should eq(true)
+  pending "loads product entries into the database" do
+    false.should eq(true)
   end
 end

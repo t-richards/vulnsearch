@@ -9,11 +9,6 @@ class Cve
     last_modified: Time,
   })
 
-  # Magic, probably do not touch this
-  def insert_query
-    %<INSERT INTO cves (#{{{ @type.instance_vars.join(", ") }}}) VALUES (#{{{ @type.instance_vars.map { "?" }.join(", ") }}})>
-  end
-
   def initialize
     @id = ""
     @description = ""
@@ -50,6 +45,11 @@ class Cve
       published,
       last_modified
     )
+  end
+
+  # Generate insert query from properties. Used in save.
+  def insert_query
+    %<INSERT INTO cves (#{{{ @type.instance_vars.join(", ") }}}) VALUES (#{{{ @type.instance_vars.map { "?" }.join(", ") }}})>
   end
 
   # Retrieve first CVE
