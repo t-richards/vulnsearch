@@ -11,20 +11,7 @@ class Cve
 
   # Magic, probably do not touch this
   def insert_query
-    String.build do |str|
-      str << "INSERT INTO cves ("
-      {% for ivar, idx in @type.instance_vars %}
-        str << {{ ivar.id.stringify }}
-        {% if idx != @type.instance_vars.size - 1 %} str << ", " {% end %}
-      {% end %}
-
-      str << ") VALUES ("
-      {% for ivar, idx in @type.instance_vars %}
-        str << "?"
-        {% if idx != @type.instance_vars.size - 1 %} str << ", " {% end %}
-      {% end %}
-      str << ")"
-    end
+    %<INSERT INTO cves (#{{{ @type.instance_vars.join(", ") }}}) VALUES (#{{{ @type.instance_vars.map { "?" }.join(", ") }}})>
   end
 
   def initialize

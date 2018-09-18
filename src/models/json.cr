@@ -32,7 +32,7 @@ module Vulnsearch::Json
     end
 
     def cvss_v3_score : Float64
-      impact.base_metric_v3.try(&.cvss_v3).try(&.base_severity) || 0.0_f64
+      impact.base_metric_v3.try(&.cvss_v3).try(&.base_score) || 0.0_f64
     end
   end
 
@@ -75,7 +75,7 @@ module Vulnsearch::Json
   class CvssV3
     JSON.mapping({
       base_score:    {type: Float64, key: "baseScore"},
-      base_severity: {type: Float64, key: "baseSeverity"},
+      base_severity: {type: String, key: "baseSeverity"},
     })
   end
 
