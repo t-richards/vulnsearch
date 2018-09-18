@@ -1,14 +1,14 @@
 -- +micrate Up
 CREATE TABLE IF NOT EXISTS products (
   id           INTEGER PRIMARY KEY,
-  product_name VARCHAR(255),
-  vendor       VARCHAR(255),
-  version      VARCHAR(255)
+  product_name VARCHAR(255) NOT NULL,
+  vendor       VARCHAR(255) NOT NULL,
+  version      VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS cves_products (
-  cve_id     VARCHAR(64),
-  product_id INTEGER
+  cve_id     VARCHAR(64) NOT NULL,
+  product_id INTEGER     NOT NULL
 );
 
 CREATE INDEX cves_products_cve_id

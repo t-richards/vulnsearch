@@ -1,12 +1,12 @@
 -- +micrate Up
 CREATE TABLE IF NOT EXISTS cves (
   id            VARCHAR(64) PRIMARY KEY,
-  description   TEXT        NOT NULL DEFAULT "",
-  cwe_id        VARCHAR(32) NOT NULL DEFAULT "",
-  cvss_v2_score REAL        NOT NULL DEFAULT 0.0,
-  cvss_v3_score REAL        NOT NULL DEFAULT 0.0,
-  published     DATETIME    NOT NULL DEFAULT current_timestamp,
-  last_modified DATETIME    NOT NULL DEFAULT current_timestamp
+  description   TEXT        NOT NULL,
+  cwe_id        VARCHAR(32) NOT NULL,
+  cvss_v2_score REAL        NOT NULL,
+  cvss_v3_score REAL        NOT NULL,
+  published     DATETIME    NOT NULL,
+  last_modified DATETIME    NOT NULL
 );
 
 -- +micrate Down
