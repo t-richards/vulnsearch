@@ -26,12 +26,12 @@ class JsonCveItem
     ""
   end
 
-  def cvss_v2_score
-    impact.base_metric_v2.try(&.cvss_v2).try(&.base_score).to_s || ""
+  def cvss_v2_score : Float64
+    impact.base_metric_v2.try(&.cvss_v2).try(&.base_score) || 0.0_f64
   end
 
-  def cvss_v3_score
-    impact.base_metric_v3.try(&.cvss_v3).try(&.base_severity).to_s || ""
+  def cvss_v3_score : Float64
+    impact.base_metric_v3.try(&.cvss_v3).try(&.base_severity) || 0.0_f64
   end
 end
 
@@ -74,7 +74,7 @@ end
 class JsonCvssV3
   JSON.mapping({
     base_score:    {type: Float64, key: "baseScore"},
-    base_severity: {type: String, key: "baseSeverity"},
+    base_severity: {type: Float64, key: "baseSeverity"},
   })
 end
 

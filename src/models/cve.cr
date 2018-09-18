@@ -1,12 +1,10 @@
 class Cve
   UPSERT_QUERY = <<-'EOT'
-    INSERT INTO cves (id, description, cwe_id, vendor, product, cvss_v2_score, cvss_v3_score, published, last_modified)
-    VALUES           (?,  ?,           ?,      ?,      ?,       ?,             ?,             ?,         ?            )
+    INSERT INTO cves (id, description, cwe_id, cvss_v2_score, cvss_v3_score, published, last_modified)
+    VALUES           (?,  ?,           ?,      ?,             ?,             ?,         ?            )
     ON CONFLICT(id) DO UPDATE SET
       description=excluded.description,
       cwe_id=excluded.cwe_id,
-      vendor=excluded.vendor,
-      product=excluded.product,
       cvss_v2_score=excluded.cvss_v2_score,
       cvss_v3_score=excluded.cvss_v3_score,
       published=excluded.published,
@@ -17,10 +15,8 @@ class Cve
     id:            String,
     description:   String,
     cwe_id:        String,
-    vendor:        String,
-    product:       String,
-    cvss_v2_score: String,
-    cvss_v3_score: String,
+    cvss_v2_score: Float64,
+    cvss_v3_score: Float64,
     published:     Time,
     last_modified: Time,
   })
@@ -29,10 +25,8 @@ class Cve
     @id = ""
     @description = ""
     @cwe_id = ""
-    @vendor = ""
-    @product = ""
-    @cvss_v2_score = ""
-    @cvss_v3_score = ""
+    @cvss_v2_score = 0.0_f64
+    @cvss_v3_score = 0.0_f64
     @published = Time.new(1970, 1, 1)
     @last_modified = Time.new(1970, 1, 1)
   end
@@ -41,8 +35,6 @@ class Cve
     @id = item.id
     @description = item.desc
     @cwe_id = item.cwe_id
-    @vendor = ""
-    @product = ""
     @cvss_v2_score = item.cvss_v2_score
     @cvss_v3_score = item.cvss_v3_score
     @published = item.published
@@ -60,8 +52,6 @@ class Cve
       id,
       description,
       cwe_id,
-      vendor,
-      product,
       cvss_v2_score,
       cvss_v3_score,
       published,
