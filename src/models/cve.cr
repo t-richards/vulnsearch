@@ -19,14 +19,13 @@ class Cve
       {% end %}
 
       str << ") VALUES ("
-        {% for ivar, idx in @type.instance_vars %}
-          str << "?"
-          {% if idx != @type.instance_vars.size - 1 %} str << ", " {% end %}
-        {% end %}
+      {% for ivar, idx in @type.instance_vars %}
+        str << "?"
+        {% if idx != @type.instance_vars.size - 1 %} str << ", " {% end %}
+      {% end %}
       str << ")"
     end
   end
-
 
   def initialize
     @id = ""

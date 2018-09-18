@@ -9,19 +9,19 @@ module Vulnsearch::Json
       last_modified: {type: Time, key: "lastModifiedDate"},
     })
 
-    def id
+    def id : String
       cve.meta.id
     rescue IndexError
       ""
     end
 
-    def desc
+    def desc : String
       cve.description.description_data[0].value
     rescue IndexError
       ""
     end
 
-    def cwe_id
+    def cwe_id : String
       cve.problemtype.problemtype_data[0].description[0].value
     rescue IndexError
       ""
