@@ -46,7 +46,7 @@ module Nvd
     end
 
     def core_parse_stuff(content)
-      entries = Array(JsonCveItem).from_json(content, root: "CVE_Items")
+      entries = Array(Vulnsearch::Json::CveItem).from_json(content, root: "CVE_Items")
       entries.each_with_index do |entry, idx|
         # TODO(tom): Show progress bar maybe
         cve = Cve.new(entry)

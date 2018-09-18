@@ -20,4 +20,8 @@ describe Nvd::JsonLoader, "NVD JSON loading" do
     cve.published.should eq(Time.new(1999, 10, 22))
     cve.last_modified.should eq(Time.utc(2018, 9, 11, 14, 32, 0))
   end
+
+  it "loads product entries into the database" do
+    true.should eq(false)
+  end
 end

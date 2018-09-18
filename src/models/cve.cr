@@ -1,16 +1,4 @@
 class Cve
-  UPSERT_QUERY = <<-'EOT'
-    INSERT INTO cves (id, description, cwe_id, cvss_v2_score, cvss_v3_score, published, last_modified)
-    VALUES           (?,  ?,           ?,      ?,             ?,             ?,         ?            )
-    ON CONFLICT(id) DO UPDATE SET
-      description=excluded.description,
-      cwe_id=excluded.cwe_id,
-      cvss_v2_score=excluded.cvss_v2_score,
-      cvss_v3_score=excluded.cvss_v3_score,
-      published=excluded.published,
-      last_modified=excluded.last_modified
-  EOT
-
   DB.mapping({
     id:            String,
     description:   String,
@@ -20,6 +8,11 @@ class Cve
     published:     Time,
     last_modified: Time,
   })
+
+  INSERT_QUERY = <<-'EOT'
+    INSERT INTO cves (id, description, cwe_id, cvss_v2_score, cvss_v3_score, published, last_modified)
+    VALUES           (?,  ?,           ?,      ?,             ?,             ?,         ?            )
+  EOT
 
   def initialize
     @id = ""
@@ -31,7 +24,7 @@ class Cve
     @last_modified = Time.new(1970, 1, 1)
   end
 
-  def initialize(item : JsonCveItem)
+  def initialize(item : Vulnsearch::Json::CveItem)
     @id = item.id
     @description = item.desc
     @cwe_id = item.cwe_id
@@ -48,7 +41,7 @@ class Cve
     return if description.includes?("** RESERVED **")
 
     db.exec(
-      UPSERT_QUERY,
+      INSERT_QUERY,
       id,
       description,
       cwe_id,
