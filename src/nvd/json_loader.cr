@@ -51,6 +51,19 @@ module Nvd
         # TODO(tom): Show progress bar maybe
         cve = Cve.new(entry)
         cve.save!
+
+        entry.cve.affects.vendor.vendor_data.each do |vendor_data|
+          vendor_data.product.product_data.each do |product_data|
+            product_data.version.version_data.each do |version_data|
+              product = Product.new(
+                product_data.product_name,
+                vendor_data.vendor_name,
+                version_data.version_value
+              )
+              product.save!
+            end
+          end
+        end
       end
     end
   end
