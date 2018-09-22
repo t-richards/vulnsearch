@@ -1,4 +1,4 @@
-class Cve
+class Cve < ApplicationRecord
   DB.mapping({
     id:            String,
     description:   String,
@@ -36,7 +36,7 @@ class Cve
     return if description.includes?("** RESERVED **")
 
     db.exec(
-      insert_query,
+      Cve.insert_query,
       id,
       description,
       cwe_id,
@@ -47,31 +47,10 @@ class Cve
     )
   end
 
-  # Generate insert query from properties. Used in save.
-  def insert_query
-    %<INSERT INTO cves (#{{{ @type.instance_vars.join(", ") }}}) VALUES (#{{{ @type.instance_vars.map { "?" }.join(", ") }}})>
-  end
-
-  # Retrieve first CVE
-  def self.first
-    from_rs(db.query("SELECT * FROM cves LIMIT 1")).first
-  end
-
-  # Count CVEs
-  def self.count
-    db.query("SELECT COUNT(*) FROM cves") do |rs|
-      rs.each do
-        return rs.read(Int32)
-      end
-    end
-
-    0
-  end
-
-  # Search CVEs
+  # Search records
   def self.search(query)
     query = "%" + query + "%"
-    results = db.query("SELECT * FROM cves WHERE id LIKE ? OR description LIKE ?", query, query)
+    results = db.query("SELECT * FROM #{table_name} WHERE id LIKE ? OR description LIKE ?", query, query)
     from_rs(results)
   end
 end

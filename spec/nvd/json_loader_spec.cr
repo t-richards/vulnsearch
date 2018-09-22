@@ -24,7 +24,17 @@ describe Nvd::JsonLoader, "NVD JSON loading" do
     cve.last_modified.should eq(Time.utc(2018, 9, 11, 14, 32, 0))
   end
 
-  pending "loads product entries into the database" do
-    false.should eq(true)
+  it "loads product entries into the database" do
+    starting_count = Product.count
+    loader = Nvd::JsonLoader.new
+    loader.load_file("spec/fixtures/nvdcve-1.0-recent.json")
+    ending_count = Product.count
+
+    # Product table rows should increase by ~20
+    (ending_count - starting_count).should eq(20)
+
+    # Persisted product data should be correct
+    product = Product.first
+    product.should_not be_nil
   end
 end
