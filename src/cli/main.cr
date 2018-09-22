@@ -40,10 +40,7 @@ opts = OptionParser.parse! do |parser|
 
   parser.on("-s QUERY", "--search QUERY", "Search for things") do |query|
     # Query thing here
-    query = "%" + query + "%"
-    results = db.query("SELECT * FROM cves WHERE id LIKE ?", query)
-    cves = Cve.from_rs(results)
-    pp cves
+    pp Cve.search(query)
     exit
   end
 

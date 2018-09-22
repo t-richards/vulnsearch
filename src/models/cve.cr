@@ -67,4 +67,11 @@ class Cve
 
     0
   end
+
+  # Search CVEs
+  def self.search(query)
+    query = "%" + query + "%"
+    results = db.query("SELECT * FROM cves WHERE id LIKE ? OR description LIKE ?", query, query)
+    from_rs(results)
+  end
 end
