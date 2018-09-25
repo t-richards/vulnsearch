@@ -30,8 +30,8 @@ describe Nvd::JsonLoader, "NVD JSON loading" do
     loader.load_file("spec/fixtures/nvdcve-1.0-recent.json")
     ending_count = Product.count
 
-    # Product table rows should increase by ~20
-    (ending_count - starting_count).should eq(20)
+    # Product table should grow
+    (ending_count - starting_count).should eq(32)
 
     # Persisted product data should be correct
     product = Product.first

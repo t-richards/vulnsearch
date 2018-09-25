@@ -19,9 +19,7 @@ module Nvd
       @data_files.each do |file|
         logger.info "Loading data from #{file}..."
         elapsed = Time.measure do
-          db.exec("BEGIN TRANSACTION")
           load_gz_file(file)
-          db.exec("COMMIT")
         end
         logger.info "Loaded #{file} in #{elapsed}."
       end
@@ -46,12 +44,16 @@ module Nvd
     end
 
     def core_parse_stuff(content)
+      db.exec("BEGIN TRANSACTION")
       entries = Array(Vulnsearch::Json::CveItem).from_json(content, root: "CVE_Items")
       entries.each_with_index do |entry, idx|
         # TODO(tom): Show progress bar maybe
+
+        # Save CVE
         cve = Cve.new(entry)
         cve.save!
 
+        # Save all related products
         entry.cve.affects.vendor.vendor_data.each do |vendor_data|
           vendor_data.product.product_data.each do |product_data|
             product_data.version.version_data.each do |version_data|
@@ -65,6 +67,8 @@ module Nvd
           end
         end
       end
+
+      db.exec("COMMIT")
     end
   end
 end
