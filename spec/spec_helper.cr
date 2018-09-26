@@ -10,6 +10,7 @@ require "../src/app"
 def database_cleaner
   db.exec("DELETE FROM cves")
   db.exec("DELETE FROM products")
+  db.exec("DELETE FROM cves_products")
 end
 
 # Migrates the test database

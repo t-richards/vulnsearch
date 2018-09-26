@@ -44,31 +44,49 @@ module Nvd
     end
 
     def core_parse_stuff(content)
-      db.exec("BEGIN TRANSACTION")
-      entries = Array(Vulnsearch::Json::CveItem).from_json(content, root: "CVE_Items")
-      entries.each_with_index do |entry, idx|
-        # TODO(tom): Show progress bar maybe
+      db.transaction do |txn|
+        entries = Array(Vulnsearch::Json::CveItem).from_json(content, root: "CVE_Items")
+        entries.each_with_index do |entry, idx|
+          # TODO(tom): Show progress bar maybe
 
-        # Save CVE
-        cve = Cve.new(entry)
-        cve.save!
+          # Save CVE
+          cve = Cve.new(entry)
+          cve.save!
 
-        # Save all related products
-        entry.cve.affects.vendor.vendor_data.each do |vendor_data|
-          vendor_data.product.product_data.each do |product_data|
-            product_data.version.version_data.each do |version_data|
-              product = Product.new(
-                product_data.product_name,
-                vendor_data.vendor_name,
-                version_data.version_value
-              )
-              product.save!
+          entry.cve.affects.vendor.vendor_data.each do |vendor_data|
+            vendor_data.product.product_data.each do |product_data|
+              product_data.version.version_data.each do |version_data|
+                # Save all related products
+                product = Product.new(
+                  product_data.product_name,
+                  vendor_data.vendor_name,
+                  version_data.version_value
+                )
+                result = product.save!
+
+                # Get id of the product
+                rows_affected = result.try(&.rows_affected) || 0
+                if rows_affected > 1
+                  product.id = result.try(&.last_insert_id)
+                else
+                  product.id = Product.find(
+                    product_data.product_name,
+                    vendor_data.vendor_name,
+                    version_data.version_value
+                  ).id
+                end
+
+                # Save CVE <-> Product associations
+                cve_product = CveProduct.new(
+                  cve.id,
+                  product.id.not_nil!
+                )
+                cve_product.save!
+              end
             end
           end
         end
       end
-
-      db.exec("COMMIT")
     end
   end
 end

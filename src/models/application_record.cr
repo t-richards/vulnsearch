@@ -1,7 +1,7 @@
 abstract class ApplicationRecord
   # Infers the table name with bad pluralization
   def self.table_name
-    {{ @type.stringify.downcase + "s" }}
+    {{ @type.stringify }}.split(/(?=[A-Z][^A-Z])/).sort.map{|n| n + "s"}.join("_").downcase
   end
 
   # Generate insert query from properties. Used in save.
