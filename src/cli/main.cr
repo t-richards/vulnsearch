@@ -38,6 +38,11 @@ opts = OptionParser.parse! do |parser|
     STDERR.puts
   end
 
+  parser.on("-o", "--optimize", "Optimize the database") do
+    db.query("PRAGMA optimize")
+    exit
+  end
+
   parser.on("-s QUERY", "--search QUERY", "Search for things") do |query|
     # Query thing here
     pp Cve.search(query)
