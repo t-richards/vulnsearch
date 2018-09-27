@@ -68,9 +68,8 @@ module Nvd
               result = product.save!
 
               # Get id of the product
-              rows_affected = result.try(&.rows_affected) || 0
-              if rows_affected > 1
-                product.id = result.try(&.last_insert_id)
+              if result && result.rows_affected > 0
+                product.id = result.last_insert_id
               else
                 product.id = Product.find(
                   product_data.product_name,
