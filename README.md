@@ -22,7 +22,7 @@ $ bin/vulnsearch --migrate up
 # Download CVE data from NVD (`.json.gz` files); ~2 minutes on a fast connection.
 $ bin/vulnsearch --fetch
 
-# Load CVE data from `.json.gz` files into database; ~2 minutes.
+# Load CVE data from `.json.gz` files into database; ~3 minutes.
 $ bin/vulnsearch --load
 ```
 
