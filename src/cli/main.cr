@@ -34,8 +34,8 @@ opts = OptionParser.parse! do |parser|
       STDERR.puts %q(Invalid direction specified. Please specify either "up" or "down")
       exit 1
     end
-  rescue e : Exception
-    STDERR.puts
+  rescue
+    exit
   end
 
   parser.on("-o", "--optimize", "Optimize the database") do

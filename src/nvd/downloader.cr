@@ -18,7 +18,7 @@ module Nvd
 
     def download(year)
       out_path = File.join(Vulnsearch::DATA_DIR, "nvdcve-1.0-#{year}.json.gz")
-      unless needs_download?(out_path)
+      unless needs_download?(out_path, year)
         logger.info "Already downloaded #{out_path}"
         return true
       end
@@ -39,8 +39,10 @@ module Nvd
       return false
     end
 
-    def needs_download?(path)
-      !File.readable?(path)
+    def needs_download?(path, year)
+      return true unless File.readable?(path)
+
+      # TODO(tom): Check meta file for possible updates for `year`
     end
 
     def download_all
