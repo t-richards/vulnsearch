@@ -1,14 +1,15 @@
 module Nvd
   class Meta
+    property year : Int32 = 0
     property last_modified : Time = Time.new(1970, 1, 1)
     property gz_size : Int32 = 0
     property sha256 : String = ""
 
-    def self.parse(data)
-      new(data)
+    def self.parse(data, year)
+      new(data, year)
     end
 
-    def initialize(data)
+    def initialize(data, @year)
       data.split("\n").each do |line|
         next if line == ""
 
@@ -24,7 +25,7 @@ module Nvd
       when "gzSize"
         @gz_size = value.to_i
       when "sha256"
-        @sha256 = value
+        @sha256 = value.strip.downcase
       end
     end
   end

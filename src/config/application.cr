@@ -7,6 +7,10 @@ module Vulnsearch
   LOGGER   = Logger.new(STDOUT)
   DATA_DIR = "data"
 
+  DEFAULT_HEADERS = HTTP::Headers{
+    "User-Agent" => "Vulnsearch v#{Vulnsearch::VERSION} (+https://github.com/t-richards/vulnsearch)",
+  }
+
   EXAMPLES = {
     "heartbleed" => %q("CVE-2014-0160"),
     "wordpress"  => %q(WordPress AND "before 4."),

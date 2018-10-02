@@ -4,6 +4,7 @@ require "sqlite3"
 require "micrate"
 
 # App
+require "./nvd"
 require "./config/*"
 require "./models/*"
 require "./nvd/*"
