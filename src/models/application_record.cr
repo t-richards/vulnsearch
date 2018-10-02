@@ -16,12 +16,6 @@ abstract class ApplicationRecord
 
   # Count records
   def self.count
-    db.query("SELECT COUNT(*) FROM #{table_name}") do |rs|
-      rs.each do
-        return rs.read(Int32)
-      end
-    end
-
-    0
+    db.query_one("SELECT COUNT(*) FROM #{table_name}", as: Int32)
   end
 end
