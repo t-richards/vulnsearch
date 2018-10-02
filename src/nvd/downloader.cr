@@ -43,6 +43,18 @@ module Nvd
       # If the file doesn't exist, it needs to be downloaded
       return true unless File.readable?(path)
 
+      # Check the metadata first
+      meta = MetaDownloader.download(year)
+      return false if meta.nil?
+
+      # Download the file again if there is a newer one
+      filetime = File.info(path).modification_time
+      metatime = meta.last_modified
+      if metatime > filetime
+        logger.info "#{year} is out-of-date: #{metatime} > #{filetime}"
+        return true
+      end
+
       false
     end
 

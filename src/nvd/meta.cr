@@ -25,7 +25,7 @@ module Nvd
       when "gzSize"
         @gz_size = value.to_i
       when "sha256"
-        @sha256 = value.strip.downcase
+        @sha256 = value.strip
       end
     end
   end
