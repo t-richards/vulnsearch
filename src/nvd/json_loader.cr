@@ -2,17 +2,19 @@ require "zlib"
 
 module Nvd
   class JsonLoader
+    property data_files : Array(String)
+
     def initialize
       pattern = File.join(Vulnsearch::DATA_DIR, "*.json.gz")
-      @data_files = Dir.glob(pattern)
-      if @data_files.size < 1
-        logger.error "No data files found! Fetch data using the -f flag."
-        return
-      end
-      @data_files.sort!.reverse!
+      @data_files = Dir.glob(pattern).sort.reverse
     end
 
     def load_all_files : Int32
+      if @data_files.size < 1
+        logger.error "No data files found! Fetch data using the -f flag."
+        return 1
+      end
+
       db.exec("PRAGMA synchronous = OFF")
       db.exec("PRAGMA journal_mode = memory")
 
