@@ -29,3 +29,10 @@ end
 def logger
   Vulnsearch::LOGGER
 end
+
+def optimize
+  db.exec("PRAGMA synchronous = OFF")
+  db.exec("PRAGMA journal_mode = memory")
+  db.exec("PRAGMA optimize")
+  db.exec("VACUUM")
+end

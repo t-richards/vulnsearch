@@ -39,7 +39,7 @@ opts = OptionParser.parse! do |parser|
   end
 
   parser.on("-o", "--optimize", "Optimize the database") do
-    db.query("PRAGMA optimize")
+    optimize
     exit
   end
 

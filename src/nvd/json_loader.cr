@@ -26,9 +26,6 @@ module Nvd
         logger.info "Loaded #{file} in #{elapsed}."
       end
 
-      # Optimize tables after data has been loaded
-      db.query("PRAGMA optimize")
-
       0
     end
 

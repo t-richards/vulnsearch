@@ -26,7 +26,8 @@ class Product < ApplicationRecord
     )
   rescue e : SQLite3::Exception
     # Skip insert when UNIQUE constraint is violated
-    raise e unless e.code == 19
+    error = LibSQLite3::Code.new(e.code)
+    raise e unless error.constraint?
   end
 
   # Finds a product

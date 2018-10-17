@@ -14,7 +14,7 @@ dependencies:
     version: ~> 0.5.0
   sqlite3:
     github: crystal-lang/crystal-sqlite3
-    version: ~> 0.10.0
+    branch: master
   micrate:
     github: amberframework/micrate
     version: ~> 0.3.3
