@@ -9,6 +9,16 @@ class Cve < ApplicationRecord
     last_modified: Time,
   })
 
+  JSON.mapping({
+    id:            String,
+    description:   String,
+    cwe_id:        String,
+    cvss_v2_score: Float64,
+    cvss_v3_score: Float64,
+    published:     Time,
+    last_modified: Time,
+  })
+
   def initialize
     @id = ""
     @description = ""

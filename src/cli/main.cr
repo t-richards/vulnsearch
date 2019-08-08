@@ -44,7 +44,10 @@ opts = OptionParser.parse! do |parser|
   end
 
   parser.on("-s QUERY", "--search QUERY", "Search for things") do |query|
-    pp Cve.search(query)
+    Cve.search(query).each do |cve|
+      cve.to_json(STDOUT)
+    end
+    puts
     exit
   end
 

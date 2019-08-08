@@ -1,3 +1,6 @@
+# Core
+require "json"
+
 # Shards
 require "db"
 require "sqlite3"

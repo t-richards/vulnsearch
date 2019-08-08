@@ -2,7 +2,7 @@ version: 1.0
 shards:
   db:
     github: crystal-lang/crystal-db
-    version: 0.5.0
+    version: 0.5.1
 
   micrate:
     github: amberframework/micrate
@@ -10,5 +10,5 @@ shards:
 
   sqlite3:
     github: crystal-lang/crystal-sqlite3
-    commit: a95182be0870909cbfaf08652747e5a733067d8b
+    version: 0.11.0
 
