@@ -1,7 +1,7 @@
 require "spec"
 
 # Use in-memory database for tests
-ENV["DATABASE_URI"] ||= "sqlite3::memory:"
+ENV["DATABASE_URL"] ||= "sqlite3::memory:"
 
 # Require app bits before running tests
 require "../src/app"

@@ -31,12 +31,8 @@ opts = OptionParser.parse! do |parser|
     exit
   end
 
-  parser.on("-s QUERY", "--search QUERY", "Search for things") do |query|
-    Cve.search(query).each do |cve|
-      cve.to_json(STDOUT)
-    end
-    puts
-    exit
+  parser.on("-s", "--serve", "Run HTTP server") do |query|
+    Onyx::HTTP.listen
   end
 
   parser.on("-v", "--version", "Show version information") do

@@ -1,0 +1,16 @@
+<table class="table table-striped">
+  <tr>
+    <th scope="col">CVE ID</th>
+    <th scope="col">Description</th>
+    <th scope="col">CWE ID</th>
+    <th scope="col">CVSS v3 Score</th>
+  </tr>
+  <% @results.each do |cve| %>
+  <tr>
+    <td><%= cve.id %></td>
+    <td><%= cve.description %></td>
+    <td><%= cve.cwe_id %></td>
+    <td><%= cve.cvss_v3_score %></td>
+  </tr>
+  <% end %>
+</table>

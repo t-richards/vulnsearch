@@ -29,8 +29,8 @@ $ bin/vulnsearch --load
 ## Usage
 
 ```bash
-# Run search queries on database contents
-$ bin/vulnsearch -s <query>
+# Run server, visit http://localhost:5000/
+$ bin/vulnsearch --serve
 ```
 
 ## Contributing

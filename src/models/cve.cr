@@ -57,8 +57,19 @@ class Cve < ApplicationRecord
     )
   end
 
+  def self.find_by_product_id(id : Int32)
+    query = <<-EOT
+      SELECT id, description, cwe_id, cvss_v2_score, cvss_v3_score, published, last_modified FROM cves
+      JOIN cves_products ON cves.id = cves_products.cve_id
+      WHERE cves_products.product_id = ?
+      ORDER BY cves.cvss_v3_score DESC;
+    EOT
+
+    from_rs(db.query(query, id))
+  end
+
   # Search records
-  def self.search(query)
+  def self.search(query) : Array(Cve)
     query = "%" + query + "%"
     results = db.query("SELECT * FROM #{table_name} WHERE id LIKE ? OR description LIKE ?", query, query)
     from_rs(results)
