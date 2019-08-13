@@ -15,9 +15,14 @@ end
 
 # Migrates the test database
 def migrate_test_db
-  Micrate.logger = logger
-  Micrate::DB.connection_url = db_url
-  Micrate::Cli.run_up
+  migrator = Migrate::Migrator.new(
+    db,
+    logger,
+    File.join("db", "migrations"), # Path to migrations
+    "version", # Version table name
+    "version" # Version column name
+  )
+  migrator.up
 end
 
 migrate_test_db

@@ -1,5 +1,4 @@
--- +micrate Up
-BEGIN;
+-- +migrate Up
 CREATE TABLE IF NOT EXISTS cves_products (
   cve_id     VARCHAR(64) NOT NULL,
   product_id INTEGER     NOT NULL
@@ -12,9 +11,6 @@ CREATE INDEX IF NOT EXISTS cves_products_product_id
 
 CREATE UNIQUE INDEX IF NOT EXISTS cves_products_unique
   ON cves_products (cve_id, product_id);
-END;
 
--- +micrate Down
-BEGIN;
+-- +migrate Down
 DROP TABLE IF EXISTS cves_products;
-END;

@@ -1,6 +1,8 @@
 require "logger"
 require "option_parser"
 
+migrator = Migrate::Migrator.new(db, logger)
+
 opts = OptionParser.parse! do |parser|
   parser.banner = "Usage: #{PROGRAM_NAME} <flags>"
 
@@ -19,22 +21,8 @@ opts = OptionParser.parse! do |parser|
     exit loader.load_all_files
   end
 
-  parser.on("-m up|down", "--migrate up|down", "Migrate the database") do |direction|
-    Micrate.logger = logger
-    Micrate::DB.connection_url = db_url
-
-    case direction
-    when "up"
-      Micrate::Cli.run_up
-      exit
-    when "down"
-      Micrate::Cli.run_down
-      exit
-    else
-      STDERR.puts %q(Invalid direction specified. Please specify either "up" or "down")
-      exit 1
-    end
-  rescue
+  parser.on("-m", "--migrate", "Migrate the database to the latest version") do
+    migrator.to_latest
     exit
   end
 

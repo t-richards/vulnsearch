@@ -1,5 +1,4 @@
--- +micrate Up
-BEGIN;
+-- +migrate Up
 CREATE TABLE IF NOT EXISTS products (
   id      INTEGER PRIMARY KEY,
   name    VARCHAR(255) NOT NULL,
@@ -9,9 +8,6 @@ CREATE TABLE IF NOT EXISTS products (
 
 CREATE UNIQUE INDEX IF NOT EXISTS products_unique
   ON products (name, vendor, version);
-END;
 
--- +micrate Down
-BEGIN;
+-- +migrate Down
 DROP TABLE IF EXISTS products;
-END;

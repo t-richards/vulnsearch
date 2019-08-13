@@ -3,8 +3,8 @@ require "json"
 
 # Shards
 require "db"
+require "migrate"
 require "sqlite3"
-require "micrate"
 
 # App
 require "./nvd"

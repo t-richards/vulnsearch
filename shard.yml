@@ -15,10 +15,16 @@ dependencies:
   sqlite3:
     github: crystal-lang/crystal-sqlite3
     version: ~> 0.11.0
-  micrate:
-    github: amberframework/micrate
-    version: ~> 0.3.3
+  migrate:
+    github: vladfaust/migrate.cr
+    version: ~> 0.4.1
+  onyx:
+    github: onyxframework/onyx
+    version: ~> 0.4.0
+  onyx-http:
+    github: onyxframework/http
+    version: ~> 0.8.0
 
-crystal: 0.28.0
+crystal: 0.30.0
 
 license: MIT

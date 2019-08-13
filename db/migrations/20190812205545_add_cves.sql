@@ -1,5 +1,4 @@
--- +micrate Up
-BEGIN;
+-- +migrate Up
 CREATE TABLE IF NOT EXISTS cves (
   id            VARCHAR(64) NOT NULL PRIMARY KEY,
   description   TEXT        NOT NULL,
@@ -9,9 +8,6 @@ CREATE TABLE IF NOT EXISTS cves (
   published     DATETIME    NOT NULL,
   last_modified DATETIME    NOT NULL
 );
-END;
 
--- +micrate Down
-BEGIN;
+-- +migrate Down
 DROP TABLE IF EXISTS cves;
-END;
