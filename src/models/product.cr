@@ -35,7 +35,7 @@ class Product < ApplicationRecord
     prefix = prefix + "%"
 
     results = [] of String
-    db.query("SELECT DISTINCT vendor FROM #{table_name} WHERE vendor LIKE ? ORDER BY vendor ASC", prefix) do |rs|
+    db.query("SELECT DISTINCT vendor FROM #{table_name} WHERE vendor LIKE ? ORDER BY vendor ASC LIMIT 100", prefix) do |rs|
       rs.each do
         results << rs.read(String)
       end
