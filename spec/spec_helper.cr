@@ -15,14 +15,8 @@ end
 
 # Migrates the test database
 def migrate_test_db
-  migrator = Migrate::Migrator.new(
-    db,
-    logger,
-    File.join("db", "migrations"), # Path to migrations
-    "version", # Version table name
-    "version" # Version column name
-  )
-  migrator.up
+  migrator = Migrate::Migrator.new(db, logger)
+  migrator.to_latest
 end
 
 migrate_test_db
