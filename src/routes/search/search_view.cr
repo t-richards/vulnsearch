@@ -3,5 +3,5 @@ struct Routes::Search::View
 
   def initialize(@results : Array(Cve)); end
 
-  template("search.html.ecr")
+  html_template("search.html.ecr")
 end

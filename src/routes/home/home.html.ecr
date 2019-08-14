@@ -11,8 +11,44 @@
     Start typing to find a vendor name
 
     <form action="/product">
-      <label for="vendor_prefix">Vendor</label>
-      <input id="vendor_prefix" name="vendor_prefix">
+      <input type="text" id="vendor" list="vendor-list" placeholder="e.g. oracle">
+      <datalist id="vendor-list"></datalist>
     </form>
   </div>
 </div>
+
+<script>
+(function() {
+  const vendorInput = document.getElementById('vendor');
+
+  async function handleInput(evt) {
+    const body = {
+      vendor: evt.target.value
+    };
+
+    const response = await fetch('/vendor', {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+
+    const newList = document.createElement('datalist');
+    newList.id = 'vendor-list';
+
+    data.vendors.forEach((vendor) => {
+      let opt = document.createElement('option');
+      opt.value = vendor;
+      opt.innerHTML = vendor;
+      newList.appendChild(opt);
+    });
+
+    const originalList = document.getElementById('vendor-list');
+    originalList.parentNode.replaceChild(newList, originalList);
+  };
+
+  vendorInput.addEventListener('input', handleInput);
+})();
+</script>
