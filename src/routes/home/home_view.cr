@@ -8,5 +8,5 @@ struct Routes::Home::View
     HTML.escape(@query || "")
   end
 
-  template("home.html.ecr")
+  html_template("home.html.ecr")
 end
