@@ -45,13 +45,9 @@
         };
     }
 
-    async function vendorCallback(vendor: string): TypeaheadData {
-        const body = {
-            vendor: vendor
-        };
-
+    async function getList(path: string, responseKey: string, body: object): TypeaheadData {
         try {
-            const response = await fetch("/vendor", {
+            const response = await fetch(path, {
                 method: "POST",
                 body: JSON.stringify(body),
                 headers: {
@@ -59,12 +55,20 @@
                 }
             });
             const jsonResponse = await response.json();
-            const data = jsonResponse.vendors as Array<string>;
+            const data = jsonResponse[responseKey] as Array<string>;
             return data;
         } catch (err) {
             console.error(err);
             return [];
         }
+    }
+
+    async function vendorCallback(vendor: string): TypeaheadData {
+        const body = {
+            vendor: vendor
+        };
+
+        return getList("/vendor", "vendors", body)
     }
 
     async function productCallback(product_name: string): TypeaheadData {
@@ -78,21 +82,7 @@
             name: product_name
         }
 
-        try {
-            const response = await fetch("/product", {
-                method: "POST",
-                body: JSON.stringify(body),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-            const jsonResponse = await response.json();
-            const data = jsonResponse.products as Array<string>;
-            return data;
-        } catch (err) {
-            console.error(err);
-            return [];
-        }
+        return getList("/product", "products", body);
     }
 
     wireTypeahead("vendor", "vendor-list", vendorCallback);
