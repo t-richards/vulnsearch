@@ -15,7 +15,7 @@ A fast, well-behaved replacement for other CVE search tools.
 
 ```bash
 # Install dependencies, compile application
-shards build --release
+shards build
 
 # Migrate database
 bin/vulnsearch --migrate

@@ -71,8 +71,8 @@ module Nvd
                 product.id = result.last_insert_id
               else
                 product.id = Product.find_by_parts(
-                  product_data.product_name,
                   vendor_data.vendor_name,
+                  product_data.product_name,
                   version_data.version_value
                 ).id
               end
