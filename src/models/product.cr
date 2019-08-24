@@ -34,14 +34,16 @@ class Product < ApplicationRecord
   def self.vendors(prefix) : Array(String)
     prefix = prefix + "%"
 
-    results = [] of String
-    db.query("SELECT DISTINCT vendor FROM #{table_name} WHERE vendor LIKE ? ORDER BY vendor ASC LIMIT 100", prefix) do |rs|
-      rs.each do
-        results << rs.read(String)
-      end
-    end
+    rs = db.query("SELECT DISTINCT vendor FROM #{table_name} WHERE vendor LIKE ? ORDER BY vendor ASC LIMIT 100", prefix)
+    flatten_resultset(rs)
+  end
 
-    results
+  # Searches for product names resultsby vendor and product name prefix
+  def self.search(name : String, vendor : String): Array(String)
+    name = "%" + name + "%"
+
+    rs = db.query("SELECT DISTINCT name FROM #{table_name} WHERE vendor = ? AND name LIKE ? ORDER BY name ASC LIMIT 100", vendor, name)
+    flatten_resultset(rs)
   end
 
   # Finds a product

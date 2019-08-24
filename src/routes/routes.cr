@@ -16,5 +16,6 @@ module Onyx::HTTP::View
 end
 
 require "./home/*"
+require "./product/*"
 require "./search/*"
 require "./vendor/*"

@@ -11,7 +11,7 @@ struct Routes::Vendor::Endpoint
     query = params.json.vendor.strip
     return View.new([] of String) if query.empty?
 
-    vendors = Product.vendors(query)
+    vendors = ::Product.vendors(query)
     return View.new(vendors)
   end
 end
