@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Search Results</h1>
+  <h1><%= @product.name %></h1>
 
   <table class="table table-striped">
     <tr>
@@ -8,7 +8,7 @@
       <th scope="col">CWE ID</th>
       <th scope="col">CVSS v3 Score</th>
     </tr>
-    <% @results.each do |cve| %>
+    <% @cves.each do |cve| %>
     <tr>
       <td><%= cve.id %></td>
       <td><%= cve.description %></td>

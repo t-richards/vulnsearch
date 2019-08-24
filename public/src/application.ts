@@ -1,10 +1,10 @@
 (function () {
-    type TypeaheadData = Promise<Array<string>>;
+    type TypeaheadResult = Promise<Array<string>>;
 
     function wireTypeahead(
         inputId: string,
         listId: string,
-        dataCallback: (value: string) => TypeaheadData
+        dataCallback: (value: string) => TypeaheadResult
     ): void {
         const input = document.getElementById(inputId);
         if (input === null) {
@@ -18,7 +18,7 @@
 
     function createInputHandler(
         listId: string,
-        dataCallback: (value: string) => TypeaheadData
+        dataCallback: (value: string) => TypeaheadResult
     ) {
         return async function (evt: Event): Promise<void> {
             if (evt.target === null) {
@@ -45,7 +45,7 @@
         };
     }
 
-    async function getList(path: string, responseKey: string, body: object): TypeaheadData {
+    async function getList(path: string, responseKey: string, body: object): TypeaheadResult {
         try {
             const response = await fetch(path, {
                 method: "POST",
@@ -63,7 +63,7 @@
         }
     }
 
-    async function vendorCallback(vendor: string): TypeaheadData {
+    async function vendorCallback(vendor: string): TypeaheadResult {
         const body = {
             vendor: vendor
         };
@@ -71,7 +71,7 @@
         return getList("/vendor", "vendors", body)
     }
 
-    async function productCallback(product_name: string): TypeaheadData {
+    async function productCallback(product: string): TypeaheadResult {
         const vendor = document.getElementById("vendor") as HTMLInputElement;
         if (vendor === null) {
             return [];
@@ -79,12 +79,33 @@
 
         const body = {
             vendor: vendor.value,
-            name: product_name
-        }
+            name: product
+        };
 
         return getList("/product", "products", body);
     }
 
+    async function versionCallback(version: string): TypeaheadResult {
+        const vendor = document.getElementById("vendor") as HTMLInputElement;
+        if (vendor === null) {
+            return [];
+        }
+
+        const product = document.getElementById("product") as HTMLInputElement;
+        if (product === null) {
+            return [];
+        }
+
+        const body = {
+            vendor: vendor.value,
+            name: product.value,
+            version: version
+        };
+
+        return getList("/version", "versions", body);
+    }
+
     wireTypeahead("vendor", "vendor-list", vendorCallback);
-    wireTypeahead("product", "product-list", productCallback)
+    wireTypeahead("product", "product-list", productCallback);
+    wireTypeahead("version", "version-list", versionCallback);
 })();

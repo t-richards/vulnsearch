@@ -32,22 +32,35 @@ class Product < ApplicationRecord
 
   # Vendors by prefix
   def self.vendors(prefix) : Array(String)
-    prefix = prefix + "%"
+    prefix += "%"
 
     rs = db.query("SELECT DISTINCT vendor FROM #{table_name} WHERE vendor LIKE ? ORDER BY vendor ASC LIMIT 100", prefix)
     flatten_resultset(rs)
   end
 
-  # Searches for product names resultsby vendor and product name prefix
-  def self.search(name : String, vendor : String): Array(String)
-    name = "%" + name + "%"
+  # Searches for product names by vendor
+  def self.names(name : String, vendor : String) : Array(String)
+    name += "%"
 
     rs = db.query("SELECT DISTINCT name FROM #{table_name} WHERE vendor = ? AND name LIKE ? ORDER BY name ASC LIMIT 100", vendor, name)
     flatten_resultset(rs)
   end
 
-  # Finds a product
-  def self.find(name : String, vendor : String, version : String)
-    from_rs(db.query("SELECT * FROM #{table_name} WHERE name = ? AND vendor = ? AND version = ?", name, vendor, version)).first
+  # Gets a list of valid product versions
+  def self.versions(name : String, vendor : String, version : String)
+    version += "%"
+
+    rs = db.query("SELECT DISTINCT version FROM #{table_name} WHERE vendor = ? AND name = ? AND VERSION LIKE ? ORDER BY version ASC LIMIT 100", vendor, name, version)
+    flatten_resultset(rs)
+  end
+
+  # Finds a product by key parts
+  def self.find_by_parts(vendor : String, name : String, version : String)
+    from_rs(db.query("SELECT * FROM #{table_name} WHERE vendor = ? AND name = ? AND version = ?", vendor, name, version)).first
+  end
+
+  # Finds a product by id
+  def self.find(id : Int32)
+    from_rs(db.query("SELECT * FROM #{table_name} WHERE id = ?", id)).first
   end
 end

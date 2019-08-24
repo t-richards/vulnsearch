@@ -1,9 +1,8 @@
-struct Routes::Product::View
+struct Routes::Product::ProductView
   include Onyx::HTTP::View
 
-  def initialize(@products : Array(String)); end
+  def initialize(@product : Product, @cves : Array(Cve))
+  end
 
-  json({
-    products: @products,
-  })
+  html_template("product.html.ecr")
 end

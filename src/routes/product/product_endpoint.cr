@@ -1,20 +1,19 @@
-struct Routes::Product::Endpoint
+struct Routes::Product::ProductEndpoint
   include Onyx::HTTP::Endpoint
 
   params do
-    json require: true do
-      type vendor : String
-      type name : String
+    path do
+      type id : Int32
     end
   end
 
   def call
-    products = ::Product.search(
-      vendor: params.json.vendor.strip,
-      name: params.json.name.strip
-    )
-    return View.new(products)
+    return "derp"
+    # return ProductView.new(
+    #   product: ::Product.find(params.path.id),
+    #   cves: Cve.find_by_product_id(params.path.id)
+    # )
   end
 end
 
-Onyx::HTTP.post "/product", Routes::Product::Endpoint
+Onyx::HTTP.get "/product/:id", Routes::Product::ProductEndpoint
