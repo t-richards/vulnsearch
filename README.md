@@ -6,36 +6,40 @@ A fast, well-behaved replacement for other CVE search tools.
 
 ## System requirements
 
-- [Crystal][crystal] `= 0.30.0`
+- [Crystal][crystal] `= 0.30.1`
 - [Shards][shards] `= 0.9.0`
 - [SQLite][sqlite] `~> 3.29.0`
+- [TypeScript][typescript] `~> 3.5.3`
 
 ## Getting started
 
 ```bash
 # Install dependencies, compile application
-$ shards build --release
+shards build
 
 # Migrate database
-$ bin/vulnsearch --migrate
+bin/vulnsearch --migrate
 
 # Download CVE data from NVD (`.json.gz` files); ~5 seconds if NVD is having a good day.
-$ bin/vulnsearch --fetch
+bin/vulnsearch --fetch
 
 # Load CVE data from `.json.gz` files into database; ~3 minutes on a fast machine.
-$ bin/vulnsearch --load
+bin/vulnsearch --load
 ```
 
-## Usage
+## Web app usage
 
 ```bash
-# Run search queries on database contents
-$ bin/vulnsearch -s <query>
+# Build assets
+cd public && tsc
+
+# Run server, visit http://localhost:5000/
+bin/vulnsearch --serve
 ```
 
 ## Contributing
 
-1. Fork it ( https://github.com/t-richards/vulnsearch/fork )
+1. Fork it ( <https://github.com/t-richards/vulnsearch/fork> )
 2. Create your feature branch ( `git checkout -b my-new-feature` )
 3. Commit your changes ( `git commit -am 'Add some feature'` )
 4. Push to the branch ( `git push origin my-new-feature` )
@@ -44,3 +48,4 @@ $ bin/vulnsearch -s <query>
 [crystal]: https://crystal-lang.org/
 [shards]: https://github.com/crystal-lang/shards
 [sqlite]: https://www.sqlite.org/
+[typescript]: https://www.typescriptlang.org/

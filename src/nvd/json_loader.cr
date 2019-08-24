@@ -70,9 +70,9 @@ module Nvd
               if result && result.rows_affected > 0
                 product.id = result.last_insert_id
               else
-                product.id = Product.find(
-                  product_data.product_name,
+                product.id = Product.find_by_parts(
                   vendor_data.vendor_name,
+                  product_data.product_name,
                   version_data.version_value
                 ).id
               end

@@ -31,12 +31,11 @@ opts = OptionParser.parse! do |parser|
     exit
   end
 
-  parser.on("-s QUERY", "--search QUERY", "Search for things") do |query|
-    Cve.search(query).each do |cve|
-      cve.to_json(STDOUT)
+  parser.on("-s", "--serve", "Run HTTP server") do |query|
+    Onyx::HTTP.listen do |handlers|
+      idx = handlers.index { |handler| handler.is_a?(Onyx::HTTP::Middleware::Rescuer::Error) } || 6
+      handlers.insert(idx, HTTP::StaticFileHandler.new("public", directory_listing: false))
     end
-    puts
-    exit
   end
 
   parser.on("-v", "--version", "Show version information") do

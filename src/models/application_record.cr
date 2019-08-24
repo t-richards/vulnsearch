@@ -18,4 +18,12 @@ abstract class ApplicationRecord
   def self.count
     db.query_one("SELECT COUNT(*) FROM #{table_name}", as: Int32)
   end
+
+  def self.flatten_resultset(resultset) : Array(String)
+    results = [] of String
+    resultset.each do
+      results << resultset.read(String)
+    end
+    results
+  end
 end
