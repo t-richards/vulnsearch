@@ -8,11 +8,10 @@ struct Routes::Product::ProductEndpoint
   end
 
   def call
-    return "derp"
-    # return ProductView.new(
-    #   product: ::Product.find(params.path.id),
-    #   cves: Cve.find_by_product_id(params.path.id)
-    # )
+    return ProductView.new(
+      product: ::Product.find(params.path.id),
+      cves: Cve.find_by_product_id(params.path.id)
+    )
   end
 end
 

@@ -1,6 +1,7 @@
 <div class="container">
-  <h1><%= @product.name %></h1>
+  <h1><%= @product.vendor %> <%= @product.name %> <%= @product.version %></h1>
 
+  <h3>CVE List</h3>
   <table class="table table-striped">
     <tr>
       <th scope="col">CVE ID</th>
@@ -17,4 +18,7 @@
     </tr>
     <% end %>
   </table>
+
+  <h3>CVEs by severity</h3>
+  TBD...
 </div>
