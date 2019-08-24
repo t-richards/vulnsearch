@@ -32,7 +32,10 @@ opts = OptionParser.parse! do |parser|
   end
 
   parser.on("-s", "--serve", "Run HTTP server") do |query|
-    Onyx::HTTP.listen
+    Onyx::HTTP.listen do |handlers|
+      idx = handlers.index { |handler| handler.is_a?(Onyx::HTTP::Middleware::Rescuer::Error) } || 6
+      handlers.insert(idx, HTTP::StaticFileHandler.new("public", directory_listing: false))
+    end
   end
 
   parser.on("-v", "--version", "Show version information") do

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "lib": ["dom", "es2018"],
+    "strict": true,
+    "alwaysStrict": true,
+    "esModuleInterop": true,
+    "inlineSourceMap": true
+  }
+}

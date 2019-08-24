@@ -8,47 +8,35 @@
       </div>
     </form>
 
-    Start typing to find a vendor name
-
-    <form action="/product">
-      <input type="text" id="vendor" list="vendor-list" placeholder="e.g. oracle">
-      <datalist id="vendor-list"></datalist>
-    </form>
+    <div class="mt-3">
+      <span class="small muted">Start typing to find...</span>
+      <form action="/product">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="vendor" >Vendor</label>
+              <input class="form-control" type="text" id="vendor" list="vendor-list" placeholder="apache">
+              <datalist id="vendor-list"></datalist>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="app">Application</label>
+              <input class="form-control" type="text" id="app" list="app-list" placeholder="http_server">
+              <datalist id="app-list"></datalist>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="version">Version</label>
+              <input class="form-control" type="text" id="version" list="version-list" placeholder="2.4">
+              <datalist id="version-list"></datalist>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
-<script>
-(function() {
-  const vendorInput = document.getElementById('vendor');
-
-  async function handleInput(evt) {
-    const body = {
-      vendor: evt.target.value
-    };
-
-    const response = await fetch('/vendor', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await response.json();
-
-    const newList = document.createElement('datalist');
-    newList.id = 'vendor-list';
-
-    data.vendors.forEach((vendor) => {
-      let opt = document.createElement('option');
-      opt.value = vendor;
-      opt.innerHTML = vendor;
-      newList.appendChild(opt);
-    });
-
-    const originalList = document.getElementById('vendor-list');
-    originalList.parentNode.replaceChild(newList, originalList);
-  };
-
-  vendorInput.addEventListener('input', handleInput);
-})();
-</script>
+<script src="/dist/application.js"></script>

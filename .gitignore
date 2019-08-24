@@ -14,3 +14,6 @@
 # Other runtime data
 /data/*
 !/data/.gitkeep
+
+# Compiled assets
+public/dist
