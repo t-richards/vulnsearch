@@ -56,7 +56,7 @@ class Product < ApplicationRecord
 
   # Finds a product by key parts
   def self.find_by_parts(vendor : String, name : String, version : String)
-    from_rs(db.query("SELECT * FROM #{table_name} WHERE vendor = ? AND name = ? AND version = ?", vendor, name, version)).first
+    from_rs(db.query("SELECT * FROM #{table_name} WHERE vendor = ? AND name = ? AND version = ? LIMIT 1", vendor, name, version)).first
   end
 
   # Finds a product by id
