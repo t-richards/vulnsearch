@@ -51,7 +51,7 @@ class Product < ApplicationRecord
     version += "%"
 
     rs = db.query("SELECT DISTINCT version FROM #{table_name} WHERE vendor = ? AND name = ? AND VERSION LIKE ? ORDER BY version ASC LIMIT 100", vendor, name, version)
-    flatten_resultset(rs)
+    flatten_resultset(rs).sort_by { |ver| ver.split(".") }
   end
 
   # Finds a product by key parts
@@ -61,6 +61,30 @@ class Product < ApplicationRecord
 
   # Finds a product by id
   def self.find(id : Int32)
-    from_rs(db.query("SELECT * FROM #{table_name} WHERE id = ?", id)).first
+    from_rs(db.query("SELECT * FROM #{table_name} WHERE id = ? LIMIT 1", id)).first
+  end
+
+  CVES_RANGE_QUERY = <<-EOT
+    SELECT COUNT(*) as count FROM cves
+    JOIN cves_products ON cves.id = cves_products.cve_id
+    WHERE cves_products.product_id = ?
+    AND cves.cvss_v3_score >= ?
+    AND cves.cvss_v3_score <= ?;
+  EOT
+
+  def critical_cve_count
+    db.query_one(CVES_RANGE_QUERY, id, 9.0, 10.0, as: Int32)
+  end
+
+  def high_cve_count
+    db.query_one(CVES_RANGE_QUERY, id, 7.0, 8.9, as: Int32)
+  end
+
+  def medium_cve_count
+    db.query_one(CVES_RANGE_QUERY, id, 4.0, 6.9, as: Int32)
+  end
+
+  def low_cve_count
+    db.query_one(CVES_RANGE_QUERY, id, 0.1, 3.9, as: Int32)
   end
 end

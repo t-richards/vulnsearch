@@ -4,7 +4,7 @@ struct Routes::Product::SearchEndpoint
   params do
     form require: true do
       type vendor : String
-      type product : String
+      type name : String
       type version : String
     end
   end
@@ -12,7 +12,7 @@ struct Routes::Product::SearchEndpoint
   def call
     product_id = ::Product.find_by_parts(
       vendor: params.form.vendor.strip,
-      name: params.form.product.strip,
+      name: params.form.name.strip,
       version: params.form.version.strip
     ).id
 

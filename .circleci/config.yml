@@ -43,7 +43,7 @@ jobs:
 
       - run:
           name: Build app
-          command: shards build --release
+          command: shards build
 
       - run:
           name: Run CLI functional test

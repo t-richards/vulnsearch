@@ -1,10 +1,29 @@
 (function () {
     type TypeaheadResult = Promise<Array<string>>;
+    type InputId = 'vendor' | 'name' | 'version';
+    interface ApplicationState {
+        vendor: string,
+        name: string,
+        version: string
+    }
 
+    const state: ApplicationState = {
+        vendor: '',
+        name: '',
+        version: '',
+    };
+
+    /**
+     * Wires up a typeahead "component" using a native HTML input and datalist element.
+     *
+     * @param inputId The id of the input element to listen for input events
+     * @param listId The associated datalist element to be updated
+     * @param dataCallback A callback function which is expected to return the set of datalist options
+     */
     function wireTypeahead(
-        inputId: string,
+        inputId: InputId,
         listId: string,
-        dataCallback: (value: string) => TypeaheadResult
+        dataCallback: () => TypeaheadResult
     ): void {
         const input = document.getElementById(inputId);
         if (input === null) {
@@ -12,20 +31,21 @@
             return;
         }
 
-        const handler = createInputHandler(listId, dataCallback);
-        input.addEventListener("input", handler);
+        input.addEventListener("input", createInputHandler(inputId, listId, dataCallback));
     }
 
     function createInputHandler(
+        inputId: InputId,
         listId: string,
-        dataCallback: (value: string) => TypeaheadResult
+        dataCallback: () => TypeaheadResult
     ) {
         return async function (evt: Event): Promise<void> {
             if (evt.target === null) {
                 return;
             }
             const target = evt.target as HTMLInputElement;
-            const data = await dataCallback(target.value);
+            state[inputId] = target.value;
+            const data = await dataCallback();
             const newList = document.createElement("datalist");
             newList.id = listId;
 
@@ -45,7 +65,7 @@
         };
     }
 
-    async function getList(path: string, responseKey: string, body: object): TypeaheadResult {
+    async function getResults(path: string, responseKey: string, body: object): TypeaheadResult {
         try {
             const response = await fetch(path, {
                 method: "POST",
@@ -63,49 +83,31 @@
         }
     }
 
-    async function vendorCallback(vendor: string): TypeaheadResult {
-        const body = {
-            vendor: vendor
-        };
-
-        return getList("/vendor", "vendors", body)
+    async function vendorCallback(): TypeaheadResult {
+        return getResults(
+            "/vendor",
+            "vendors",
+            { vendor: state.vendor }
+        );
     }
 
-    async function productCallback(product: string): TypeaheadResult {
-        const vendor = document.getElementById("vendor") as HTMLInputElement;
-        if (vendor === null) {
-            return [];
-        }
-
-        const body = {
-            vendor: vendor.value,
-            name: product
-        };
-
-        return getList("/product", "products", body);
+    async function nameCallback(): TypeaheadResult {
+        return getResults(
+            "/product",
+            "products",
+            { vendor: state.vendor, name: state.name }
+        );
     }
 
-    async function versionCallback(version: string): TypeaheadResult {
-        const vendor = document.getElementById("vendor") as HTMLInputElement;
-        if (vendor === null) {
-            return [];
-        }
-
-        const product = document.getElementById("product") as HTMLInputElement;
-        if (product === null) {
-            return [];
-        }
-
-        const body = {
-            vendor: vendor.value,
-            name: product.value,
-            version: version
-        };
-
-        return getList("/version", "versions", body);
+    async function versionCallback(): TypeaheadResult {
+        return getResults(
+            "/version",
+            "versions",
+            { vendor: state.vendor, name: state.name, version: state.version }
+        );
     }
 
     wireTypeahead("vendor", "vendor-list", vendorCallback);
-    wireTypeahead("product", "product-list", productCallback);
+    wireTypeahead("name", "name-list", nameCallback);
     wireTypeahead("version", "version-list", versionCallback);
 })();
