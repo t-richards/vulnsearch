@@ -1,17 +1,27 @@
 (function () {
     type TypeaheadResult = Promise<Array<string>>;
-    type InputId = 'vendor' | 'name' | 'version';
+    type InputId = "vendor" | "name" | "version";
     interface ApplicationState {
         vendor: string,
         name: string,
         version: string
     }
 
+    // Fetch values from inputs to handle back-button interactions
     const state: ApplicationState = {
-        vendor: '',
-        name: '',
-        version: '',
+        vendor: getInputValue("vendor"),
+        name: getInputValue("name"),
+        version: getInputValue("version")
     };
+
+    function getInputValue(id: InputId): string {
+        const el = document.getElementById(id) as HTMLInputElement | null;
+        if (el === null) {
+            return "";
+        }
+
+        return el.value;
+    }
 
     /**
      * Wires up a typeahead "component" using a native HTML input and datalist element.
