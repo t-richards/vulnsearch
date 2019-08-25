@@ -1,15 +1,19 @@
 {
   "compilerOptions": {
+    // Core config options
     "target": "es2018",
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./src",
     "lib": ["dom", "es2018"],
-    "strict": true,
+
+    // Other flags
     "alwaysStrict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
     "esModuleInterop": true,
-    "inlineSourceMap": true
+    "inlineSourceMap": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "strict": true,
+    "strictNullChecks": true
   }
 }

@@ -13,6 +13,13 @@
         version: '',
     };
 
+    /**
+     * Wires up a typeahead "component" using a native HTML input and datalist element.
+     *
+     * @param inputId The id of the input element to listen for input events
+     * @param listId The associated datalist element to be updated
+     * @param dataCallback A callback function which is expected to return the set of datalist options
+     */
     function wireTypeahead(
         inputId: InputId,
         listId: string,
@@ -24,8 +31,7 @@
             return;
         }
 
-        const handler = createInputHandler(inputId, listId, dataCallback);
-        input.addEventListener("input", handler);
+        input.addEventListener("input", createInputHandler(inputId, listId, dataCallback));
     }
 
     function createInputHandler(
