@@ -40,12 +40,18 @@
         dataCallback: () => TypeaheadResult
     ) {
         return async function (evt: Event): Promise<void> {
+            const markerStart = "replace-list-start";
+            const markerEnd = "replace-list-end";
+
             if (evt.target === null) {
+                console.error("Event has no target!");
                 return;
             }
             const target = evt.target as HTMLInputElement;
             state[inputId] = target.value;
             const data = await dataCallback();
+
+            performance.mark(markerStart);
             const newList = document.createElement("datalist");
             newList.id = listId;
 
@@ -62,6 +68,13 @@
                 return;
             }
             originalList.parentNode.replaceChild(newList, originalList);
+            performance.mark(markerEnd);
+
+            // Log perf
+            performance.measure("Typeahead list replaced", markerStart, markerEnd);
+            console.log(performance.getEntriesByType("measure")[0]);
+            performance.clearMarks();
+            performance.clearMeasures();
         };
     }
 
