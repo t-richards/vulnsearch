@@ -1,8 +1,7 @@
 <div class="container">
-  <h1><%= @product.vendor %> <%= @product.name %> <%= @product.version %></h1>
-  <!-- cve count here -->
+  <h1><%= @full_name %></h1>
 
-  <h3>CVE List</h3>
+  <h3>CVE List (<%= @cves.size %>)</h3>
   <table class="table table-striped">
     <tr>
       <th scope="col">CVE ID</th>
@@ -20,7 +19,9 @@
     <% end %>
   </table>
 
-  <h3>CVEs by severity</h3>
+  <hr class="my-4">
+
+  <h3><%= @full_name %> CVEs by severity</h3>
   <table class="table table-striped">
     <tr>
       <th scope="col">Severity</th>

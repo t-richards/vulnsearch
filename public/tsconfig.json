@@ -2,7 +2,7 @@
   "compilerOptions": {
     // Core config options
     "target": "es2018",
-    "module": "commonjs",
+    "module": "esnext",
     "outDir": "./dist",
     "rootDir": "./src",
     "lib": ["dom", "es2018"],
@@ -10,7 +10,7 @@
     // Other flags
     "alwaysStrict": true,
     "esModuleInterop": true,
-    "inlineSourceMap": true,
+    "sourceMap": true,
     "noImplicitAny": true,
     "removeComments": true,
     "strict": true,
