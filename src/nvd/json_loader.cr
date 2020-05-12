@@ -11,7 +11,7 @@ module Nvd
 
     def load_all_files : Int32
       if @data_files.size < 1
-        logger.error "No data files found! Fetch data using the -f flag."
+        Log.error { "No data files found! Fetch data using the -f flag." }
         return 1
       end
 
@@ -19,11 +19,11 @@ module Nvd
       db.exec("PRAGMA journal_mode = memory")
 
       @data_files.each do |file|
-        logger.info "Loading data from #{file}..."
+        Log.info { "Loading data from #{file}..." }
         elapsed = Time.measure do
           load_gz_file(file)
         end
-        logger.info "Loaded #{file} in #{elapsed}."
+        Log.info { "Loaded #{file} in #{elapsed}." }
       end
 
       0

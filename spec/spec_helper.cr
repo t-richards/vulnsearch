@@ -13,9 +13,6 @@ def database_cleaner
   db.exec("DELETE FROM cves_products")
 end
 
-# Migrates the test database
-# Migrate::Migrator.new(db, logger).to_latest
-
 # Clean database before specs
 Spec.before_each do
   database_cleaner

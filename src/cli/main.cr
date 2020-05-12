@@ -1,7 +1,4 @@
-require "logger"
 require "option_parser"
-
-# migrator = Migrate::Migrator.new(db, logger)
 
 opts = OptionParser.parse! do |parser|
   parser.banner = "Usage: #{PROGRAM_NAME} <flags>"
@@ -28,7 +25,7 @@ opts = OptionParser.parse! do |parser|
   end
 
   parser.on("-m", "--migrate", "Migrate the database to the latest version") do
-    # migrator.to_latest
+    Vulnsearch::Db.migrate
     exit
   end
 

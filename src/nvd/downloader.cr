@@ -1,6 +1,8 @@
 require "http/client"
 
 module Nvd
+  Log = ::Log.for("nvd")
+
   class Downloader
     def initialize
       @http_client = HTTP::Client.new(Nvd::BASE_URI)
@@ -14,11 +16,11 @@ module Nvd
     def download(year)
       out_path = File.join(Vulnsearch::DATA_DIR, "nvdcve-1.0-#{year}.json.gz")
       unless needs_download?(out_path, year)
-        logger.info "Already downloaded #{out_path}"
+        Log.info { "Already downloaded #{out_path}" }
         return true
       end
 
-      logger.info "Downloading #{year} feed..."
+      Log.info { "Downloading #{year} feed..." }
 
       start_time = Time.monotonic
       response = get("/feeds/json/cve/1.0/nvdcve-1.0-#{year}.json.gz")
@@ -31,11 +33,11 @@ module Nvd
         end
         end_time = Time.monotonic
         elapsed = end_time - start_time
-        logger.info "Successfully downloaded #{out_path} in #{elapsed}"
+        Log.info { "Successfully downloaded #{out_path} in #{elapsed}" }
         return true
       end
 
-      logger.error "Download failed for #{year}: #{response.status_code}"
+      Log.error { "Download failed for #{year}: #{response.status_code}" }
       return false
     end
 
@@ -51,7 +53,7 @@ module Nvd
       filetime = File.info(path).modification_time
       metatime = meta.last_modified
       if metatime > filetime
-        logger.info "#{year} is out-of-date: #{metatime} > #{filetime}"
+        Log.info { "#{year} is out-of-date: #{metatime} > #{filetime}" }
         return true
       end
 
