@@ -1,4 +1,4 @@
-(function () {
+{
     type TypeaheadResult = Promise<Array<string>>;
     type InputId = "vendor" | "name" | "version";
     interface ApplicationState {
@@ -41,6 +41,7 @@
             return;
         }
 
+        input.addEventListener("change", createInputHandler(inputId, listId, dataCallback));
         input.addEventListener("input", createInputHandler(inputId, listId, dataCallback));
     }
 
@@ -133,4 +134,4 @@
     wireTypeahead("vendor", "vendor-list", vendorCallback);
     wireTypeahead("name", "name-list", nameCallback);
     wireTypeahead("version", "version-list", versionCallback);
-})();
+}

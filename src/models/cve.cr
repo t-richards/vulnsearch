@@ -25,8 +25,8 @@ class Cve < ApplicationRecord
     @cwe_id = ""
     @cvss_v2_score = 0.0_f64
     @cvss_v3_score = 0.0_f64
-    @published = Time.new(1970, 1, 1)
-    @last_modified = Time.new(1970, 1, 1)
+    @published = Time::UNIX_EPOCH
+    @last_modified = Time::UNIX_EPOCH
   end
 
   def initialize(item : Vulnsearch::Json::CveItem)

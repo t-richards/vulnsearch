@@ -59,7 +59,7 @@ module Nvd
     end
 
     def download_all
-      final_year = Time.new.year
+      final_year = Time.utc.year
 
       (2002..final_year - 1).each do |year|
         download(year)

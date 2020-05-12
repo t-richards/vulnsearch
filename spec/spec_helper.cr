@@ -14,7 +14,7 @@ def database_cleaner
 end
 
 # Migrates the test database
-Migrate::Migrator.new(db, logger).to_latest
+# Migrate::Migrator.new(db, logger).to_latest
 
 # Clean database before specs
 Spec.before_each do

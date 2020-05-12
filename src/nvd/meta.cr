@@ -1,7 +1,7 @@
 module Nvd
   class Meta
     property year : Int32 = 0
-    property last_modified : Time = Time.new(1970, 1, 1)
+    property last_modified : Time = Time::UNIX_EPOCH
     property gz_size : Int32 = 0
     property sha256 : String = ""
 

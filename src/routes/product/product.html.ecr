@@ -12,7 +12,7 @@
     <% @cves.each do |cve| %>
     <tr>
       <td><%= cve.id %></td>
-      <td><%= cve.description %></td>
+      <td><%= HTML.escape(cve.description) %></td>
       <td><%= cve.cwe_id %></td>
       <td><%= cve.cvss_v3_score %></td>
     </tr>

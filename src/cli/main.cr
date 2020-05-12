@@ -1,10 +1,16 @@
 require "logger"
 require "option_parser"
 
-migrator = Migrate::Migrator.new(db, logger)
+# migrator = Migrate::Migrator.new(db, logger)
 
 opts = OptionParser.parse! do |parser|
   parser.banner = "Usage: #{PROGRAM_NAME} <flags>"
+
+  parser.on("-c", "--compile", "Compile assets") do
+    compile_scss("assets/css/application.scss")
+    Process.run("tsc", ["-b", "public"])
+    exit
+  end
 
   parser.on("-f", "--fetch", "Fetch the latest data from NVD") do
     dd = Nvd::Downloader.new
@@ -22,7 +28,7 @@ opts = OptionParser.parse! do |parser|
   end
 
   parser.on("-m", "--migrate", "Migrate the database to the latest version") do
-    migrator.to_latest
+    # migrator.to_latest
     exit
   end
 

@@ -26,8 +26,8 @@ bin/vulnsearch --fetch
 # Load CVE data from `.json.gz` files into database; ~5 minutes on a fast machine.
 bin/vulnsearch --load
 
-# Build assets (optional, but recommended)
-tsc -b public
+# Build assets
+bin/vulnsearch --compile
 ```
 
 ## Run the app
