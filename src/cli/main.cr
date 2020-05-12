@@ -5,7 +5,7 @@ opts = OptionParser.parse! do |parser|
 
   parser.on("-c", "--compile", "Compile assets") do
     compile_scss("assets/css/application.scss")
-    Process.run("tsc", ["-b", "public"])
+    Process.run("./node_modules/.bin/tsc", ["-b", "public"])
     exit
   end
 

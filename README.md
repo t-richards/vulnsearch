@@ -6,15 +6,17 @@ A fast, well-behaved replacement for other CVE search tools.
 
 ## System requirements
 
-- [Crystal][crystal] `= 0.30.1`
-- [Shards][shards] `= 0.9.0`
-- [SQLite][sqlite] `~> 3.29.0`
-- [TypeScript][typescript] `~> 3.5.3`
+- [Crystal][crystal] `= 0.34.0`
+- [Shards][shards] `= 0.10.0`
+- [SQLite][sqlite] `~> 3.31`
+- Node.js `~> 14.2`
+- Yarn `~> 1.22`
 
 ## Getting started
 
 ```bash
 # Install dependencies, compile application
+yarn install
 shards build
 
 # Migrate database
@@ -51,4 +53,3 @@ bin/vulnsearch --help
 [crystal]: https://crystal-lang.org/
 [shards]: https://github.com/crystal-lang/shards
 [sqlite]: https://www.sqlite.org/
-[typescript]: https://www.typescriptlang.org/

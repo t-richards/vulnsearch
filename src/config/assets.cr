@@ -4,7 +4,7 @@ def compile_scss(path)
   css = Sass.compile_file(
     path,
     include_path: "node_modules/bootstrap/scss",
-    output_style: Sass::OutputStyle::EXPANDED,
+    output_style: Sass::OutputStyle::COMPRESSED,
     precision: 8,
     output_path: "/dist",
     source_map_file: "/dist/application.css.map"
