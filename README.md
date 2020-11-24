@@ -6,17 +6,14 @@ A fast, well-behaved replacement for other CVE search tools.
 
 ## System requirements
 
-- [Crystal][crystal] `= 0.34.0`
-- [Shards][shards] `= 0.10.0`
-- [SQLite][sqlite] `~> 3.31`
-- Node.js `~> 14.2`
-- Yarn `~> 1.22`
+- [Crystal][crystal] `= 0.35.1`
+- [Shards][shards] `= 0.12.0`
+- [SQLite][sqlite] `~> 3.33`
 
 ## Getting started
 
 ```bash
 # Install dependencies, compile application
-yarn install
 shards build
 
 # Migrate database
@@ -27,9 +24,6 @@ bin/vulnsearch --fetch
 
 # Load CVE data from `.json.gz` files into database; ~5 minutes on a fast machine.
 bin/vulnsearch --load
-
-# Build assets
-bin/vulnsearch --compile
 ```
 
 ## Run the app

@@ -1,7 +1,7 @@
 <div class="container">
-  <h1><%= @full_name %></h1>
+  <h1><%= full_name %></h1>
 
-  <h3>CVE List (<%= @cves.size %>)</h3>
+  <h3>CVE List (<%= cves.size %>)</h3>
   <table class="table table-striped">
     <tr>
       <th scope="col">CVE ID</th>
@@ -9,7 +9,7 @@
       <th scope="col">CWE ID</th>
       <th scope="col">CVSS v3 Score</th>
     </tr>
-    <% @cves.each do |cve| %>
+    <% cves.each do |cve| %>
     <tr>
       <td><%= cve.id %></td>
       <td><%= HTML.escape(cve.description) %></td>
@@ -21,7 +21,7 @@
 
   <hr class="my-4">
 
-  <h3><%= @full_name %> CVEs by severity</h3>
+  <h3><%= full_name %> CVEs by severity</h3>
   <table class="table table-striped">
     <tr>
       <th scope="col">Severity</th>
@@ -31,28 +31,28 @@
     <tr>
       <td>Critical</td>
       <td class="text-right">9.0 - 10.0</td>
-      <td class="text-right"><%= @product.critical_cve_count %></td>
+      <td class="text-right"><%= product.critical_cve_count %></td>
     </tr>
     <tr>
       <td>High</td>
       <td class="text-right">7.0 - 8.9</td>
-      <td class="text-right"><%= @product.high_cve_count %></td>
+      <td class="text-right"><%= product.high_cve_count %></td>
     </tr>
     <tr>
       <td>Medium</td>
       <td class="text-right">4.0 - 6.9</td>
-      <td class="text-right"><%= @product.medium_cve_count %></td>
+      <td class="text-right"><%= product.medium_cve_count %></td>
     </tr>
     <tr>
       <td>Low</td>
       <td class="text-right">0.1 - 3.9</td>
-      <td class="text-right"><%= @product.low_cve_count %></td>
+      <td class="text-right"><%= product.low_cve_count %></td>
     </tr>
     <tr><td colspan="3">&nbsp;</td></tr>
     <tr>
       <td class="font-weight-bold">Total</td>
       <td class="text-right"></td>
-      <td class="text-right"><%= @cves.size %></td>
+      <td class="text-right"><%= cves.size %></td>
     </tr>
   </table>
 </div>

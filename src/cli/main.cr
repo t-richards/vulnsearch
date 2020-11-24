@@ -3,12 +3,6 @@ require "option_parser"
 opts = OptionParser.parse! do |parser|
   parser.banner = "Usage: #{PROGRAM_NAME} <flags>"
 
-  parser.on("-c", "--compile", "Compile assets") do
-    compile_scss("assets/css/application.scss")
-    Process.run("./node_modules/.bin/tsc", ["-b", "public"])
-    exit
-  end
-
   parser.on("-f", "--fetch", "Fetch the latest data from NVD") do
     dd = Nvd::Downloader.new
     exit dd.download_all
@@ -35,10 +29,7 @@ opts = OptionParser.parse! do |parser|
   end
 
   parser.on("-s", "--serve", "Run HTTP server") do |query|
-    Onyx::HTTP.listen do |handlers|
-      idx = handlers.index { |handler| handler.is_a?(Onyx::HTTP::Middleware::Rescuer::Error) } || 6
-      handlers.insert(idx, HTTP::StaticFileHandler.new("public", directory_listing: false))
-    end
+    Kemal.run
   end
 
   parser.on("-v", "--version", "Show version information") do

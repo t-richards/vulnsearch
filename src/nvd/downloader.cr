@@ -14,7 +14,7 @@ module Nvd
     end
 
     def download(year)
-      out_path = File.join(Vulnsearch::DATA_DIR, "nvdcve-1.0-#{year}.json.gz")
+      out_path = File.join(Vulnsearch::DATA_DIR, "nvdcve-#{VERSION}-#{year}.json.gz")
       unless needs_download?(out_path, year)
         Log.info { "Already downloaded #{out_path}" }
         return true
@@ -23,7 +23,7 @@ module Nvd
       Log.info { "Downloading #{year} feed..." }
 
       start_time = Time.monotonic
-      response = get("/feeds/json/cve/1.0/nvdcve-1.0-#{year}.json.gz")
+      response = get("/feeds/json/cve/#{VERSION}/nvdcve-#{VERSION}-#{year}.json.gz")
       if response.success?
         File.write(out_path, response.body)
         last_modified = response.headers["Last-Modified"]

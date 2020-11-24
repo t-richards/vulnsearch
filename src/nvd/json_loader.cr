@@ -1,4 +1,4 @@
-require "zlib"
+require "compress/gzip"
 
 module Nvd
   class JsonLoader
@@ -32,7 +32,7 @@ module Nvd
     # Loads a compressed data file
     def load_gz_file(nvdcve_file)
       File.open(nvdcve_file, "r") do |file|
-        Gzip::Reader.open(file) do |inflate|
+        Compress::Gzip::Reader.open(file) do |inflate|
           core_parse_stuff(inflate)
         end
       end

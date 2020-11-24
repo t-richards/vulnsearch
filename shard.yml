@@ -9,18 +9,12 @@ targets:
     main: src/vulnsearch.cr
 
 dependencies:
+  kemal:
+    github: kemalcr/kemal
+    branch: master
   sqlite3:
     github: crystal-lang/crystal-sqlite3
     version: ~> 0.16
-  onyx:
-    github: onyxframework/onyx
-    version: ~> 0.5
-  onyx-http:
-    github: onyxframework/http
-    version: ~> 0.8
-  sass:
-    github: straight-shoota/sass.cr
-    version: ~> 0.5
 
 crystal: 0.34.0
 
