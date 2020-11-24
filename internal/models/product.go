@@ -2,9 +2,10 @@ package models
 
 import "gorm.io/gorm"
 
-// Product is a thingy
+// Product is piece of software in which we are interested
 type Product struct {
 	gorm.Model
-	Code  string
-	Price uint
+	Name    string
+	Vendor  string
+	Version string
 }

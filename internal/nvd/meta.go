@@ -22,9 +22,9 @@ type Meta struct {
 }
 
 // DownloadMeta fetches the latest meta file from NVD and caches it
-func DownloadMeta(year int) Meta {
-	metaPath := metaPath(year)
-	response, err := client.Get(metaPath)
+func DownloadMeta(year int) (*Meta, error) {
+	url := metaURL(year)
+	response, err := client.Get(url)
 	if err != nil {
 		log.Fatalf("Failed to fetch NVD meta status: %v", err)
 	}
@@ -32,10 +32,10 @@ func DownloadMeta(year int) Meta {
 
 	meta, err := DecodeMeta(response.Body)
 	if err != nil {
-		log.Fatalf("Failed to parse NVD metadata: %v", err)
+		return nil, fmt.Errorf("Failed to parse NVD metadata: %v", err)
 	}
 
-	return *meta
+	return meta, nil
 }
 
 // DecodeMeta takes data from the reader and returns a meta object
@@ -75,6 +75,6 @@ func DecodeMeta(r io.Reader) (*Meta, error) {
 	return meta, nil
 }
 
-func metaPath(year int) string {
+func metaURL(year int) string {
 	return fmt.Sprintf("%v/feeds/json/cve/%v/nvdcve-%v-%v.meta", BaseURI, Version, Version, year)
 }

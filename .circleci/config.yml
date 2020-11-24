@@ -2,49 +2,49 @@ version: 2
 jobs:
   build:
     docker:
-      - image: crystallang/crystal
+      - image: golang:1.15-alpine
+        environment:
+          GOFLAGS: -trimpath -mod=readonly -modcacherw
     steps:
+      - run:
+          name: Install system deps
+          command: apk add --no-cache --update gcc git make musl-dev sqlite
+
       - checkout
 
       - run:
-          name: Install system deps
-          command: apt-get update && apt-get -f install libsqlite3-dev
-
-      - run:
-          name: Crystal version
-          command: crystal --version
-
-      - run:
-          name: Shards version
-          command: shards --version
+          name: Go version
+          command: go version
 
       - restore_cache:
           keys:
-            - crystal-v1-{{ checksum "shard.lock" }}
-            - crystal-v1-
+            - golang-deps-v1
 
       - run:
           name: Install dependencies
-          command: shards install
+          command: make deps
 
       - save_cache:
-          key: crystal-v1-{{ checksum "shard.lock" }}
+          key: golang-deps-v1
           paths:
-            - ~/.cache/shards
-            - lib
+            - "/go/pkg"
+
+      - run:
+          name: Run tests
+          command: make test
 
       - run:
           name: Lint code
-          command: crystal tool format --check
+          command: make lint
 
       - run:
-          name: Run unit / integration tests
-          command: crystal spec
-
-      - run:
-          name: Build app
-          command: shards build
+          name: Build binary
+          command: make build
 
       - run:
           name: Run CLI functional test
-          command: bin/vulnsearch --version
+          command: vulnsearch --version
+
+      - store_artifacts:
+          path: coverage
+          destination: coverage
