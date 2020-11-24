@@ -1,11 +1,5 @@
 # Compiled binaries
-/bin/*
-
-# Generated documentation
-/docs/
-
-# Third-party libs
-/lib/
+vulnsearch
 
 # Database files
 *.sqlite3
