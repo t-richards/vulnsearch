@@ -6,4 +6,4 @@ import (
 	"net/http"
 )
 
-var publicFiles http.Handler = http.FileServer(Assets)
+var PublicFiles http.Handler = http.FileServer(Assets)

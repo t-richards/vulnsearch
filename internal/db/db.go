@@ -2,19 +2,13 @@ package db
 
 import (
 	"flag"
-	"log"
-
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
 )
-
-var connection *gorm.DB
 
 // Database constants
 const (
-	devDb  = "db/vulnsearch_dev.sqlite3"
-	testDb = "db/vulnsearch_test.sqlite3"
-	schema = `
+	DevDb  = "db/vulnsearch_dev.sqlite3"
+	TestDb = "db/vulnsearch_test.sqlite3"
+	Schema = `
 	CREATE TABLE IF NOT EXISTS cves (
 		id            VARCHAR(64) NOT NULL PRIMARY KEY,
 		description   TEXT        NOT NULL,
@@ -50,51 +44,11 @@ const (
 	`
 )
 
-func initConnection() {
-	if connection != nil {
-		return
-	}
-
-	var err error
-	connection, err = gorm.Open(sqlite.Open(whichDb()), &gorm.Config{})
-	if err != nil {
-		log.Fatalf("Failed to connect to database: %v", err)
-	}
-}
-
-func whichDb() string {
+// Which tells you which database to use :)
+func Which() string {
 	if flag.Lookup("test.v") != nil {
-		return testDb
+		return TestDb
 	}
 
-	return devDb
-}
-
-// GetConnection returns the configured database connection
-func GetConnection() *gorm.DB {
-	initConnection()
-	return connection
-}
-
-// Migrate attempts to apply the schema to the database
-func Migrate() {
-	initConnection()
-	connection.Exec(schema)
-}
-
-// FastMode optimizes for speed at the expense of safety
-func FastMode() {
-	initConnection()
-	connection.Exec("PRAGMA synchronous = OFF")
-	connection.Exec("PRAGMA journal_mode = memory")
-}
-
-// Optimize cleans up the database after an import
-func Optimize() {
-	initConnection()
-	log.Printf("Optimizing database...")
-	FastMode()
-	connection.Exec("PRAGMA optimize")
-	connection.Exec("VACUUM")
-	log.Printf("Done.")
+	return DevDb
 }

@@ -8,34 +8,38 @@ A fast, well-behaved replacement for other CVE search tools.
 
 - [Go][golang] `~> 1.15.5`
 - [SQLite][sqlite] `~> 3.33`
+- Make
 
 ## Getting started
 
 ```bash
-# Install dependencies, compile application
-go build
+# Install dependencies
+make deps
+
+# Compile application
+make
 
 # Migrate database
-vulnsearch migrate
+./vulnsearch migrate
 
 # Download CVE data from NVD (`.json.gz` files); ~5 seconds if NVD is having a good day.
-vulnsearch fetch
+./vulnsearch fetch
 
 # Load CVE data from `.json.gz` files into database; ~5 minutes on a fast machine.
-vulnsearch load
+./vulnsearch load
 
 # Optimize the database after import (optional; but consider running this once)
-vulnsearch optimize
+./vulnsearch optimize
 ```
 
 ## Run the app
 
 ```bash
 # Run server, visit http://localhost:5000/
-vulnsearch serve
+./vulnsearch serve
 
 # Show valid subcommands
-vulnsearch
+./vulnsearch
 ```
 
 ## Contributing

@@ -7,21 +7,24 @@ import (
 	"log"
 	"os"
 	"time"
-	"vulnsearch/internal/db"
+	"vulnsearch/internal/app"
 	"vulnsearch/internal/models"
 
+	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
 // LoadFiles extracts compressed JSON archives and loads them into the DB
 func LoadFiles() {
-	db.FastMode()
+	// TODO(tom): Yuck
+	app := app.New()
+	app.FastMode()
 	currentYear := time.Now().Year()
 
 	for year := EarliestYear; year <= currentYear; year++ {
 		path := ArchivePath(year)
 		archive := loadFile(path)
-		upsert(year, archive)
+		upsert(app.DB, year, archive)
 	}
 }
 
@@ -52,14 +55,13 @@ func loadFile(path string) Archive {
 	return archive
 }
 
-func upsert(year int, archive Archive) {
-	conn := db.GetConnection()
+func upsert(db *gorm.DB, year int, archive Archive) {
 	log.Printf("Processing %v archive...", year)
 
 	for _, item := range archive.CveItems {
 		cve := newCveFromCveItem(item)
 
-		conn.Clauses(clause.OnConflict{UpdateAll: true}).Create(&cve)
+		db.Clauses(clause.OnConflict{UpdateAll: true}).Create(&cve)
 	}
 }
 

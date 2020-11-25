@@ -8,4 +8,4 @@ import (
 	"github.com/shurcooL/httpgzip"
 )
 
-var publicFiles http.Handler = httpgzip.FileServer(Assets, httpgzip.FileServerOptions{})
+var PublicFiles http.Handler = httpgzip.FileServer(Assets, httpgzip.FileServerOptions{})

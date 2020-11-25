@@ -5,7 +5,8 @@ assets:
 	cd public && tsc
 
 .PHONY: build
-build: clean generate
+build: clean
+	$(MAKE) generate
 	go build
 
 .PHONY: clean
