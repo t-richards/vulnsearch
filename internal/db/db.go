@@ -1,6 +1,7 @@
 package db
 
 import (
+	"flag"
 	"log"
 
 	"gorm.io/driver/sqlite"
@@ -49,32 +50,48 @@ const (
 	`
 )
 
-func init() {
+func initConnection() {
+	if connection != nil {
+		return
+	}
+
 	var err error
-	connection, err = gorm.Open(sqlite.Open(devDb), &gorm.Config{})
+	connection, err = gorm.Open(sqlite.Open(whichDb()), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 }
 
+func whichDb() string {
+	if flag.Lookup("test.v") != nil {
+		return testDb
+	}
+
+	return devDb
+}
+
 // GetConnection returns the configured database connection
 func GetConnection() *gorm.DB {
+	initConnection()
 	return connection
 }
 
 // Migrate attempts to apply the schema to the database
 func Migrate() {
+	initConnection()
 	connection.Exec(schema)
 }
 
 // FastMode optimizes for speed at the expense of safety
 func FastMode() {
+	initConnection()
 	connection.Exec("PRAGMA synchronous = OFF")
 	connection.Exec("PRAGMA journal_mode = memory")
 }
 
 // Optimize cleans up the database after an import
 func Optimize() {
+	initConnection()
 	log.Printf("Optimizing database...")
 	FastMode()
 	connection.Exec("PRAGMA optimize")

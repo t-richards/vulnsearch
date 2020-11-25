@@ -8,3 +8,7 @@ vulnsearch
 # Other runtime data
 /data/*
 !/data/.gitkeep
+
+# Test coverage
+/coverage/*
+!/coverage/.gitkeep
