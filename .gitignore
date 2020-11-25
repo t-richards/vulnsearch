@@ -5,6 +5,9 @@ vulnsearch
 *.sqlite3
 *.sqlite3-journal
 
+# Generated code
+internal/webserver/assets-prod.go
+
 # Other runtime data
 /data/*
 !/data/.gitkeep

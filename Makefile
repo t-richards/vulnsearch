@@ -5,11 +5,12 @@ assets:
 	cd public && tsc
 
 .PHONY: build
-build: clean
+build: clean generate
 	go build
 
 .PHONY: clean
 clean:
+	rm -f internal/webserver/assets-prod.go
 	rm -f coverage/*
 	rm -f vulnsearch
 
@@ -19,6 +20,7 @@ deps:
 	go mod verify
 
 .PHONY: generate
+generate:
 	go generate
 
 .PHONY: lint
