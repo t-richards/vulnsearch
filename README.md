@@ -23,6 +23,9 @@ vulnsearch fetch
 
 # Load CVE data from `.json.gz` files into database; ~5 minutes on a fast machine.
 vulnsearch load
+
+# Optimize the database after import (optional; but consider running this once)
+vulnsearch optimize
 ```
 
 ## Run the app

@@ -57,7 +57,27 @@ func init() {
 	}
 }
 
+// GetConnection returns the configured database connection
+func GetConnection() *gorm.DB {
+	return connection
+}
+
 // Migrate attempts to apply the schema to the database
 func Migrate() {
 	connection.Exec(schema)
+}
+
+// FastMode optimizes for speed at the expense of safety
+func FastMode() {
+	connection.Exec("PRAGMA synchronous = OFF")
+	connection.Exec("PRAGMA journal_mode = memory")
+}
+
+// Optimize cleans up the database after an import
+func Optimize() {
+	log.Printf("Optimizing database...")
+	FastMode()
+	connection.Exec("PRAGMA optimize")
+	connection.Exec("VACUUM")
+	log.Printf("Done.")
 }

@@ -15,6 +15,7 @@ func main() {
 	cmds["fetch"] = nvd.DownloadAll
 	cmds["load"] = nvd.LoadFiles
 	cmds["migrate"] = db.Migrate
+	cmds["optimize"] = db.Optimize
 	cmds["serve"] = webserver.Serve
 
 	validateArgs(cmds)

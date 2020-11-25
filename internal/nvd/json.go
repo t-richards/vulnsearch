@@ -36,6 +36,27 @@ type CveItem struct {
 	LastModified   SpecialTime    `json:"lastModifiedDate"`
 }
 
+func (item CveItem) Description() string {
+	desc := item.Cve.CveDescription.DescriptionData
+	if len(desc) > 0 {
+		return desc[0].Value
+	}
+
+	return ""
+}
+
+func (item CveItem) CweID() string {
+	prob := item.Cve.ProblemType.ProblemTypeData
+	if len(prob) > 0 {
+		desc := prob[0].Description
+		if len(desc) > 0 {
+			return desc[0].Value
+		}
+	}
+
+	return ""
+}
+
 type Configurations struct {
 	CveDataVersion string  `json:"CVE_data_version"`
 	Nodes          []Nodes `json:"nodes"`
@@ -101,8 +122,8 @@ type Impact struct {
 
 type BaseMetricV3 struct {
 	CvssV3              CvssV3  `json:"cvssv3"`
-	ExploitabilityScore float32 `json:"exploitabilityScore"`
-	ImpactScore         float32 `json:"impactScore"`
+	ExploitabilityScore float64 `json:"exploitabilityScore"`
+	ImpactScore         float64 `json:"impactScore"`
 }
 
 type CvssV3 struct {
@@ -116,15 +137,15 @@ type CvssV3 struct {
 	ConfidentialityImpact string  `json:"confidentialityImpact"`
 	IntegrityImpact       string  `json:"integrityImpact"`
 	AvailabilityImpact    string  `json:"availabilityImpact"`
-	BaseScore             float32 `json:"baseScore"`
+	BaseScore             float64 `json:"baseScore"`
 	BaseSeverity          string  `json:"baseSeverity"`
 }
 
 type BaseMetricV2 struct {
 	CvssV2                  CvssV2  `json:"cvssv2"`
 	Severity                string  `json:"severity"`
-	ExploitabilityScore     float32 `json:"exploitabilityScore"`
-	ImpactScore             float32 `json:"impactScore"`
+	ExploitabilityScore     float64 `json:"exploitabilityScore"`
+	ImpactScore             float64 `json:"impactScore"`
 	AcInsufInfo             bool    `json:"acInsufInfo"`
 	ObtainAllPrivilege      bool    `json:"obtainAllPrivilege"`
 	ObtainUserPrivilege     bool    `json:"obtainUserPrivilege"`
@@ -141,5 +162,5 @@ type CvssV2 struct {
 	ConfidentialityImpact string  `json:"confidentialityImpact"`
 	IntegrityImpact       string  `json:"integrityImpact"`
 	AvailabilityImpact    string  `json:"availabilityImpact"`
-	BaseScore             float32 `json:"baseScore"`
+	BaseScore             float64 `json:"baseScore"`
 }

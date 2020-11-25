@@ -1,17 +1,18 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 // Cve is a CVE number and associated data
 type Cve struct {
-	ID          string
-	Description string
-	CweID       string
-	CvssV2Score float32
-	CvssV3Score float32
+	ID           string
+	Description  string
+	CweID        string
+	CvssV2Score  float64
+	CvssV3Score  float64
+	Published    time.Time
+	LastModified time.Time
 
 	Products []Product `gorm:"many2many:cves_products"`
-
-	CreatedAt time.Time
-	UpdatedAt time.Time
 }
