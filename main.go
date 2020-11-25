@@ -1,23 +1,35 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"os"
-	"vulnsearch/internal/commands"
+	"vulnsearch/internal/nvd"
+	"vulnsearch/internal/webserver"
 )
 
 func main() {
+	// Configure subcommands
+	subCommands := make(map[string]func())
+	subCommands["fetch"] = nvd.DownloadAll
+	subCommands["load"] = nvd.LoadFiles
+	subCommands["serve"] = webserver.Serve
+
 	if len(os.Args) < 2 {
-		log.Fatalf("Please specify a subcommand")
+		fmt.Print("Please specify a subcommand: ")
+		for key := range subCommands {
+			fmt.Printf("%v ", key)
+		}
+		fmt.Print("\n")
+
+		os.Exit(1)
 	}
 
-	subCommand := os.Args[1]
-	switch subCommand {
-	case "fetch":
-		commands.Fetch()
-	case "load":
-		commands.Load()
-	default:
-		log.Fatalf("Invalid subcommand: %v", subCommand)
+	key := os.Args[1]
+	cmd, ok := subCommands[key]
+	if !ok {
+		fmt.Printf("Invalid subcommand: %v", key)
+		os.Exit(1)
 	}
+
+	cmd()
 }

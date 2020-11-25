@@ -12,12 +12,14 @@ build: clean
 clean:
 	rm -f coverage/*
 	rm -f vulnsearch
-	rm -f printer-status-*
 
 .PHONY: deps
 deps:
 	go mod download
 	go mod verify
+
+.PHONY: generate
+	go generate
 
 .PHONY: lint
 lint:

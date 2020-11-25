@@ -1,26 +1,23 @@
-package router
+package webserver
 
 import (
-	"fmt"
 	"log"
 	"net/http"
+	"vulnsearch/internal/views"
 
 	"github.com/julienschmidt/httprouter"
 )
 
 func index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	fmt.Fprint(w, "Welcome!\n")
-}
-
-func hello(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	fmt.Fprintf(w, "hello, %s!\n", ps.ByName("name"))
+	views.HomeTemplate.Execute(w, nil)
 }
 
 // Serve creates and starts the HTTP server
 func Serve() {
 	router := httprouter.New()
 	router.GET("/", index)
-	router.GET("/hello/:name", hello)
+	router.NotFound = publicFiles
 
+	log.Println("Listening on http://localhost:8080/")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

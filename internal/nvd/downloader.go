@@ -18,8 +18,21 @@ func init() {
 	}
 }
 
-// Download fetches a JSON file for a given year
-func Download(year int) {
+// DownloadAll fetches JSON archives for all years
+func DownloadAll() {
+	currentYear := time.Now().Year()
+
+	for year := 2002; year <= currentYear; year++ {
+		if needsDownload(year) {
+			log.Printf("Downloading: %v\n", year)
+			download(year)
+		} else {
+			log.Printf("Already downloaded: %v\n", year)
+		}
+	}
+}
+
+func download(year int) {
 	outFilePath := dataFilePath(year)
 
 	url := archiveURL(year)
@@ -35,6 +48,7 @@ func Download(year int) {
 		log.Printf("Failed to create output file %v: %v", outFilePath, err)
 		return
 	}
+	defer file.Close()
 
 	_, err = io.Copy(file, response.Body)
 	if err != nil {
@@ -42,8 +56,7 @@ func Download(year int) {
 	}
 }
 
-// NeedsDownload determines whether a particular year's archive needs downloading
-func NeedsDownload(year int) bool {
+func needsDownload(year int) bool {
 	targetPath := dataFilePath(year)
 
 	// The data file should be downloaded if it doesn't exist
