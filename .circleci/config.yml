@@ -8,7 +8,7 @@ jobs:
     steps:
       - run:
           name: Install system deps
-          command: apk add --no-cache --update gcc git make musl-dev sqlite
+          command: apk add --no-cache --update gcc git make musl-dev openssh sqlite
 
       - checkout
 
@@ -43,7 +43,7 @@ jobs:
 
       - run:
           name: Run CLI functional test
-          command: vulnsearch --version
+          command: ./vulnsearch help
 
       - store_artifacts:
           path: coverage

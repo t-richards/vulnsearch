@@ -9,9 +9,16 @@ import (
 	"vulnsearch/internal/webserver"
 )
 
+var cmds cli.SubcommandSet
+
+func help() {
+	log.Printf("Valid subcommands: %v", cmds.ValidCommands())
+}
+
 func main() {
-	cmds := make(cli.SubcommandSet)
+	cmds = make(cli.SubcommandSet)
 	cmds["fetch"] = nvd.DownloadAll
+	cmds["help"] = help
 	cmds["load"] = nvd.LoadFiles
 	cmds["migrate"] = db.Migrate
 	cmds["optimize"] = db.Optimize
