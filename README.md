@@ -13,7 +13,7 @@ A fast, well-behaved replacement for other CVE search tools.
 
 ```bash
 # Install dependencies, compile application
-go build ./...
+go build
 
 # Migrate database
 vulnsearch migrate
@@ -29,10 +29,10 @@ vulnsearch load
 
 ```bash
 # Run server, visit http://localhost:5000/
-bin/vulnsearch serve
+vulnsearch serve
 
-# Get usage help
-bin/vulnsearch --help
+# Show valid subcommands
+vulnsearch
 ```
 
 ## Contributing
