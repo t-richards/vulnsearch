@@ -1,5 +1,6 @@
 package app
 
+// VendorResponse gives you a list of vendors
 type VendorResponse struct {
-	vendors []string
+	Vendors []string `json:"vendors"`
 }

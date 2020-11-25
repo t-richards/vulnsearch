@@ -5,7 +5,6 @@ jobs:
       - image: golang:1.15-alpine
         environment:
           GOFLAGS: -buildmode=pie -trimpath -mod=readonly -modcacherw
-          CGO_ENABLED: 0
     steps:
       - run:
           name: Install system deps
@@ -44,7 +43,7 @@ jobs:
 
       - run:
           name: Run CLI functional test
-          command: ./vulnsearch help
+          command: ./vulnsearch --help
 
       - store_artifacts:
           path: coverage

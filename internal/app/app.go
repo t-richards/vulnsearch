@@ -68,10 +68,10 @@ func (app *App) vendor() httprouter.Handle {
 		defer r.Body.Close()
 
 		resp := VendorResponse{
-			vendors: make([]string, 0),
+			Vendors: make([]string, 0),
 		}
 		like := "%" + *params.Vendor + "%"
-		app.DB.Table("products").Select("DISTINCT vendor").Where("vendor LIKE ?", like).Order("vendor ASC").Limit(100).Find(&resp.vendors)
+		app.DB.Table("products").Select("DISTINCT vendor").Where("vendor LIKE ?", like).Order("vendor ASC").Limit(100).Find(&resp.Vendors)
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(200)

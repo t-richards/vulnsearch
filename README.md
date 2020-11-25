@@ -36,10 +36,10 @@ make
 
 ```bash
 # Run server, visit http://localhost:5000/
-./vulnsearch serve
+./vulnsearch
 
 # Show valid subcommands
-./vulnsearch
+./vulnsearch --help
 ```
 
 ## Contributing
@@ -49,3 +49,6 @@ make
 3. Commit your changes ( `git commit -am 'Add some feature'` )
 4. Push to the branch ( `git push origin my-new-feature` )
 5. Create a new Pull Request
+
+[golang]: https://golang.org
+[sqlite]: https://www.sqlite.org/index.html
