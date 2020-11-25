@@ -10,8 +10,6 @@ import (
 	"time"
 )
 
-const tagName = "meta"
-
 // Meta represents the meta status of a given year's feed
 type Meta struct {
 	LastModified time.Time

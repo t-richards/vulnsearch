@@ -22,7 +22,7 @@ func init() {
 func DownloadAll() {
 	currentYear := time.Now().Year()
 
-	for year := 2002; year <= currentYear; year++ {
+	for year := EarliestYear; year <= currentYear; year++ {
 		if needsDownload(year) {
 			log.Printf("Downloading: %v\n", year)
 			download(year)
@@ -33,7 +33,7 @@ func DownloadAll() {
 }
 
 func download(year int) {
-	outFilePath := dataFilePath(year)
+	outFilePath := ArchivePath(year)
 
 	url := archiveURL(year)
 	response, err := client.Get(url)
@@ -57,7 +57,7 @@ func download(year int) {
 }
 
 func needsDownload(year int) bool {
-	targetPath := dataFilePath(year)
+	targetPath := ArchivePath(year)
 
 	// The data file should be downloaded if it doesn't exist
 	stat, err := os.Stat(targetPath)
@@ -79,7 +79,8 @@ func needsDownload(year int) bool {
 	return false
 }
 
-func dataFilePath(year int) string {
+// ArchivePath returns a relative path to the gzipped JSON archive for a given year
+func ArchivePath(year int) string {
 	basename := fmt.Sprintf("nvdcve-%v-%v.json.gz", Version, year)
 	return path.Join(DataDir, basename)
 }

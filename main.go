@@ -3,29 +3,39 @@ package main
 import (
 	"fmt"
 	"os"
+	"vulnsearch/internal/db"
 	"vulnsearch/internal/nvd"
 	"vulnsearch/internal/webserver"
 )
 
-func main() {
-	// Configure subcommands
-	subCommands := make(map[string]func())
-	subCommands["fetch"] = nvd.DownloadAll
-	subCommands["load"] = nvd.LoadFiles
-	subCommands["serve"] = webserver.Serve
+type subCommands map[string]func()
 
+func main() {
+	cmds := make(subCommands)
+	cmds["fetch"] = nvd.DownloadAll
+	cmds["load"] = nvd.LoadFiles
+	cmds["migrate"] = db.Migrate
+	cmds["serve"] = webserver.Serve
+
+	validateArgs(cmds)
+	runSubcommand(cmds)
+}
+
+func validateArgs(cmds subCommands) {
 	if len(os.Args) < 2 {
 		fmt.Print("Please specify a subcommand: ")
-		for key := range subCommands {
+		for key := range cmds {
 			fmt.Printf("%v ", key)
 		}
 		fmt.Print("\n")
 
 		os.Exit(1)
 	}
+}
 
+func runSubcommand(cmds subCommands) {
 	key := os.Args[1]
-	cmd, ok := subCommands[key]
+	cmd, ok := cmds[key]
 	if !ok {
 		fmt.Printf("Invalid subcommand: %v", key)
 		os.Exit(1)
