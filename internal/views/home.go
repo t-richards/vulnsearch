@@ -4,7 +4,7 @@ var homeSrc = `
 {{ define "content" }}
 <div class="container">
   <h1>Start typing to find a product...</h1>
-  <form action="/search" method="POST">
+  <form id="search" action="/search" method="POST">
     <div class="row">
       <div class="col">
         <div class="form-floating">

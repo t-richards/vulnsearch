@@ -25,7 +25,7 @@
     };
 
     // Creates an HTML element with additional properties
-    const h = <K extends keyof HTMLElementTagNameMap>(tagName: K, props: object): HTMLElementTagNameMap[K] => {
+    const h = <K extends keyof HTMLElementTagNameMap>(tagName: K, props: Record<string, unknown>): HTMLElementTagNameMap[K] => {
         return Object.assign(document.createElement(tagName), props);
     }
 
@@ -82,7 +82,7 @@
         };
     }
 
-    const getResults = async (path: string, responseKey: string, body: object): TypeaheadResult => {
+    const getResults = async (path: string, responseKey: string, body: Record<string, unknown>): TypeaheadResult => {
         try {
             const response = await fetch(path, {
                 method: "POST",
@@ -124,7 +124,16 @@
         );
     }
 
-    wireTypeahead("vendor", "vendor-list", vendorCallback);
-    wireTypeahead("name", "name-list", nameCallback);
-    wireTypeahead("version", "version-list", versionCallback);
+    const init = () => {
+        // This code only runs on / with the search form
+        if (document.getElementById("search") === null) {
+            return;
+        }
+
+        wireTypeahead("vendor", "vendor-list", vendorCallback);
+        wireTypeahead("name", "name-list", nameCallback);
+        wireTypeahead("version", "version-list", versionCallback);
+    }
+
+    init();
 }

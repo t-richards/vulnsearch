@@ -114,3 +114,23 @@ func (app *App) version() httprouter.Handle {
 		}
 	}
 }
+
+func (app *App) search() httprouter.Handle {
+	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		view := views.ProductView{}
+		app.DB.
+			Where(
+				"vendor = ? AND name = ? AND version = ?",
+				r.FormValue("vendor"),
+				r.FormValue("name"),
+				r.FormValue("version"),
+			).
+			First(&view.Product)
+
+		view.Prepare()
+		err := views.ProductTemplate.Execute(w, view)
+		if err != nil {
+			log.Printf("Error rendering home template: %v", err)
+		}
+	}
+}

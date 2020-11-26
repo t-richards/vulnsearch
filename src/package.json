@@ -1,9 +1,13 @@
 {
     "devDependencies": {
-        "typescript": "3.4.3",
-        "terser": "5.5.0"
+        "@typescript-eslint/eslint-plugin": "^4.8.2",
+        "@typescript-eslint/parser": "^4.8.2",
+        "eslint": "^7.14.0",
+        "terser": "^5.5.0",
+        "typescript": "^3.4.3"
     },
     "scripts": {
-        "build": "tsc && terser --compress --mangle -o ../public/application.js -- ../public/application.js"
+        "build": "tsc && terser --compress --mangle -o ../public/application.js -- ../public/application.js",
+        "lint": "eslint . --ext .js,.ts"
     }
 }

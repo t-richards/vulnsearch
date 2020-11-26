@@ -1,12 +1,35 @@
 package views
 
+import (
+	"fmt"
+
+	"github.com/t-richards/vulnsearch/internal/models"
+)
+
+// ProductView is the data this template expects to receive
+type ProductView struct {
+	Product models.Product
+	Cves    []models.Cve
+
+	// Additional Product data
+	FullName         string
+	CveCount         int
+	CriticalCveCount int
+	HighCveCount     int
+	MediumCveCount   int
+	LowCveCount      int
+}
+
+// Prepare sets some additional data on the view
+func (p *ProductView) Prepare() {
+	p.FullName = fmt.Sprintf("%v %v %v", p.Product.Name, p.Product.Vendor, p.Product.Version)
+}
+
 var productSrc = `
 {{ define "content" }}
 <div class="container">
-  {{ with .Product }}
   <h1>{{ .FullName }}</h1>
   <h3>CVE List ({{ .CveCount }})</h3>
-  {{ end }}
 
   <table class="table table-striped">
     <tr>
@@ -27,7 +50,6 @@ var productSrc = `
 
   <hr class="my-4">
 
-  {{ with .Product }}
   <h3>{{ .FullName }} CVEs by severity</h3>
   <table class="table table-striped">
     <tr>
@@ -62,7 +84,6 @@ var productSrc = `
       <td class="text-right">{{ .CveCount }}</td>
     </tr>
   </table>
-  {{ end }}
 </div>
 {{ end }}
 `
