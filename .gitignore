@@ -1,11 +1,5 @@
 # Compiled binaries
-/bin/*
-
-# Generated documentation
-/docs/
-
-# Third-party libs
-/lib/
+vulnsearch
 
 # Database files
 *.sqlite3
@@ -15,5 +9,6 @@
 /data/*
 !/data/.gitkeep
 
-# Compiled assets
-public/dist
+# Test coverage
+/coverage/*
+!/coverage/.gitkeep

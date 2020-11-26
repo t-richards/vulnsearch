@@ -10,7 +10,7 @@
     // Other flags
     "alwaysStrict": true,
     "esModuleInterop": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "noImplicitAny": true,
     "removeComments": true,
     "strict": true,
