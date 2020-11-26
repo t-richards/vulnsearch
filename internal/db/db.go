@@ -45,7 +45,7 @@ const (
 	`
 )
 
-// Which tells you which database to use :)
+// Which tells you the basename of the database file
 func Which() string {
 	if flag.Lookup("test.v") != nil {
 		return TestDb

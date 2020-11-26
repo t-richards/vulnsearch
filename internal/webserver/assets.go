@@ -7,3 +7,4 @@ import (
 )
 
 var Assets = http.Dir("public/dist")
+var PublicFiles http.Handler = http.FileServer(Assets)

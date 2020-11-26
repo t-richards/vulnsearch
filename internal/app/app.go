@@ -1,13 +1,11 @@
 package app
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 
 	"github.com/t-richards/vulnsearch/internal/cache"
 	"github.com/t-richards/vulnsearch/internal/db"
-	"github.com/t-richards/vulnsearch/internal/views"
 	"github.com/t-richards/vulnsearch/internal/webserver"
 
 	"github.com/julienschmidt/httprouter"
@@ -46,32 +44,8 @@ func (app *App) setupRoutes() {
 	app.Router.NotFound = webserver.PublicFiles
 }
 
-// Run starts the server
+// Run starts the HTTP server
 func (app *App) Run() {
 	log.Println("Listening on http://localhost:5000/")
 	log.Fatal(http.ListenAndServe(":5000", app.Router))
-}
-
-func (app *App) index() httprouter.Handle {
-	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-		views.HomeTemplate.Execute(w, nil)
-	}
-}
-
-func (app *App) vendor() httprouter.Handle {
-	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-		params := SearchParams{}
-		json.NewDecoder(r.Body).Decode(&params)
-		defer r.Body.Close()
-
-		resp := VendorResponse{
-			Vendors: make([]string, 0),
-		}
-		like := "%" + *params.Vendor + "%"
-		app.DB.Table("products").Select("DISTINCT vendor").Where("vendor LIKE ?", like).Order("vendor ASC").Limit(100).Find(&resp.Vendors)
-
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(200)
-		json.NewEncoder(w).Encode(resp)
-	}
 }

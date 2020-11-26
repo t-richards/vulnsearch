@@ -1,6 +1,6 @@
 package models
 
-// Product is piece of software in which we are interested
+// Product is piece of software impacted by one or more CVEs
 type Product struct {
 	ID      int32
 	Name    string
