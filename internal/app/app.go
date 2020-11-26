@@ -46,16 +46,10 @@ func (app *App) setupRoutes() {
 	app.Router.NotFound = webserver.PublicFiles
 }
 
-// FastMode sacrifices reliability for performance
-func (app *App) FastMode() {
-	app.DB.Exec("PRAGMA synchronous = OFF")
-	app.DB.Exec("PRAGMA journal_mode = memory")
-}
-
 // Run starts the server
 func (app *App) Run() {
-	log.Println("Listening on http://localhost:8080/")
-	log.Fatal(http.ListenAndServe(":8080", app.Router))
+	log.Println("Listening on http://localhost:5000/")
+	log.Fatal(http.ListenAndServe(":5000", app.Router))
 }
 
 func (app *App) index() httprouter.Handle {

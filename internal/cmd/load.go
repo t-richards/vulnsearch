@@ -1,8 +1,9 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"github.com/t-richards/vulnsearch/internal/nvd"
+
+	"github.com/spf13/cobra"
 )
 
 var loadCmd = &cobra.Command{
