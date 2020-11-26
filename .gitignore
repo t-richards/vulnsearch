@@ -3,4 +3,5 @@
 !/coverage/.gitkeep
 
 # Compiled binaries
+__debug_bin
 vulnsearch

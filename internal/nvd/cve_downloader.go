@@ -2,9 +2,7 @@ package nvd
 
 import (
 	"fmt"
-	"io"
 	"log"
-	"net/http"
 	"os"
 	"path"
 	"time"
@@ -12,53 +10,24 @@ import (
 	"github.com/t-richards/vulnsearch/internal/cache"
 )
 
-var client http.Client
-
-func init() {
-	client = http.Client{
-		Timeout: 60 * time.Second,
-	}
-}
-
-// DownloadAll fetches JSON archives for all years
-func DownloadAll() {
+func downloadCVEs() {
+	log.Printf("[BEGIN] Download CVEs")
 	currentYear := time.Now().Year()
 
 	for year := EarliestYear; year <= currentYear; year++ {
-		if needsDownload(year) {
-			log.Printf("Downloading: %v\n", year)
-			download(year)
+		if cveNeedsDownload(year) {
+			log.Printf("Downloading CVEs for: %v\n", year)
+			sourceURL := archiveURL(year)
+			destPath := ArchivePath(year)
+			download(sourceURL, destPath)
 		} else {
-			log.Printf("Already downloaded: %v\n", year)
+			log.Printf("Already downloaded CVEs for: %v\n", year)
 		}
 	}
+	log.Printf("[END] Download CVEs")
 }
 
-func download(year int) {
-	outFilePath := ArchivePath(year)
-
-	url := archiveURL(year)
-	response, err := client.Get(url)
-	if err != nil {
-		log.Printf("Failed to download year %v: %v", year, err)
-		return
-	}
-	defer response.Body.Close()
-
-	file, err := os.Create(outFilePath)
-	if err != nil {
-		log.Printf("Failed to create output file %v: %v", outFilePath, err)
-		return
-	}
-	defer file.Close()
-
-	_, err = io.Copy(file, response.Body)
-	if err != nil {
-		log.Printf("Failed to write archive file data: %v", err)
-	}
-}
-
-func needsDownload(year int) bool {
+func cveNeedsDownload(year int) bool {
 	targetPath := ArchivePath(year)
 
 	// The data file should be downloaded if it doesn't exist

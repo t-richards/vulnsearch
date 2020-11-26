@@ -8,25 +8,19 @@ import (
 	"os"
 	"time"
 
-	"github.com/t-richards/vulnsearch/internal/app"
 	"github.com/t-richards/vulnsearch/internal/models"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
-// LoadFiles extracts compressed JSON archives and loads them into the DB
-func LoadFiles() {
-	app := app.New()
-	// Speed up import at the cost of data safety
-	app.DB.Exec("PRAGMA synchronous = OFF")
-	app.DB.Exec("PRAGMA journal_mode = memory")
-
+// LoadCVEs extracts compressed JSON archives of CVEs loads them into the DB
+func LoadCVEs(db *gorm.DB) {
 	currentYear := time.Now().Year()
 	for year := EarliestYear; year <= currentYear; year++ {
 		path := ArchivePath(year)
 		archive := loadFile(path)
-		upsert(app.DB, year, archive)
+		upsert(db, year, archive)
 	}
 }
 
