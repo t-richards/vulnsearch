@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: golang:1.15-alpine
         environment:
-          GOFLAGS: -buildmode=pie -trimpath -mod=readonly -modcacherw
+          GOFLAGS: -trimpath -mod=readonly -modcacherw
     steps:
       - run:
           name: Install system deps
