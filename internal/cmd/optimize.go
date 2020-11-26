@@ -8,6 +8,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const optimizeQuery = `
+PRAGMA synchronous = OFF;
+PRAGMA journal_mode = memory;
+PRAGMA optimize;
+VACUUM;
+`
+
 var optimizeCmd = &cobra.Command{
 	Use:   "optimize",
 	Short: "Optimize the database",
@@ -15,10 +22,7 @@ var optimizeCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Printf("Optimizing database...")
 		app := app.New()
-		app.DB.Exec("PRAGMA synchronous = OFF")
-		app.DB.Exec("PRAGMA journal_mode = memory")
-		app.DB.Exec("PRAGMA optimize")
-		app.DB.Exec("VACUUM")
+		app.DB.Exec(optimizeQuery)
 		log.Printf("Done.")
 	},
 }

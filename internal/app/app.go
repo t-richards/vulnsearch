@@ -26,7 +26,9 @@ func New() *App {
 	// Database
 	var err error
 	dbPath := cache.DbPath(db.Which())
-	app.DB, err = gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
+	app.DB, err = gorm.Open(sqlite.Open(dbPath), &gorm.Config{
+		PrepareStmt: true,
+	})
 	if err != nil {
 		log.Fatalf("Failed to connect to database '%v': %v", dbPath, err)
 	}
@@ -41,6 +43,8 @@ func New() *App {
 func (app *App) setupRoutes() {
 	app.Router.GET("/", app.index())
 	app.Router.POST("/vendor", app.vendor())
+	app.Router.POST("/product", app.product())
+	app.Router.POST("/version", app.version())
 	app.Router.NotFound = webserver.PublicFiles
 }
 
