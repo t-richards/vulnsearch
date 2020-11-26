@@ -19,7 +19,7 @@ deps:
 	go mod verify
 
 .PHONY: generate
-generate:
+generate: assets
 	go generate
 
 .PHONY: lint

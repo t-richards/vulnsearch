@@ -14,7 +14,11 @@ A fast, well-behaved replacement for other CVE search tools.
 
 ```bash
 # Download and install application
+# Note: retry this command if you see "404 Not Found" errors
 go get github.com/t-richards/vulnsearch
+
+# Show help documentation
+vulnsearch help
 
 # Migrate database
 vulnsearch migrate
@@ -28,16 +32,9 @@ vulnsearch load
 
 # Optimize the database after import (optional; but consider running this once)
 vulnsearch optimize
-```
 
-## Run the server
-
-```bash
-# Run server, visit http://localhost:5000/
+# Run web interface, visit http://localhost:5000/
 vulnsearch
-
-# Show valid subcommands
-vulnsearch --help
 ```
 
 ## Overrides

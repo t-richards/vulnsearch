@@ -10,8 +10,8 @@ import (
 
 var optimizeCmd = &cobra.Command{
 	Use:   "optimize",
-	Short: "Optimizes the database",
-	Long:  "Optimizes the database by running VACUUM",
+	Short: "Optimize the database",
+	Long:  "Optimize the database by running VACUUM",
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Printf("Optimizing database...")
 		app := app.New()

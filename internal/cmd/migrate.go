@@ -11,8 +11,8 @@ import (
 
 var migrateCmd = &cobra.Command{
 	Use:   "migrate",
-	Short: "Migrates the database",
-	Long:  "Migrates the database to the latest schema",
+	Short: "Migrate the database",
+	Long:  "Migrate the database to the latest schema",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("Migrating the database... ")
 		app := app.New()

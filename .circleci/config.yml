@@ -43,7 +43,7 @@ jobs:
 
       - run:
           name: Run CLI functional test
-          command: ./vulnsearch --help
+          command: ./vulnsearch help
 
       - store_artifacts:
           path: coverage
