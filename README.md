@@ -8,7 +8,7 @@ A fast, well-behaved replacement for other CVE search tools.
 
 - [Go][golang] `~> 1.15.5`
 - [SQLite][sqlite] `~> 3.33`
-- Make
+- Roughly 200MB of free disk space
 
 ## Getting started
 
@@ -20,17 +20,18 @@ go get github.com/t-richards/vulnsearch
 # Show help documentation
 vulnsearch help
 
-# Migrate database
+# Create sqlite database and migrate the schema
 vulnsearch migrate
 
-# Download CVE data from NVD (`.json.gz` files); ~5 seconds if NVD is having a good day.
-# Files and databases are stored in os.UserCacheDir by default. See also: the "Overrides" section below.
+# Download CVE and product data from NVD; ~5 seconds if NVD is having a good day.
+# These archives are stored in os.UserCacheDir by default.
+# See also: the "Overrides" section below.
 vulnsearch fetch
 
-# Load CVE data from `.json.gz` files into database; ~5 minutes on a fast machine.
+# Load data from compressed archives into database; ~2 minutes on a fast machine.
 vulnsearch load
 
-# Optimize the database after import (optional; but consider running this once)
+# Optimize the database after import; ~2 seconds
 vulnsearch optimize
 
 # Run web interface, visit http://localhost:5000/
@@ -57,9 +58,6 @@ make deps
 
 # Compile application
 make
-
-# Build assets
-make assets
 ```
 
 ## Contributing
