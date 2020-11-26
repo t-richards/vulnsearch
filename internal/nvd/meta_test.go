@@ -3,7 +3,8 @@ package nvd_test
 import (
 	"os"
 	"testing"
-	"vulnsearch/internal/nvd"
+
+	"github.com/t-richards/vulnsearch/internal/nvd"
 
 	"github.com/stretchr/testify/assert"
 )

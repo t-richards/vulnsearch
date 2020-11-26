@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"vulnsearch/internal/db"
-	"vulnsearch/internal/views"
-	"vulnsearch/internal/webserver"
+
+	"github.com/t-richards/vulnsearch/internal/db"
+	"github.com/t-richards/vulnsearch/internal/views"
+	"github.com/t-richards/vulnsearch/internal/webserver"
 
 	"github.com/julienschmidt/httprouter"
 	"gorm.io/driver/sqlite"

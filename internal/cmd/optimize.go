@@ -2,7 +2,8 @@ package cmd
 
 import (
 	"log"
-	"vulnsearch/internal/app"
+
+	"github.com/t-richards/vulnsearch/internal/app"
 
 	"github.com/spf13/cobra"
 )

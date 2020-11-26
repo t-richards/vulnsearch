@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"vulnsearch/internal/nvd"
+	"github.com/t-richards/vulnsearch/internal/nvd"
 
 	"github.com/spf13/cobra"
 )

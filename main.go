@@ -2,7 +2,7 @@
 package main
 
 import (
-	"vulnsearch/internal/cmd"
+	"github.com/t-richards/vulnsearch/internal/cmd"
 )
 
 func main() {

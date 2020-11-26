@@ -3,7 +3,8 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"vulnsearch/internal/app"
+
+	"github.com/t-richards/vulnsearch/internal/app"
 
 	"github.com/spf13/cobra"
 )
@@ -15,8 +16,8 @@ func init() {
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "vulnsearch",
-	Short: "vulnsearch is a fast vulnerability search tool",
+	Use:   "github.com/t-richards/vulnsearch",
+	Short: "github.com/t-richards/vulnsearch is a fast vulnerability search tool",
 	Long:  "A fast, well-behaved replacement for other CVE search tools.",
 	Run: func(cmd *cobra.Command, args []string) {
 		app := app.New()

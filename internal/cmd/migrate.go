@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"vulnsearch/internal/app"
-	"vulnsearch/internal/db"
+
+	"github.com/t-richards/vulnsearch/internal/app"
+	"github.com/t-richards/vulnsearch/internal/db"
 
 	"github.com/spf13/cobra"
 )

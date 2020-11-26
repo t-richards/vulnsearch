@@ -1,4 +1,4 @@
-module vulnsearch
+module github.com/t-richards/vulnsearch
 
 go 1.15
 

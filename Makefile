@@ -6,12 +6,10 @@ assets:
 
 .PHONY: build
 build: clean
-	$(MAKE) generate
 	go build
 
 .PHONY: clean
 clean:
-	rm -f internal/webserver/assets-prod.go
 	rm -f coverage/*
 	rm -f vulnsearch
 

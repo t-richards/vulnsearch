@@ -7,8 +7,9 @@ import (
 	"log"
 	"os"
 	"time"
-	"vulnsearch/internal/app"
-	"vulnsearch/internal/models"
+
+	"github.com/t-richards/vulnsearch/internal/app"
+	"github.com/t-richards/vulnsearch/internal/models"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
