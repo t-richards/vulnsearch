@@ -13,33 +13,43 @@ A fast, well-behaved replacement for other CVE search tools.
 ## Getting started
 
 ```bash
+# Download and install application
+go get github.com/t-richards/vulnsearch
+
+# Migrate database
+vulnsearch migrate
+
+# Download CVE data from NVD (`.json.gz` files); ~5 seconds if NVD is having a good day.
+vulnsearch fetch
+
+# Load CVE data from `.json.gz` files into database; ~5 minutes on a fast machine.
+vulnsearch load
+
+# Optimize the database after import (optional; but consider running this once)
+vulnsearch optimize
+```
+
+## Run the server
+
+```bash
+# Run server, visit http://localhost:5000/
+vulnsearch
+
+# Show valid subcommands
+vulnsearch --help
+```
+
+## Hacking
+
+```bash
 # Install dependencies
 make deps
 
 # Compile application
 make
 
-# Migrate database
-./vulnsearch migrate
-
-# Download CVE data from NVD (`.json.gz` files); ~5 seconds if NVD is having a good day.
-./vulnsearch fetch
-
-# Load CVE data from `.json.gz` files into database; ~5 minutes on a fast machine.
-./vulnsearch load
-
-# Optimize the database after import (optional; but consider running this once)
-./vulnsearch optimize
-```
-
-## Run the app
-
-```bash
-# Run server, visit http://localhost:5000/
-./vulnsearch
-
-# Show valid subcommands
-./vulnsearch --help
+# Build assets
+make assets
 ```
 
 ## Contributing
