@@ -8,6 +8,8 @@ import (
 	"os"
 	"path"
 	"time"
+
+	"github.com/t-richards/vulnsearch/internal/cache"
 )
 
 var client http.Client
@@ -82,7 +84,7 @@ func needsDownload(year int) bool {
 // ArchivePath returns a relative path to the gzipped JSON archive for a given year
 func ArchivePath(year int) string {
 	basename := fmt.Sprintf("nvdcve-%v-%v.json.gz", Version, year)
-	return path.Join(DataDir, basename)
+	return path.Join(cache.DataPath(), basename)
 }
 
 func archiveURL(year int) string {

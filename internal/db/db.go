@@ -6,8 +6,9 @@ import (
 
 // Database constants
 const (
-	DevDb  = "db/vulnsearch_dev.sqlite3"
-	TestDb = "db/vulnsearch_test.sqlite3"
+	MainDb = "vulnsearch.sqlite3"
+	TestDb = "vulnsearch_test.sqlite3"
+
 	Schema = `
 	CREATE TABLE IF NOT EXISTS cves (
 		id            VARCHAR(64) NOT NULL PRIMARY KEY,
@@ -50,5 +51,5 @@ func Which() string {
 		return TestDb
 	}
 
-	return DevDb
+	return MainDb
 }

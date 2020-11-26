@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/t-richards/vulnsearch/internal/cache"
 	"github.com/t-richards/vulnsearch/internal/db"
 	"github.com/t-richards/vulnsearch/internal/views"
 	"github.com/t-richards/vulnsearch/internal/webserver"
@@ -26,9 +27,10 @@ func New() *App {
 
 	// Database
 	var err error
-	app.DB, err = gorm.Open(sqlite.Open(db.Which()), &gorm.Config{})
+	dbPath := cache.DbPath(db.Which())
+	app.DB, err = gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
 	if err != nil {
-		log.Fatalf("Failed to connect to database: %v", err)
+		log.Fatalf("Failed to connect to database '%v': %v", dbPath, err)
 	}
 
 	// Router

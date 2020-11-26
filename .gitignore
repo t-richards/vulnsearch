@@ -1,14 +1,6 @@
-# Compiled binaries
-vulnsearch
-
-# Database files
-*.sqlite3
-*.sqlite3-journal
-
-# Other runtime data
-/data/*
-!/data/.gitkeep
-
 # Test coverage
 /coverage/*
 !/coverage/.gitkeep
+
+# Compiled binaries
+vulnsearch

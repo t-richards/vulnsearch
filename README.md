@@ -20,6 +20,7 @@ go get github.com/t-richards/vulnsearch
 vulnsearch migrate
 
 # Download CVE data from NVD (`.json.gz` files); ~5 seconds if NVD is having a good day.
+# Files and databases are stored in os.UserCacheDir by default. See also: the "Overrides" section below.
 vulnsearch fetch
 
 # Load CVE data from `.json.gz` files into database; ~5 minutes on a fast machine.
@@ -37,6 +38,18 @@ vulnsearch
 
 # Show valid subcommands
 vulnsearch --help
+```
+
+## Overrides
+
+Cache and database paths are configurable via the environment.
+
+```bash
+# Set custom path to the sqlite database file
+VULNSEARCH_DB_PATH=/tmp/foo.sqlite3
+
+# Set custom path to the data directory
+VULNSEARCH_DATA_PATH=/opt/some/dir
 ```
 
 ## Hacking
