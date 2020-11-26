@@ -6,5 +6,5 @@ import (
 	"net/http"
 )
 
-var Assets = http.Dir("public/dist")
+var Assets = http.Dir("public")
 var PublicFiles http.Handler = http.FileServer(Assets)

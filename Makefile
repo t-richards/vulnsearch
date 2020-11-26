@@ -2,7 +2,7 @@ all: build
 
 .PHONY: assets
 assets:
-	cd public && tsc
+	cd src && npm run build
 
 .PHONY: build
 build: clean

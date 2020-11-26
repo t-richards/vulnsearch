@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	fs := http.Dir("public/dist")
+	fs := http.Dir("public")
 	err := vfsgen.Generate(fs, vfsgen.Options{
 		Filename:     "internal/webserver/assets-prod.go",
 		PackageName:  "webserver",

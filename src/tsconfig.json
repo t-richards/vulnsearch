@@ -3,8 +3,8 @@
     // Core config options
     "target": "es2018",
     "module": "esnext",
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "outDir": "../public",
+    "rootDir": ".",
     "lib": ["dom", "es2018"],
 
     // Other flags

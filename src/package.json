@@ -1,0 +1,9 @@
+{
+    "devDependencies": {
+        "typescript": "3.4.3",
+        "terser": "5.5.0"
+    },
+    "scripts": {
+        "build": "tsc && terser --compress --mangle -o ../public/application.js -- ../public/application.js"
+    }
+}

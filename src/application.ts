@@ -1,10 +1,20 @@
 {
-    type TypeaheadResult = Promise<Array<string>>;
+    type TypeaheadResult = Promise<string[]>;
     type InputId = "vendor" | "name" | "version";
     interface ApplicationState {
         vendor: string,
         name: string,
         version: string
+    }
+
+    // Returns the value of the input or an empty string.
+    const getInputValue = (id: InputId): string => {
+        const el = document.getElementById(id) as HTMLInputElement | null;
+        if (el === null) {
+            return "";
+        }
+
+        return el.value;
     }
 
     // Fetch values from inputs to handle back-button interactions
@@ -14,13 +24,9 @@
         version: getInputValue("version")
     };
 
-    function getInputValue(id: InputId): string {
-        const el = document.getElementById(id) as HTMLInputElement | null;
-        if (el === null) {
-            return "";
-        }
-
-        return el.value;
+    // Creates an HTML element with additional properties
+    const h = <K extends keyof HTMLElementTagNameMap>(tagName: K, props: object): HTMLElementTagNameMap[K] => {
+        return Object.assign(document.createElement(tagName), props);
     }
 
     /**
@@ -30,11 +36,11 @@
      * @param listId The associated datalist element to be updated
      * @param dataCallback A callback function which is expected to return the set of datalist options
      */
-    function wireTypeahead(
+    const wireTypeahead = (
         inputId: InputId,
         listId: string,
         dataCallback: () => TypeaheadResult
-    ): void {
+    ): void => {
         const input = document.getElementById(inputId);
         if (input === null) {
             console.error(`Failed to locate ${inputId}.`);
@@ -45,15 +51,12 @@
         input.addEventListener("input", createInputHandler(inputId, listId, dataCallback));
     }
 
-    function createInputHandler(
+    const createInputHandler = (
         inputId: InputId,
         listId: string,
         dataCallback: () => TypeaheadResult
-    ) {
+    ) => {
         return async function (evt: Event): Promise<void> {
-            const markerStart = "replace-list-start";
-            const markerEnd = "replace-list-end";
-
             if (evt.target === null) {
                 console.error("Event has no target!");
                 return;
@@ -62,15 +65,12 @@
             state[inputId] = target.value;
             const data = await dataCallback();
 
-            performance.mark(markerStart);
-            const newList = document.createElement("datalist");
-            newList.id = listId;
+            const newList = h("datalist", { id: listId });
 
             data.forEach(item => {
-                let opt = document.createElement("option");
-                opt.value = item;
-                opt.innerHTML = item;
-                newList.appendChild(opt);
+                newList.appendChild(
+                    h("option", { value: item, innerHTML: item })
+                );
             });
 
             const originalList = document.getElementById(listId);
@@ -79,17 +79,10 @@
                 return;
             }
             originalList.parentNode.replaceChild(newList, originalList);
-            performance.mark(markerEnd);
-
-            // Log perf
-            performance.measure("Typeahead list replaced", markerStart, markerEnd);
-            console.log(performance.getEntriesByType("measure")[0]);
-            performance.clearMarks();
-            performance.clearMeasures();
         };
     }
 
-    async function getResults(path: string, responseKey: string, body: object): TypeaheadResult {
+    const getResults = async (path: string, responseKey: string, body: object): TypeaheadResult => {
         try {
             const response = await fetch(path, {
                 method: "POST",
@@ -99,7 +92,7 @@
                 }
             });
             const jsonResponse = await response.json();
-            const data = jsonResponse[responseKey] as Array<string>;
+            const data = jsonResponse[responseKey] as string[];
             return data;
         } catch (err) {
             console.error(err);
@@ -107,7 +100,7 @@
         }
     }
 
-    async function vendorCallback(): TypeaheadResult {
+    const vendorCallback = async (): TypeaheadResult => {
         return getResults(
             "/vendor",
             "vendors",
@@ -115,7 +108,7 @@
         );
     }
 
-    async function nameCallback(): TypeaheadResult {
+    const nameCallback = async (): TypeaheadResult => {
         return getResults(
             "/product",
             "products",
@@ -123,7 +116,7 @@
         );
     }
 
-    async function versionCallback(): TypeaheadResult {
+    const versionCallback = async (): TypeaheadResult => {
         return getResults(
             "/version",
             "versions",

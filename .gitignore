@@ -5,3 +5,6 @@
 # Compiled binaries
 __debug_bin
 vulnsearch
+
+# Front end nonsense
+node_modules
