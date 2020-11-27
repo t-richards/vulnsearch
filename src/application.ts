@@ -1,11 +1,6 @@
 {
     type TypeaheadResult = Promise<string[]>;
     type InputId = "vendor" | "name" | "version";
-    interface ApplicationState {
-        vendor: string,
-        name: string,
-        version: string
-    }
 
     // Returns the value of the input or an empty string.
     const getInputValue = (id: InputId): string => {
@@ -16,13 +11,6 @@
 
         return el.value;
     }
-
-    // Fetch values from inputs to handle back-button interactions
-    const state: ApplicationState = {
-        vendor: getInputValue("vendor"),
-        name: getInputValue("name"),
-        version: getInputValue("version")
-    };
 
     // Creates an HTML element with additional properties
     const h = <K extends keyof HTMLElementTagNameMap>(tagName: K, props: Record<string, unknown>): HTMLElementTagNameMap[K] => {
@@ -62,7 +50,6 @@
                 return;
             }
             const target = evt.target as HTMLInputElement;
-            state[inputId] = target.value;
             const data = await dataCallback();
 
             const newList = h("datalist", { id: listId });
@@ -104,7 +91,7 @@
         return getResults(
             "/vendor",
             "vendors",
-            { vendor: state.vendor }
+            { vendor: getInputValue("vendor") }
         );
     }
 
@@ -112,7 +99,7 @@
         return getResults(
             "/product",
             "products",
-            { vendor: state.vendor, name: state.name }
+            { vendor: getInputValue("vendor"), name: getInputValue("name") }
         );
     }
 
@@ -120,7 +107,7 @@
         return getResults(
             "/version",
             "versions",
-            { vendor: state.vendor, name: state.name, version: state.version }
+            { vendor: getInputValue("vendor"), name: getInputValue("name"), version: getInputValue("version") }
         );
     }
 

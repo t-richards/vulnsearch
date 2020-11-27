@@ -118,6 +118,7 @@ func (app *App) version() httprouter.Handle {
 func (app *App) search() httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		view := views.ProductView{}
+		// Load product
 		app.DB.
 			Where(
 				"vendor = ? AND name = ? AND version = ?",
@@ -127,6 +128,13 @@ func (app *App) search() httprouter.Handle {
 			).
 			First(&view.Product)
 
+		// Load CVEs
+		app.DB.
+			Model(&view.Product).
+			Association("Cves").
+			Find(&view.Cves)
+
+		// Compute extra view data & render template
 		view.Prepare()
 		err := views.ProductTemplate.Execute(w, view)
 		if err != nil {

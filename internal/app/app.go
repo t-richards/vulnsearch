@@ -30,6 +30,7 @@ func New() *App {
 	if err != nil {
 		log.Fatalf("Failed to connect to database '%v': %v", dbPath, err)
 	}
+	app.DB.Exec("PRAGMA foreign_keys = ON;")
 
 	// Router
 	app.Router = httprouter.New()

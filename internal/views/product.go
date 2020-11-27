@@ -36,13 +36,15 @@ var productSrc = `
       <th scope="col">CVE ID</th>
       <th scope="col">Description</th>
       <th scope="col">CWE ID</th>
+      <th scope="col">CVSS v2 Score</th>
       <th scope="col">CVSS v3 Score</th>
     </tr>
     {{ range .Cves }}
     <tr>
-      <td>{{ .Id }}</td>
+      <td>{{ .ID }}</td>
       <td>{{ .Description }}</td>
       <td>{{ .CweID }}</td>
+      <td>{{ .CvssV2Score }}</td>
       <td>{{ .CvssV3Score }}</td>
     </tr>
     {{ end }}
@@ -50,7 +52,7 @@ var productSrc = `
 
   <hr class="my-4">
 
-  <h3>{{ .FullName }} CVEs by severity</h3>
+  <h3>{{ .FullName }} CVEs by CVSSv3 severity</h3>
   <table class="table table-striped">
     <tr>
       <th scope="col">Severity</th>
