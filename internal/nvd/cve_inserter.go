@@ -63,12 +63,17 @@ func upsert(db *gorm.DB, year int, archive Archive) {
 	for _, item := range archive.CveItems {
 		// Create CVE entry
 		cve := newCveFromCveItem(item)
-		db.Clauses(clause.OnConflict{UpdateAll: true}).Create(&cve)
+		db.
+			Clauses(clause.OnConflict{UpdateAll: true}).
+			Create(&cve)
 
-		// Create relationships between the things
+		// Create relationships between the CVE and the relevant products
 		relatedProducts := findRelatedProductsForItem(db, item)
-		db.Clauses(clause.OnConflict{UpdateAll: true}).
-			Model(&cve).Association("Products").Append(relatedProducts)
+		db.
+			Clauses(clause.OnConflict{UpdateAll: true}).
+			Model(&cve).
+			Association("Products").
+			Append(relatedProducts)
 	}
 }
 
