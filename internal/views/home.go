@@ -2,7 +2,7 @@ package views
 
 var homeSrc = `
 {{ define "content" }}
-<div class="container">
+<div class="container mt-5">
   <h1>Start typing to find a product...</h1>
   <form id="search" action="/search" method="POST">
     <div class="row">

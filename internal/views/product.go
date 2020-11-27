@@ -72,6 +72,13 @@ var productSrc = `
   <h3>CVE List ({{ .CveCount }})</h3>
 
   <table class="table table-striped">
+    <colgroup>
+      <col class="col">
+      <col class="col-6">
+      <col class="col">
+      <col class="col">
+      <col class="col">
+    </colgroup>
     <tr>
       <th scope="col">CVE ID</th>
       <th scope="col">Description</th>
