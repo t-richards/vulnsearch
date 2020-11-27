@@ -35,7 +35,7 @@ type CountsV3 struct {
 
 // Prepare computes some additional data for the view
 func (p *ProductView) Prepare() {
-	p.FullName = fmt.Sprintf("%v %v %v", p.Product.Name, p.Product.Vendor, p.Product.Version)
+	p.FullName = fmt.Sprintf("%v %v %v", p.Product.Vendor, p.Product.Name, p.Product.Version)
 	p.CveCount = len(p.Cves)
 
 	for _, cve := range p.Cves {

@@ -11,7 +11,9 @@ var layoutSrc = `<!doctype html>
 </head>
 
 <body>
-  {{ block "content" . }}{{ end }}
+  <div class="mt-5">
+    {{ block "content" . }}{{ end }}
+  </div>
   <script type="module" src="/application.js"></script>
 </body>
 
