@@ -26,6 +26,10 @@ generate: assets
 lint:
 	go vet ./...
 
+.PHONY: npm
+npm:
+	cd src && npm install
+
 .PHONY: start
 start: clean
 	go run -race -tags=dev main.go

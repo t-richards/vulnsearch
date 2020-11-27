@@ -1,14 +1,19 @@
 # vulnsearch
 
-A fast, well-behaved replacement for other CVE search tools.
+A fast, offline-capable replacement for other CVE search tools.
 
 [![CircleCI](https://circleci.com/gh/t-richards/vulnsearch.svg?style=svg)](https://circleci.com/gh/t-richards/vulnsearch)
+
+![home](https://user-images.githubusercontent.com/3905798/100484708-86068280-30cb-11eb-8f9a-a3b610e17845.png)
+
+![search](https://user-images.githubusercontent.com/3905798/100484711-8737af80-30cb-11eb-97c0-ec5a7eba8408.png)
+
 
 ## System requirements
 
 - [Go][golang] `~> 1.15.5`
 - [SQLite][sqlite] `~> 3.33`
-- Roughly 200MB of free disk space
+- Roughly 300MB of disk space
 
 ## Getting started
 
@@ -39,7 +44,7 @@ vulnsearch
 ## Overrides
 
 This application's database and cache file location are configurable via the environment.
-By default, all files are placed in [`os.UserCacheDir()`][cachedir]
+By default, all files are placed in [`os.UserCacheDir()`][cachedir].
 
 ```bash
 # Set custom path to the sqlite database file
@@ -47,16 +52,6 @@ VULNSEARCH_DB_PATH=/tmp/foo.sqlite3
 
 # Set custom path to the data directory
 VULNSEARCH_DATA_PATH=/opt/some/dir
-```
-
-## Hacking
-
-```bash
-# Install dependencies
-make deps
-
-# Compile application
-make
 ```
 
 ## Contributing
@@ -67,6 +62,31 @@ make
 4. Push to the branch ( `git push origin my-new-feature` )
 5. Create a new Pull Request
 
-[golang]: https://golang.org
-[sqlite]: https://www.sqlite.org/index.html
+## Hacking
+
+Additional system requirements:
+
+- Node.js with NPM
+
+```bash
+# Install go dependencies
+make deps
+
+# Install node dependencies
+make npm
+
+# Build assets from src/ -> public/
+make assets
+
+# Run application in debug mode
+make start
+```
+
+## License
+
+This software is available as open source under the terms of the [MIT License][license].
+
 [cachedir]: https://golang.org/pkg/os/#UserCacheDir
+[golang]: https://golang.org
+[license]: LICENSE
+[sqlite]: https://www.sqlite.org/index.html
