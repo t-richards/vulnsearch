@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/t-richards/vulnsearch/internal/app"
+	"github.com/t-richards/vulnsearch/internal/db"
 	"github.com/t-richards/vulnsearch/internal/nvd"
 
 	"github.com/spf13/cobra"
@@ -14,11 +15,8 @@ var loadCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		app := app.New()
 
-		// Speed up import at the cost of data safety
-		app.DB.Exec("PRAGMA synchronous = OFF")
-		app.DB.Exec("PRAGMA journal_mode = memory")
-
-		nvd.LoadCVEs(app.DB)
+		db.FastJournal(app.DB)
 		nvd.LoadProducts(app.DB)
+		nvd.LoadCVEs(app.DB)
 	},
 }

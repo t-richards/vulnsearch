@@ -20,6 +20,7 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(clobberCmd)
+	rootCmd.AddCommand(dbgCmd)
 	rootCmd.AddCommand(fetchCmd)
 	rootCmd.AddCommand(loadCmd)
 	rootCmd.AddCommand(migrateCmd)

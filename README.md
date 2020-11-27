@@ -24,14 +24,12 @@ vulnsearch help
 vulnsearch migrate
 
 # Download CVE and product data from NVD; ~5 seconds if NVD is having a good day.
-# These archives are stored in os.UserCacheDir by default.
-# See also: the "Overrides" section below.
 vulnsearch fetch
 
-# Load data from compressed archives into database; ~2 minutes on a fast machine.
+# Load data from compressed archives into database; ~5 minutes on a fast machine.
 vulnsearch load
 
-# Optimize the database after import; ~2 seconds
+# Optimize the database after import; ~5 seconds
 vulnsearch optimize
 
 # Run web interface, visit http://localhost:5000/
@@ -40,7 +38,8 @@ vulnsearch
 
 ## Overrides
 
-Cache and database paths are configurable via the environment.
+This application's database and cache file location are configurable via the environment.
+By default, all files are placed in [`os.UserCacheDir()`][cachedir]
 
 ```bash
 # Set custom path to the sqlite database file
@@ -70,3 +69,4 @@ make
 
 [golang]: https://golang.org
 [sqlite]: https://www.sqlite.org/index.html
+[cachedir]: https://golang.org/pkg/os/#UserCacheDir

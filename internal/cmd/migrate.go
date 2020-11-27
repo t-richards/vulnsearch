@@ -16,7 +16,7 @@ var migrateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("Migrating the database... ")
 		app := app.New()
-		app.DB.Exec(db.Schema)
+		db.Migrate(app.DB)
 		fmt.Print("Done.\n")
 	},
 }

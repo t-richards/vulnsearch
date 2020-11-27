@@ -13,4 +13,6 @@ type Cve struct {
 	CvssV3Score  float64
 	Published    time.Time
 	LastModified time.Time
+
+	Products []Product `gorm:"many2many:cves_products;"`
 }
