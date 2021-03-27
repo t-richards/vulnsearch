@@ -1,6 +1,4 @@
-package views
-
-var layoutSrc = `<!doctype html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -12,9 +10,9 @@ var layoutSrc = `<!doctype html>
 
 <body>
   <div class="mt-5">
-    {{ block "content" . }}{{ end }}
+    {{embed}}
   </div>
   <script type="module" src="/application.js"></script>
 </body>
 
-</html>`
+</html>

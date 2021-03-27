@@ -2,7 +2,7 @@
 
 A fast, offline-capable replacement for other CVE search tools.
 
-[![CircleCI](https://circleci.com/gh/t-richards/vulnsearch.svg?style=svg)](https://circleci.com/gh/t-richards/vulnsearch)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/t-richards/vulnsearch/Test?style=flat-square)](https://github.com/t-richards/vulnsearch/actions)
 
 ![home](https://user-images.githubusercontent.com/3905798/100484708-86068280-30cb-11eb-8f9a-a3b610e17845.png)
 
@@ -11,7 +11,7 @@ A fast, offline-capable replacement for other CVE search tools.
 
 ## System requirements
 
-- [Go][golang] `~> 1.15.5`
+- [Go][golang] `~> 1.16`
 - [SQLite][sqlite] `~> 3.33`
 - Roughly 300MB of disk space
 
@@ -64,22 +64,12 @@ VULNSEARCH_DATA_PATH=/opt/some/dir
 
 ## Hacking
 
-Additional system requirements:
-
-- Node.js with NPM
-
 ```bash
 # Install go dependencies
 make deps
 
-# Install node dependencies
-make npm
-
-# Build assets from src/ -> public/
-make assets
-
 # Run application in debug mode
-make start
+go run main.go
 ```
 
 ## License

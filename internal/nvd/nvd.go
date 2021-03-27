@@ -26,7 +26,6 @@ func init() {
 // DownloadAll fetches JSON archives for all years
 func DownloadAll() {
 	downloadCVEs()
-	downloadProducts()
 }
 
 func download(sourceURL string, destPath string) {

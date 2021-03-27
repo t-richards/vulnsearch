@@ -1,12 +1,6 @@
-# Test coverage
-/coverage/*
-!/coverage/.gitkeep
+# Test coverage output
+coverage
 
 # Compiled binaries
 __debug_bin
 vulnsearch
-
-# Front end nonsense
-public/application.js
-src/package-lock.json
-node_modules
