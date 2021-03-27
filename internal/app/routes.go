@@ -72,7 +72,7 @@ func product(c *fiber.Ctx) error {
 	}
 
 	resp := ProductResponse{
-		Products: make([]string, 0),
+		Products: []string{},
 	}
 	conn.
 		Table("products").
@@ -94,7 +94,7 @@ func version(c *fiber.Ctx) error {
 	}
 
 	resp := VersionResponse{
-		Versions: make([]string, 0),
+		Versions: []string{},
 	}
 	conn.
 		Table("products").

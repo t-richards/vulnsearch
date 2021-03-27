@@ -78,7 +78,7 @@ func upsert(db *gorm.DB, year int, archive Archive) {
 }
 
 func findRelatedProductsForItem(db *gorm.DB, item CveItem) []models.Product {
-	result := make([]models.Product, 0)
+	result := []models.Product{}
 
 	for _, node := range item.Configurations.Nodes {
 		if node.Operator == "OR" {
