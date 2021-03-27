@@ -2,5 +2,5 @@ package views
 
 import "embed"
 
-//go:embed templates/*.html
-var Templates embed.FS
+//go:embed views/*
+var Views embed.FS

@@ -10,29 +10,36 @@ import (
 )
 
 func index(c *fiber.Ctx) error {
-	return c.Render("index", nil, "layout")
+	return c.Render("views/index", nil, "views/layouts/main")
 }
 
 func build(c *fiber.Ctx) error {
 	src, err := assets.Assets.ReadFile("public/application.ts")
 	if err != nil {
-		return nil
+		return err
 	}
 	opts := api.TransformOptions{
 		LogLevel:          api.LogLevelInfo,
-		Target:            api.ESNext,
 		Loader:            api.LoaderTS,
+		Sourcemap:         api.SourceMapInline,
+		Format:            api.FormatIIFE,
 		MinifyWhitespace:  true,
 		MinifyIdentifiers: true,
 		MinifySyntax:      true,
-		Format:            api.FormatIIFE,
 	}
 
 	result := api.Transform(string(src), opts)
 	if len(result.Errors) > 0 {
-		return c.SendStatus(fiber.StatusInternalServerError)
+		c.SendStatus(fiber.StatusInternalServerError)
+		return c.JSONP(result.Errors)
 	}
 
+	if len(result.Warnings) > 0 {
+		c.SendStatus(fiber.StatusInternalServerError)
+		return c.JSONP(result.Warnings)
+	}
+
+	c.Set(fiber.HeaderContentType, fiber.MIMEApplicationJavaScript)
 	return c.Send(result.Code)
 }
 
@@ -122,5 +129,5 @@ func search(c *fiber.Ctx) error {
 
 	// Compute extra view data & render template
 	viewData.Prepare()
-	return c.Render("product", viewData, "layout")
+	return c.Render("views/product", viewData, "views/layouts/main")
 }

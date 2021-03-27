@@ -23,9 +23,7 @@ func Run() {
 	conn = db.Connect()
 
 	// Router
-	templateDir, _ := fs.Sub(views.Templates, "templates")
-	engine := html.NewFileSystem(http.FS(templateDir), ".html")
-	engine.Layout("content")
+	engine := html.NewFileSystem(http.FS(views.Views), ".html")
 	config := fiber.Config{
 		CaseSensitive: true,
 		ServerHeader:  "Vulnsearch",
