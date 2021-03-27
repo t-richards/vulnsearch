@@ -14,16 +14,21 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Fetch dependencies
-      run: make deps
+      run: |
+        go mod download
+        go mod verify
 
     - name: Lint code
-      run: make lint
+      run: go vet ./...
 
     - name: Run tests
-      run: make test
+      run: |
+        mkdir -p coverage
+        go test -race -coverprofile coverage/cover.out -v ./...
+        go tool cover -html coverage/cover.out -o=coverage/index.html
 
     - name: Build app
-      run: make build
+      run: go build
 
     - name: CLI functional test
       run: ./vulnsearch --help
