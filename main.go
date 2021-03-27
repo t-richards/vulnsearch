@@ -1,4 +1,3 @@
-//go:generate go run asset-generator.go
 package main
 
 import (
