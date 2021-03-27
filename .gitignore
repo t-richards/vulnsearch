@@ -1,6 +1,5 @@
-# Test coverage
-/coverage/*
-!/coverage/.gitkeep
+# Test coverage output
+coverage
 
 # Compiled binaries
 __debug_bin

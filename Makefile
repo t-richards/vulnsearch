@@ -20,5 +20,6 @@ lint:
 
 .PHONY: test
 test:
+	mkdir -p coverage
 	go test -race -coverprofile coverage/cover.out -v ./...
 	go tool cover -html coverage/cover.out -o=coverage/index.html
