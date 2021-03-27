@@ -17,10 +17,15 @@ A fast, offline-capable replacement for other CVE search tools.
 
 ## Getting started
 
+Note: This application does not support installation via `go get`.
+
 ```bash
-# Download and install application
-# Note: retry this command if you see "404 Not Found" errors
-go get github.com/t-richards/vulnsearch
+# Clone this repository
+git clone git@github.com:t-richards/vulnsearch.git
+cd vulnsearch
+
+# Build and install application
+go install
 
 # Show help documentation
 vulnsearch help
@@ -65,10 +70,7 @@ VULNSEARCH_DATA_PATH=/opt/some/dir
 ## Hacking
 
 ```bash
-# Install go dependencies
-make deps
-
-# Run application in debug mode
+# Build and run the application
 go run main.go
 ```
 
