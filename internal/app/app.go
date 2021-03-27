@@ -6,7 +6,9 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
+	"github.com/gofiber/template/html"
 	"github.com/t-richards/vulnsearch/internal/assets"
 	"github.com/t-richards/vulnsearch/internal/db"
 	"github.com/t-richards/vulnsearch/internal/views"
@@ -21,13 +23,16 @@ func Run() {
 	conn = db.Connect()
 
 	// Router
-	engine := &views.EmbedEngine{}
+	templateDir, _ := fs.Sub(views.Templates, "templates")
+	engine := html.NewFileSystem(http.FS(templateDir), ".html")
+	engine.Layout("content")
 	config := fiber.Config{
 		CaseSensitive: true,
 		ServerHeader:  "Vulnsearch",
 		Views:         engine,
 	}
 	app := fiber.New(config)
+	app.Use(recover.New())
 	app.Use(requestid.New())
 
 	// Routes
@@ -39,9 +44,9 @@ func Run() {
 	app.Post("/search", search)
 
 	// Assets
-	subFS, _ := fs.Sub(assets.Assets, "public")
+	assetDir, _ := fs.Sub(assets.Assets, "public")
 	app.Use("/", filesystem.New(filesystem.Config{
-		Root:   http.FS(subFS),
+		Root:   http.FS(assetDir),
 		Browse: true,
 	}))
 

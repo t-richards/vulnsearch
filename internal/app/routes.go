@@ -10,7 +10,7 @@ import (
 )
 
 func index(c *fiber.Ctx) error {
-	return c.Render("index.html", nil, "layout.html")
+	return c.Render("index", nil, "layout")
 }
 
 func build(c *fiber.Ctx) error {
@@ -122,5 +122,5 @@ func search(c *fiber.Ctx) error {
 
 	// Compute extra view data & render template
 	viewData.Prepare()
-	return c.Render("product.html", viewData, "layout.html")
+	return c.Render("product", viewData, "layout")
 }

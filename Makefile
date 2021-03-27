@@ -16,7 +16,7 @@ deps:
 
 .PHONY: lint
 lint:
-	golangci-lint run
+	go vet ./...
 
 .PHONY: test
 test:
