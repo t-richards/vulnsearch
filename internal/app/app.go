@@ -1,55 +1,50 @@
 package app
 
 import (
-	"log"
+	"io/fs"
 	"net/http"
 
-	"github.com/t-richards/vulnsearch/internal/cache"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/filesystem"
+	"github.com/gofiber/fiber/v2/middleware/requestid"
+	"github.com/t-richards/vulnsearch/internal/assets"
 	"github.com/t-richards/vulnsearch/internal/db"
-	"github.com/t-richards/vulnsearch/internal/webserver"
-
-	"github.com/julienschmidt/httprouter"
-	"gorm.io/driver/sqlite"
+	"github.com/t-richards/vulnsearch/internal/views"
 	"gorm.io/gorm"
 )
 
-// App is a small combination of a database connection + http router
-type App struct {
-	Router *httprouter.Router
-	DB     *gorm.DB
-}
+var conn *gorm.DB
 
-// New returns an initialized app instance
-func New() *App {
-	app := new(App)
-
+// Run starts the application
+func Run() {
 	// Database
-	var err error
-	dbPath := cache.DbPath(db.Which())
-	app.DB, err = gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
-	if err != nil {
-		log.Fatalf("Failed to connect to database '%v': %v", dbPath, err)
-	}
-	app.DB.Exec("PRAGMA foreign_keys = ON;")
+	conn = db.Connect()
 
 	// Router
-	app.Router = httprouter.New()
-	app.setupRoutes()
+	engine := &views.EmbedEngine{}
+	config := fiber.Config{
+		CaseSensitive: true,
+		ServerHeader:  "Vulnsearch",
+		Views:         engine,
+	}
+	app := fiber.New(config)
+	app.Use(requestid.New())
 
-	return app
-}
+	// Routes
+	app.Get("/", index)
+	app.Get("/application.js", build)
+	app.Post("/vendor", vendor)
+	app.Post("/product", product)
+	app.Post("/version", version)
+	app.Post("/search", search)
 
-func (app *App) setupRoutes() {
-	app.Router.GET("/", app.index())
-	app.Router.POST("/vendor", app.vendor())
-	app.Router.POST("/product", app.product())
-	app.Router.POST("/version", app.version())
-	app.Router.POST("/search", app.search())
-	app.Router.NotFound = webserver.PublicFiles
-}
+	// Assets
+	subFS, _ := fs.Sub(assets.Assets, "public")
+	app.Use("/", filesystem.New(filesystem.Config{
+		Root:   http.FS(subFS),
+		Browse: true,
+	}))
 
-// Run starts the HTTP server
-func (app *App) Run() {
-	log.Println("Listening on http://localhost:5000/")
-	log.Fatal(http.ListenAndServe(":5000", app.Router))
+	// Start!
+	app.Listen(":3000")
 }

@@ -2,143 +2,125 @@ package app
 
 import (
 	"encoding/json"
-	"log"
-	"net/http"
 
-	"github.com/julienschmidt/httprouter"
+	"github.com/evanw/esbuild/pkg/api"
+	"github.com/gofiber/fiber/v2"
+	"github.com/t-richards/vulnsearch/internal/assets"
 	"github.com/t-richards/vulnsearch/internal/views"
 )
 
-func (app *App) index() httprouter.Handle {
-	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-		err := views.HomeTemplate.Execute(w, nil)
-		if err != nil {
-			log.Printf("Error rendering home template: %v", err)
-		}
-	}
+func index(c *fiber.Ctx) error {
+	return c.Render("index.html", nil, "layout.html")
 }
 
-// TODO(tom): DRY this up
-func (app *App) vendor() httprouter.Handle {
-	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-		w.Header().Set("Content-Type", "application/json")
-
-		params := SearchParams{}
-		err := json.NewDecoder(r.Body).Decode(&params)
-		if err != nil {
-			w.WriteHeader(400)
-			return
-		}
-		defer r.Body.Close()
-
-		resp := VendorResponse{
-			Vendors: make([]string, 0),
-		}
-		app.DB.
-			Table("products").
-			Select("DISTINCT vendor").
-			Where("vendor LIKE ?", *params.Vendor+"%").
-			Order("vendor ASC").
-			Limit(100).
-			Find(&resp.Vendors)
-
-		w.WriteHeader(200)
-		err = json.NewEncoder(w).Encode(resp)
-		if err != nil {
-			log.Printf("Error encoding vendor response: %v", err)
-		}
+func build(c *fiber.Ctx) error {
+	src, err := assets.Assets.ReadFile("public/application.ts")
+	if err != nil {
+		return nil
 	}
+	opts := api.TransformOptions{
+		LogLevel:          api.LogLevelInfo,
+		Target:            api.ESNext,
+		Loader:            api.LoaderTS,
+		MinifyWhitespace:  true,
+		MinifyIdentifiers: true,
+		MinifySyntax:      true,
+		Format:            api.FormatIIFE,
+	}
+
+	result := api.Transform(string(src), opts)
+	if len(result.Errors) > 0 {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	return c.Send(result.Code)
 }
 
-func (app *App) product() httprouter.Handle {
-	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-		w.Header().Set("Content-Type", "application/json")
-
-		params := SearchParams{}
-		err := json.NewDecoder(r.Body).Decode(&params)
-		if err != nil {
-			w.WriteHeader(400)
-			return
-		}
-		defer r.Body.Close()
-
-		resp := ProductResponse{
-			Products: make([]string, 0),
-		}
-		app.DB.
-			Table("products").
-			Select("DISTINCT name").
-			Where("vendor = ?", *params.Vendor).
-			Where("name LIKE ?", *params.Name+"%").
-			Order("name ASC").
-			Limit(100).
-			Find(&resp.Products)
-
-		w.WriteHeader(200)
-		err = json.NewEncoder(w).Encode(resp)
-		if err != nil {
-			log.Printf("Error encoding vendor response: %v", err)
-		}
+func vendor(c *fiber.Ctx) error {
+	params := SearchParams{}
+	err := json.Unmarshal(c.Body(), &params)
+	if err != nil {
+		return c.SendStatus(fiber.StatusBadRequest)
 	}
+
+	resp := VendorResponse{
+		Vendors: []string{},
+	}
+	conn.
+		Table("products").
+		Select("DISTINCT vendor").
+		Where("vendor LIKE ?", *params.Vendor+"%").
+		Order("vendor ASC").
+		Limit(100).
+		Find(&resp.Vendors)
+
+	return c.JSON(resp)
 }
 
-func (app *App) version() httprouter.Handle {
-	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-		w.Header().Set("Content-Type", "application/json")
-
-		params := SearchParams{}
-		err := json.NewDecoder(r.Body).Decode(&params)
-		if err != nil {
-			w.WriteHeader(400)
-			return
-		}
-		defer r.Body.Close()
-
-		resp := VersionResponse{
-			Versions: make([]string, 0),
-		}
-		app.DB.
-			Table("products").
-			Select("DISTINCT version").
-			Where("vendor = ?", *params.Vendor).
-			Where("name = ?", *params.Name).
-			Where("version LIKE ?", *params.Version+"%").
-			Order("version ASC").
-			Limit(100).
-			Find(&resp.Versions)
-
-		w.WriteHeader(200)
-		err = json.NewEncoder(w).Encode(resp)
-		if err != nil {
-			log.Printf("Error encoding vendor response: %v", err)
-		}
+func product(c *fiber.Ctx) error {
+	params := SearchParams{}
+	err := json.Unmarshal(c.Body(), &params)
+	if err != nil {
+		return c.SendStatus(fiber.StatusBadRequest)
 	}
+
+	resp := ProductResponse{
+		Products: make([]string, 0),
+	}
+	conn.
+		Table("products").
+		Select("DISTINCT name").
+		Where("vendor = ?", *params.Vendor).
+		Where("name LIKE ?", *params.Name+"%").
+		Order("name ASC").
+		Limit(100).
+		Find(&resp.Products)
+
+	return c.JSON(resp)
 }
 
-func (app *App) search() httprouter.Handle {
-	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-		view := views.ProductView{}
-		// Load product
-		app.DB.
-			Where(
-				"vendor = ? AND name = ? AND version = ?",
-				r.FormValue("vendor"),
-				r.FormValue("name"),
-				r.FormValue("version"),
-			).
-			First(&view.Product)
-
-		// Load CVEs
-		app.DB.
-			Model(&view.Product).
-			Association("Cves").
-			Find(&view.Cves)
-
-		// Compute extra view data & render template
-		view.Prepare()
-		err := views.ProductTemplate.Execute(w, view)
-		if err != nil {
-			log.Printf("Error rendering home template: %v", err)
-		}
+func version(c *fiber.Ctx) error {
+	params := SearchParams{}
+	err := json.Unmarshal(c.Body(), &params)
+	if err != nil {
+		return c.SendStatus(fiber.StatusBadRequest)
 	}
+
+	resp := VersionResponse{
+		Versions: make([]string, 0),
+	}
+	conn.
+		Table("products").
+		Select("DISTINCT version").
+		Where("vendor = ?", *params.Vendor).
+		Where("name = ?", *params.Name).
+		Where("version LIKE ?", *params.Version+"%").
+		Order("version ASC").
+		Limit(100).
+		Find(&resp.Versions)
+
+	return c.JSON(resp)
+}
+
+func search(c *fiber.Ctx) error {
+	viewData := views.ProductView{}
+	// Load product
+	conn.
+		Where(
+			"vendor = ? AND name = ? AND version = ?",
+			c.Params("vendor"),
+			c.Params("name"),
+			c.Params("version"),
+		).
+		First(&viewData.Product)
+
+	// Load CVEs
+	conn.
+		Model(&viewData.Product).
+		Association("Cves").
+		Find(&viewData.Cves)
+
+	// Compute extra view data & render template
+	viewData.Prepare()
+	return c.Render("product.html", viewData, "layout.html")
 }

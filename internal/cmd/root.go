@@ -13,7 +13,6 @@ var rootCmd = &cobra.Command{
 	Use:  "vulnsearch",
 	Long: "vulnsearch: A fast, well-behaved replacement for other CVE search tools.",
 	Run: func(cmd *cobra.Command, args []string) {
-		app := app.New()
 		app.Run()
 	},
 }

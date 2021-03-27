@@ -1,9 +1,5 @@
 all: build
 
-.PHONY: assets
-assets:
-	cd src && npm run build
-
 .PHONY: build
 build: clean
 	go build
@@ -18,21 +14,9 @@ deps:
 	go mod download
 	go mod verify
 
-.PHONY: generate
-generate: assets
-	go generate
-
 .PHONY: lint
 lint:
-	go vet ./...
-
-.PHONY: npm
-npm:
-	cd src && npm install
-
-.PHONY: start
-start: clean
-	go run -race -tags=dev main.go
+	golangci-lint run
 
 .PHONY: test
 test:

@@ -2,7 +2,10 @@ package db
 
 import (
 	"flag"
+	"log"
 
+	"github.com/t-richards/vulnsearch/internal/cache"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -74,18 +77,29 @@ func Which() string {
 	return mainDB
 }
 
-// Migrate migrates the database
-func Migrate(db *gorm.DB) {
-	db.Exec(schema)
+// FastJournal sacrifices data reliability for insert speed
+func FastJournal(conn *gorm.DB) {
+	conn.Exec(fastJournal)
 }
 
-// FastJournal sacrifices data reliability for insert speed
-func FastJournal(db *gorm.DB) {
-	db.Exec(fastJournal)
+// Migrate migrates the database
+func Migrate(conn *gorm.DB) {
+	conn.Exec(schema)
+}
+
+func Connect() *gorm.DB {
+	dbPath := cache.DbPath(Which())
+	conn, err := gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
+	if err != nil {
+		log.Fatalf("Failed to connect to database '%v': %v", dbPath, err)
+	}
+	conn.Exec("PRAGMA foreign_keys = ON;")
+
+	return conn
 }
 
 // Optimize optimizes the database
-func Optimize(db *gorm.DB) {
-	db.Exec(fastJournal)
-	db.Exec(optimize)
+func Optimize(conn *gorm.DB) {
+	conn.Exec(fastJournal)
+	conn.Exec(optimize)
 }
