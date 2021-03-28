@@ -1,8 +1,10 @@
 # vulnsearch
 
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/t-richards/vulnsearch/Test?style=flat-square)](https://github.com/t-richards/vulnsearch/actions)
+
 A fast, offline-capable replacement for other CVE search tools.
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/t-richards/vulnsearch/Test?style=flat-square)](https://github.com/t-richards/vulnsearch/actions)
+## Screenshots
 
 ![home](https://user-images.githubusercontent.com/3905798/100484708-86068280-30cb-11eb-8f9a-a3b610e17845.png)
 
@@ -30,16 +32,16 @@ go install
 # Show help documentation
 vulnsearch help
 
-# Create sqlite database and migrate the schema
+# Create and/or update local SQLite database
 vulnsearch migrate
 
-# Download CVE and product data from NVD; ~5 seconds if NVD is having a good day.
+# Download data archives from nvd.nist.gov; <5 seconds if NVD is having a good day.
 vulnsearch fetch
 
-# Load data from compressed archives into database; ~5 minutes on a fast machine.
+# Load data from compressed archives into local database; <5 minutes on a fast machine with SSD.
 vulnsearch load
 
-# Optimize the database after import; ~5 seconds
+# Optimize the local database after import; <5 seconds on a fast machine with SSD.
 vulnsearch optimize
 
 # Run web interface, visit http://localhost:5000/
