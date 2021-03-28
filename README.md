@@ -74,6 +74,9 @@ VULNSEARCH_DATA_PATH=/opt/some/dir
 ```bash
 # Build and run the application
 go run main.go
+
+# Enable sourcemaps
+DEBUG=1 go run main.go
 ```
 
 ## License

@@ -4,10 +4,7 @@ type InputId = "vendor" | "name" | "version";
 // Returns the value of the input or an empty string.
 const getInputValue = (id: InputId): string => {
     const el = document.getElementById(id) as HTMLInputElement | null;
-    if (el === null) {
-        return "";
-    }
-
+    if (el === null) { return ""; }
     return el.value;
 }
 
@@ -29,40 +26,26 @@ const wireTypeahead = (
     dataCallback: () => TypeaheadResult
 ): void => {
     const input = document.getElementById(inputId);
-    if (input === null) {
-        console.error(`Failed to locate ${inputId}.`);
-        return;
-    }
-
-    input.addEventListener("change", createInputHandler(listId, dataCallback));
-    input.addEventListener("input", createInputHandler(listId, dataCallback));
+    input?.addEventListener("change", createInputHandler(listId, dataCallback));
+    input?.addEventListener("input", createInputHandler(listId, dataCallback));
 }
 
 const createInputHandler = (
     listId: string,
     dataCallback: () => TypeaheadResult
 ) => {
-    return async function (evt: Event): Promise<void> {
-        if (evt.target === null) {
-            console.error("Event has no target!");
-            return;
-        }
+    return async function (_evt: Event): Promise<void> {
         const data = await dataCallback();
-
         const newList = h("datalist", { id: listId });
 
-        data.forEach(item => {
+        for (const item of data) {
             newList.appendChild(
                 h("option", { value: item, innerHTML: item })
             );
-        });
+        }
 
         const originalList = document.getElementById(listId);
-        if (originalList === null || originalList.parentNode === null) {
-            console.error("Failed to replace original list.");
-            return;
-        }
-        originalList.parentNode.replaceChild(newList, originalList);
+        originalList?.parentNode?.replaceChild(newList, originalList);
     };
 }
 

@@ -2,6 +2,7 @@ package app
 
 import (
 	"encoding/json"
+	"os"
 
 	"github.com/evanw/esbuild/pkg/api"
 	"github.com/gofiber/fiber/v2"
@@ -21,11 +22,15 @@ func build(c *fiber.Ctx) error {
 	opts := api.TransformOptions{
 		LogLevel:          api.LogLevelInfo,
 		Loader:            api.LoaderTS,
-		Sourcemap:         api.SourceMapInline,
 		Format:            api.FormatIIFE,
 		MinifyWhitespace:  true,
 		MinifyIdentifiers: true,
 		MinifySyntax:      true,
+	}
+
+	_, ok := os.LookupEnv("DEBUG")
+	if ok {
+		opts.Sourcemap = api.SourceMapInline
 	}
 
 	c.Set(fiber.HeaderContentType, fiber.MIMEApplicationJavaScript)

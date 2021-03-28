@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cache"
+	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
@@ -43,6 +45,10 @@ func Run() {
 
 	// Assets
 	assetDir, _ := fs.Sub(assets.Assets, "public")
+	app.Use("/", cache.New(cache.Config{
+		CacheControl: true,
+	}))
+	app.Use("/", compress.New())
 	app.Use("/", filesystem.New(filesystem.Config{
 		Root:   http.FS(assetDir),
 		Browse: true,
