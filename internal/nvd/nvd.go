@@ -15,12 +15,8 @@ const (
 	Version      = "1.1"
 )
 
-var client http.Client
-
-func init() {
-	client = http.Client{
-		Timeout: 60 * time.Second,
-	}
+var client = http.Client{
+	Timeout: 60 * time.Second,
 }
 
 // DownloadAll fetches JSON archives for all years

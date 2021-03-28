@@ -47,7 +47,7 @@ func vendor(c *fiber.Ctx) error {
 	params := SearchParams{}
 	err := json.Unmarshal(c.Body(), &params)
 	if err != nil {
-		return c.SendStatus(fiber.StatusBadRequest)
+		return err
 	}
 
 	resp := VendorResponse{
@@ -68,7 +68,7 @@ func product(c *fiber.Ctx) error {
 	params := SearchParams{}
 	err := json.Unmarshal(c.Body(), &params)
 	if err != nil {
-		return c.SendStatus(fiber.StatusBadRequest)
+		return err
 	}
 
 	resp := ProductResponse{
@@ -90,7 +90,7 @@ func version(c *fiber.Ctx) error {
 	params := SearchParams{}
 	err := json.Unmarshal(c.Body(), &params)
 	if err != nil {
-		return c.SendStatus(fiber.StatusBadRequest)
+		return err
 	}
 
 	resp := VersionResponse{
@@ -115,9 +115,9 @@ func search(c *fiber.Ctx) error {
 	conn.
 		Where(
 			"vendor = ? AND name = ? AND version = ?",
-			c.Params("vendor"),
-			c.Params("name"),
-			c.Params("version"),
+			c.Query("vendor"),
+			c.Query("name"),
+			c.Query("version"),
 		).
 		First(&viewData.Product)
 

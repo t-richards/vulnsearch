@@ -30,7 +30,7 @@ func DownloadMeta(year int) (*Meta, error) {
 
 	meta, err := DecodeMeta(response.Body)
 	if err != nil {
-		return nil, fmt.Errorf("Failed to parse NVD metadata: %v", err)
+		return nil, fmt.Errorf("failed to parse NVD metadata: %v", err)
 	}
 
 	return meta, nil

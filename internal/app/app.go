@@ -39,7 +39,7 @@ func Run() {
 	app.Post("/vendor", vendor)
 	app.Post("/product", product)
 	app.Post("/version", version)
-	app.Post("/search", search)
+	app.Get("/search", search)
 
 	// Assets
 	assetDir, _ := fs.Sub(assets.Assets, "public")
