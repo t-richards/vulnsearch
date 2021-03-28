@@ -50,7 +50,7 @@ func cveNeedsDownload(year int) bool {
 	return false
 }
 
-// ArchivePath returns a relative path to the gzipped JSON archive for a given year
+// ArchivePath returns the path to the gzipped JSON archive for a given year
 func ArchivePath(year int) string {
 	basename := fmt.Sprintf("nvdcve-%v-%v.json.gz", Version, year)
 	return path.Join(cache.DataPath(), basename)

@@ -28,18 +28,16 @@ func build(c *fiber.Ctx) error {
 		MinifySyntax:      true,
 	}
 
+	c.Set(fiber.HeaderContentType, fiber.MIMEApplicationJavaScript)
 	result := api.Transform(string(src), opts)
 	if len(result.Errors) > 0 {
-		c.SendStatus(fiber.StatusInternalServerError)
-		return c.JSONP(result.Errors)
+		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
 	if len(result.Warnings) > 0 {
-		c.SendStatus(fiber.StatusInternalServerError)
-		return c.JSONP(result.Warnings)
+		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	c.Set(fiber.HeaderContentType, fiber.MIMEApplicationJavaScript)
 	return c.Send(result.Code)
 }
 
@@ -112,14 +110,19 @@ func version(c *fiber.Ctx) error {
 func search(c *fiber.Ctx) error {
 	viewData := views.ProductView{}
 	// Load product
-	conn.
-		Where(
-			"vendor = ? AND name = ? AND version = ?",
-			c.Query("vendor"),
-			c.Query("name"),
-			c.Query("version"),
-		).
-		First(&viewData.Product)
+	productResult :=
+		conn.
+			Where(
+				"vendor = ? AND name = ? AND version = ?",
+				c.Query("vendor"),
+				c.Query("name"),
+				c.Query("version"),
+			).
+			First(&viewData.Product)
+
+	if productResult.Error != nil {
+		return c.SendStatus(fiber.StatusNotFound)
+	}
 
 	// Load CVEs
 	conn.
