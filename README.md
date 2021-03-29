@@ -19,15 +19,9 @@ A fast, offline-capable replacement for other CVE search tools.
 
 ## Getting started
 
-Note: This application does not support installation via `go get`.
-
 ```bash
-# Clone this repository
-git clone git@github.com:t-richards/vulnsearch.git
-cd vulnsearch
-
 # Build and install application
-go install
+go get -u github.com/t-richards/vulnsearch
 
 # Show help documentation
 vulnsearch help
