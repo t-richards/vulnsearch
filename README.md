@@ -1,6 +1,5 @@
 # vulnsearch
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/t-richards/vulnsearch/Test?style=flat-square)](https://github.com/t-richards/vulnsearch/actions)
 
 A fast, offline-capable replacement for other CVE search tools.
 
@@ -13,7 +12,7 @@ A fast, offline-capable replacement for other CVE search tools.
 
 ## System requirements
 
-- [Go][golang] `~> 1.16`
+- [Go][golang] `~> 1.22`
 - [SQLite][sqlite] `~> 3.33`
 - Roughly 300MB of disk space
 

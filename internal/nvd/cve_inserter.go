@@ -3,7 +3,7 @@ package nvd
 import (
 	"compress/gzip"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 	"strings"
@@ -43,7 +43,7 @@ func loadFile(path string) Archive {
 	}
 	defer reader.Close()
 
-	data, err := ioutil.ReadAll(reader)
+	data, err := io.ReadAll(reader)
 	if err != nil {
 		log.Fatalf("Failed to read archive %v: %v", path, err)
 	}
@@ -69,11 +69,15 @@ func upsert(db *gorm.DB, year int, archive Archive) {
 
 		// Create relationships between the CVE and the relevant products
 		relatedProducts := findRelatedProductsForItem(db, item)
-		db.
+		err := db.
 			Clauses(clause.OnConflict{UpdateAll: true}).
 			Model(&cve).
 			Association("Products").
 			Append(relatedProducts)
+		if err != nil {
+			// an error here is unlikely, so we'll just log it and move on
+			log.Println(err)
+		}
 	}
 }
 

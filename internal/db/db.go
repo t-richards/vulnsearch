@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/t-richards/vulnsearch/internal/cache"
+
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
