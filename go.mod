@@ -5,7 +5,7 @@ go 1.22
 require (
 	// server
 	github.com/evanw/esbuild v0.20.1
-	github.com/gofiber/fiber/v2 v2.52.2
+	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/gofiber/template v1.6.7
 
 	// testing
