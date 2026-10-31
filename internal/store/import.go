@@ -31,7 +31,7 @@ func (s *Store) Import(ctx context.Context, cves iter.Seq2[nvd.CVE, error]) (int
 
 		err = importCVE(ctx, qtx, cve)
 		if err != nil {
-			return count, fmt.Errorf("while importing %s: %w", cve.ID, err)
+			return count, fmt.Errorf("importing %s: %w", cve.ID, err)
 		}
 
 		count++
@@ -39,7 +39,7 @@ func (s *Store) Import(ctx context.Context, cves iter.Seq2[nvd.CVE, error]) (int
 
 	err = tx.Commit()
 	if err != nil {
-		return count, fmt.Errorf("while committing import: %w", err)
+		return count, fmt.Errorf("committing import: %w", err)
 	}
 
 	return count, nil
@@ -65,12 +65,12 @@ func importCVE(ctx context.Context, q *db.Queries, cve nvd.CVE) error {
 		LastModified: cve.LastModified.Time,
 	})
 	if err != nil {
-		return fmt.Errorf("while saving CVE: %w", err)
+		return fmt.Errorf("saving CVE: %w", err)
 	}
 
 	err = q.DeleteMatchesForCVE(ctx, cve.ID)
 	if err != nil {
-		return fmt.Errorf("while clearing matches: %w", err)
+		return fmt.Errorf("clearing matches: %w", err)
 	}
 
 	for _, match := range cve.VulnerableMatches() {
@@ -93,7 +93,7 @@ func importCVE(ctx context.Context, q *db.Queries, cve nvd.CVE) error {
 			VersionEndExcluding:   match.VersionEndExcluding,
 		})
 		if err != nil {
-			return fmt.Errorf("while saving match: %w", err)
+			return fmt.Errorf("saving match: %w", err)
 		}
 	}
 
@@ -117,13 +117,13 @@ func (s *Store) RebuildProducts(ctx context.Context) error {
 	} {
 		err = step(ctx)
 		if err != nil {
-			return fmt.Errorf("while rebuilding products: %w", err)
+			return fmt.Errorf("rebuilding products: %w", err)
 		}
 	}
 
 	err = tx.Commit()
 	if err != nil {
-		return fmt.Errorf("while committing products: %w", err)
+		return fmt.Errorf("committing products: %w", err)
 	}
 
 	return nil

@@ -24,7 +24,7 @@ func likePrefix(s string) string {
 func (s *Store) Vendors(ctx context.Context, prefix string) ([]string, error) {
 	vendors, err := s.SearchVendors(ctx, likePrefix(prefix))
 	if err != nil {
-		return nil, fmt.Errorf("while searching vendors: %w", err)
+		return nil, fmt.Errorf("searching vendors: %w", err)
 	}
 
 	return vendors, nil
@@ -37,7 +37,7 @@ func (s *Store) Products(ctx context.Context, vendor, prefix string) ([]string, 
 		Product: likePrefix(prefix),
 	})
 	if err != nil {
-		return nil, fmt.Errorf("while searching products: %w", err)
+		return nil, fmt.Errorf("searching products: %w", err)
 	}
 
 	return products, nil
@@ -51,7 +51,7 @@ func (s *Store) Versions(ctx context.Context, vendor, product, prefix string) ([
 		Version: likePrefix(prefix),
 	})
 	if err != nil {
-		return nil, fmt.Errorf("while searching versions: %w", err)
+		return nil, fmt.Errorf("searching versions: %w", err)
 	}
 
 	// Sorted here, as SQL can only sort these lexically ("10.0" < "9.0").
@@ -86,7 +86,7 @@ func (s *Store) AffectedCVEs(ctx context.Context, vendor, product, version strin
 		Product: product,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("while listing matches: %w", err)
+		return nil, fmt.Errorf("listing matches: %w", err)
 	}
 
 	var cves []AffectedCVE

@@ -20,7 +20,7 @@ const (
 func CacheDir() (string, error) {
 	dir, err := os.UserCacheDir()
 	if err != nil {
-		return "", fmt.Errorf("while finding cache directory: %w", err)
+		return "", fmt.Errorf("finding cache directory: %w", err)
 	}
 
 	return filepath.Join(dir, "vulnsearch"), nil
@@ -41,7 +41,7 @@ func DBPath() (string, error) {
 
 	err := os.MkdirAll(filepath.Dir(path), 0o750)
 	if err != nil {
-		return "", fmt.Errorf("while creating database directory: %w", err)
+		return "", fmt.Errorf("creating database directory: %w", err)
 	}
 
 	return path, nil
@@ -61,7 +61,7 @@ func DataDir() (string, error) {
 
 	err := os.MkdirAll(dir, 0o750)
 	if err != nil {
-		return "", fmt.Errorf("while creating data directory: %w", err)
+		return "", fmt.Errorf("creating data directory: %w", err)
 	}
 
 	return dir, nil

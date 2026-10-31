@@ -34,14 +34,14 @@ func Open(ctx context.Context, path string) (*Store, error) {
 
 	conn, err := sql.Open("sqlite", "file:"+path+"?"+params.Encode())
 	if err != nil {
-		return nil, fmt.Errorf("while opening database: %w", err)
+		return nil, fmt.Errorf("opening database: %w", err)
 	}
 
 	_, err = conn.ExecContext(ctx, sqlc.Schema)
 	if err != nil {
 		conn.Close()
 
-		return nil, fmt.Errorf("while applying schema: %w", err)
+		return nil, fmt.Errorf("applying schema: %w", err)
 	}
 
 	return &Store{Queries: db.New(conn), conn: conn}, nil
@@ -52,7 +52,7 @@ func Open(ctx context.Context, path string) (*Store, error) {
 func (s *Store) Begin(ctx context.Context) (*sql.Tx, *db.Queries, error) {
 	tx, err := s.conn.BeginTx(ctx, nil)
 	if err != nil {
-		return nil, nil, fmt.Errorf("while beginning transaction: %w", err)
+		return nil, nil, fmt.Errorf("beginning transaction: %w", err)
 	}
 
 	return tx, s.WithTx(tx), nil
@@ -62,7 +62,7 @@ func (s *Store) Begin(ctx context.Context) (*sql.Tx, *db.Queries, error) {
 func (s *Store) Close() error {
 	err := s.conn.Close()
 	if err != nil {
-		return fmt.Errorf("while closing database: %w", err)
+		return fmt.Errorf("closing database: %w", err)
 	}
 
 	return nil
@@ -72,7 +72,7 @@ func (s *Store) Close() error {
 func (s *Store) Optimize(ctx context.Context) error {
 	_, err := s.conn.ExecContext(ctx, "PRAGMA optimize; VACUUM;")
 	if err != nil {
-		return fmt.Errorf("while optimizing database: %w", err)
+		return fmt.Errorf("optimizing database: %w", err)
 	}
 
 	return nil

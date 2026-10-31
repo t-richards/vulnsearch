@@ -173,7 +173,7 @@ func loadCmd(ctx context.Context, args []string) error {
 
 		count, err := st.Import(ctx, nvd.OpenArchive(path))
 		if err != nil {
-			return fmt.Errorf("while loading %d: %w", year, err)
+			return fmt.Errorf("loading %d: %w", year, err)
 		}
 
 		log.Printf("Loaded %d CVEs", count)
@@ -224,7 +224,7 @@ func clobberCmd() error {
 
 	err = os.RemoveAll(dir)
 	if err != nil {
-		return fmt.Errorf("while removing %s: %w", dir, err)
+		return fmt.Errorf("removing %s: %w", dir, err)
 	}
 
 	return nil

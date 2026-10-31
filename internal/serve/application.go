@@ -57,7 +57,7 @@ func NewApplication(st *store.Store) (*Application, error) {
 
 	public, err := fs.Sub(publicFiles, "public")
 	if err != nil {
-		return nil, fmt.Errorf("while loading public files: %w", err)
+		return nil, fmt.Errorf("loading public files: %w", err)
 	}
 
 	app.Handler = app.routes(public)
@@ -91,7 +91,7 @@ func (app *Application) ListenAndServe(ctx context.Context, addr string) error {
 
 	err := server.Shutdown(shutdownCtx)
 	if err != nil && !errors.Is(err, http.ErrServerClosed) {
-		return fmt.Errorf("while shutting down: %w", err)
+		return fmt.Errorf("shutting down: %w", err)
 	}
 
 	return nil

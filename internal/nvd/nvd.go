@@ -100,20 +100,20 @@ func needsDownload(ctx context.Context, year int, path string) (bool, error) {
 func get(ctx context.Context, url string) (*http.Response, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
-		return nil, fmt.Errorf("while creating request: %w", err)
+		return nil, fmt.Errorf("creating request: %w", err)
 	}
 
 	req.Header.Set("User-Agent", userAgent)
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("while fetching %s: %w", url, err)
+		return nil, fmt.Errorf("fetching %s: %w", url, err)
 	}
 
 	if resp.StatusCode != http.StatusOK {
 		resp.Body.Close()
 
-		return nil, fmt.Errorf("while fetching %s: %w %s", url, errUnexpectedStatus, resp.Status)
+		return nil, fmt.Errorf("fetching %s: %w %s", url, errUnexpectedStatus, resp.Status)
 	}
 
 	return resp, nil
@@ -130,7 +130,7 @@ func download(ctx context.Context, url, dest string) error {
 
 	tmp, err := os.CreateTemp(filepath.Dir(dest), filepath.Base(dest)+".*.tmp")
 	if err != nil {
-		return fmt.Errorf("while creating temporary file: %w", err)
+		return fmt.Errorf("creating temporary file: %w", err)
 	}
 	defer os.Remove(tmp.Name())
 
@@ -138,17 +138,17 @@ func download(ctx context.Context, url, dest string) error {
 	if err != nil {
 		tmp.Close()
 
-		return fmt.Errorf("while downloading %s: %w", url, err)
+		return fmt.Errorf("downloading %s: %w", url, err)
 	}
 
 	err = tmp.Close()
 	if err != nil {
-		return fmt.Errorf("while writing %s: %w", tmp.Name(), err)
+		return fmt.Errorf("writing %s: %w", tmp.Name(), err)
 	}
 
 	err = os.Rename(tmp.Name(), dest)
 	if err != nil {
-		return fmt.Errorf("while saving %s: %w", dest, err)
+		return fmt.Errorf("saving %s: %w", dest, err)
 	}
 
 	return nil

@@ -37,7 +37,7 @@ func (t *Time) UnmarshalJSON(buf []byte) error {
 
 	t.Time, err = time.Parse("2006-01-02T15:04:05.999999999", s)
 	if err != nil {
-		return fmt.Errorf("while parsing time: %w", err)
+		return fmt.Errorf("parsing time: %w", err)
 	}
 
 	return nil
@@ -216,7 +216,7 @@ func OpenArchive(path string) iter.Seq2[CVE, error] {
 	return func(yield func(CVE, error) bool) {
 		file, err := os.Open(path)
 		if err != nil {
-			yield(CVE{}, fmt.Errorf("while opening archive: %w", err))
+			yield(CVE{}, fmt.Errorf("opening archive: %w", err))
 
 			return
 		}
@@ -224,7 +224,7 @@ func OpenArchive(path string) iter.Seq2[CVE, error] {
 
 		reader, err := gzip.NewReader(file)
 		if err != nil {
-			yield(CVE{}, fmt.Errorf("while decompressing %s: %w", path, err))
+			yield(CVE{}, fmt.Errorf("decompressing %s: %w", path, err))
 
 			return
 		}
@@ -259,7 +259,7 @@ func Decode(r io.Reader) iter.Seq2[CVE, error] {
 
 			err := dec.Decode(&item)
 			if err != nil {
-				yield(CVE{}, fmt.Errorf("while decoding CVE: %w", err))
+				yield(CVE{}, fmt.Errorf("decoding CVE: %w", err))
 
 				return
 			}
@@ -276,27 +276,27 @@ func Decode(r io.Reader) iter.Seq2[CVE, error] {
 func seekVulnerabilities(dec *json.Decoder) error {
 	tok, err := dec.Token()
 	if err != nil {
-		return fmt.Errorf("while reading feed: %w", err)
+		return fmt.Errorf("reading feed start: %w", err)
 	}
 
 	if tok != json.Delim('{') {
-		return fmt.Errorf("while reading feed: %w %v, expected object", errUnexpectedToken, tok)
+		return fmt.Errorf("reading feed start: %w %v, expected object", errUnexpectedToken, tok)
 	}
 
 	for dec.More() {
 		tok, err := dec.Token()
 		if err != nil {
-			return fmt.Errorf("while reading feed: %w", err)
+			return fmt.Errorf("reading feed key: %w", err)
 		}
 
 		if tok == "vulnerabilities" {
 			tok, err := dec.Token()
 			if err != nil {
-				return fmt.Errorf("while reading feed: %w", err)
+				return fmt.Errorf("reading vulnerabilities start: %w", err)
 			}
 
 			if tok != json.Delim('[') {
-				return fmt.Errorf("while reading feed: %w %v, expected array", errUnexpectedToken, tok)
+				return fmt.Errorf("reading vulnerabilities start: %w %v, expected array", errUnexpectedToken, tok)
 			}
 
 			return nil
@@ -307,7 +307,7 @@ func seekVulnerabilities(dec *json.Decoder) error {
 
 		err = dec.Decode(&skip)
 		if err != nil {
-			return fmt.Errorf("while reading feed: %w", err)
+			return fmt.Errorf("skipping feed key %v: %w", tok, err)
 		}
 	}
 

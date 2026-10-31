@@ -57,13 +57,13 @@ func DecodeMeta(r io.Reader) (Meta, error) {
 		}
 
 		if err != nil {
-			return Meta{}, fmt.Errorf("while parsing meta %s: %w", key, err)
+			return Meta{}, fmt.Errorf("parsing meta %s: %w", key, err)
 		}
 	}
 
 	err := scanner.Err()
 	if err != nil {
-		return Meta{}, fmt.Errorf("while reading meta: %w", err)
+		return Meta{}, fmt.Errorf("reading meta: %w", err)
 	}
 
 	return meta, nil

@@ -28,12 +28,12 @@ var funcs = template.FuncMap{
 func parseTemplates(files fs.FS) (map[string]*template.Template, error) {
 	base, err := template.New("").Funcs(funcs).ParseFS(files, "views/layouts/*.html", "views/partials/*.html")
 	if err != nil {
-		return nil, fmt.Errorf("while parsing layouts: %w", err)
+		return nil, fmt.Errorf("parsing layouts: %w", err)
 	}
 
 	pages, err := fs.Glob(files, "views/*.html")
 	if err != nil {
-		return nil, fmt.Errorf("while listing pages: %w", err)
+		return nil, fmt.Errorf("listing pages: %w", err)
 	}
 
 	templates := map[string]*template.Template{}
@@ -41,12 +41,12 @@ func parseTemplates(files fs.FS) (map[string]*template.Template, error) {
 	for _, page := range pages {
 		tmpl, err := base.Clone()
 		if err != nil {
-			return nil, fmt.Errorf("while cloning layouts: %w", err)
+			return nil, fmt.Errorf("cloning layouts: %w", err)
 		}
 
 		tmpl, err = tmpl.ParseFS(files, page)
 		if err != nil {
-			return nil, fmt.Errorf("while parsing %s: %w", page, err)
+			return nil, fmt.Errorf("parsing %s: %w", page, err)
 		}
 
 		templates[strings.TrimSuffix(path.Base(page), ".html")] = tmpl
@@ -69,7 +69,7 @@ func (app *Application) render(w http.ResponseWriter, status int, page string, d
 
 	err := tmpl.ExecuteTemplate(&buf, "base", data)
 	if err != nil {
-		serverError(w, fmt.Errorf("while rendering %s: %w", page, err))
+		serverError(w, fmt.Errorf("rendering %s: %w", page, err))
 
 		return
 	}
