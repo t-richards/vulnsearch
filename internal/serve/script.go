@@ -30,7 +30,7 @@ func buildScript() (script, error) {
 		Sourcefile:        "application.ts",
 		Loader:            api.LoaderTS,
 		Format:            api.FormatESModule,
-		Target:            api.ES2022,
+		Target:            api.ESNext,
 		MinifyWhitespace:  true,
 		MinifyIdentifiers: true,
 		MinifySyntax:      true,

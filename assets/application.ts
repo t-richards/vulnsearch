@@ -1,82 +1,48 @@
-type InputId = "vendor" | "name" | "version"
-
 // Delay between the last keystroke and fetching suggestions.
 const debounceMs = 150
 
-// Returns the value of the input or an empty string.
-const getInputValue = (id: InputId): string => {
-  const el = document.getElementById(id) as HTMLInputElement | null
-  return el?.value ?? ""
+// Suggestions endpoint for each input, keyed by input name.
+const endpoints: Record<string, string> = {
+  vendor: "/api/vendors",
+  name: "/api/products",
+  version: "/api/versions",
 }
 
-// Fetches a list of suggestions, aborting any previous in-flight request.
-const fetchSuggestions = async (path: string, params: Record<string, string>, signal: AbortSignal): Promise<string[]> => {
-  const response = await fetch(`${path}?${new URLSearchParams(params)}`, { signal })
-  if (!response.ok) {
-    throw new Error(`${path}: ${response.status}`)
-  }
-  return await response.json() as string[]
+const inputs = [...(document.getElementById("search")?.querySelectorAll("input") ?? [])]
+
+// Every endpoint receives the whole form.
+const query = () => new URLSearchParams(inputs.map((input) => [input.name, input.value]))
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+// Fills the datalist with suggestions from the endpoint, after a debounce.
+const suggest = async (endpoint: string, list: HTMLDataListElement, signal: AbortSignal) => {
+  await sleep(debounceMs)
+  signal.throwIfAborted()
+
+  const response = await fetch(`${endpoint}?${query()}`, { signal })
+  if (!response.ok) throw new Error(`${endpoint}: ${response.status}`)
+
+  const items: string[] = await response.json()
+  list.replaceChildren(...items.map((item) => new Option(item, item)))
 }
 
-/**
- * Wires up a typeahead "component" using a native HTML input and datalist element.
- *
- * @param inputId The id of the input element to listen for input events
- * @param listId The associated datalist element to be updated
- * @param path The suggestions endpoint
- * @param params Returns the query parameters for the suggestions endpoint
- */
-const wireTypeahead = (
-  inputId: InputId,
-  listId: string,
-  path: string,
-  params: () => Record<string, string>,
-): void => {
-  const input = document.getElementById(inputId)
-  const list = document.getElementById(listId)
-  if (input === null || list === null) {
-    return
+for (const input of inputs) {
+  const endpoint = endpoints[input.name]
+  const list = input.list
+  if (!endpoint || !list) continue
+
+  // Aborting cancels both a pending debounce and an in-flight request.
+  let controller = new AbortController()
+
+  const refresh = () => {
+    controller.abort()
+    const { signal } = (controller = new AbortController())
+    suggest(endpoint, list, signal).catch((err) => {
+      if (!signal.aborted) console.error(err)
+    })
   }
 
-  let timer: number | undefined
-  let controller: AbortController | undefined
-
-  const update = async (): Promise<void> => {
-    controller?.abort()
-    controller = new AbortController()
-
-    try {
-      const items = await fetchSuggestions(path, params(), controller.signal)
-      list.replaceChildren(...items.map((value) => new Option(value, value)))
-    } catch (err) {
-      if (!(err instanceof DOMException && err.name === "AbortError")) {
-        console.error(err)
-      }
-    }
-  }
-
-  const schedule = (): void => {
-    window.clearTimeout(timer)
-    timer = window.setTimeout(update, debounceMs)
-  }
-
-  input.addEventListener("input", schedule)
-  input.addEventListener("focus", schedule)
+  input.addEventListener("input", refresh)
+  input.addEventListener("focus", refresh)
 }
-
-const init = (): void => {
-  wireTypeahead("vendor", "vendor-list", "/api/vendors", () => ({
-    vendor: getInputValue("vendor"),
-  }))
-  wireTypeahead("name", "name-list", "/api/products", () => ({
-    vendor: getInputValue("vendor"),
-    name: getInputValue("name"),
-  }))
-  wireTypeahead("version", "version-list", "/api/versions", () => ({
-    vendor: getInputValue("vendor"),
-    name: getInputValue("name"),
-    version: getInputValue("version"),
-  }))
-}
-
-init()
