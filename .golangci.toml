@@ -1,0 +1,42 @@
+version = "2"
+
+[linters]
+default = "all"
+disable = [
+  # objectively gross, literally nobody wants this
+  "exhaustruct",
+  "exhaustruct_v5",
+
+  # don't care
+  "ireturn",
+
+  # deprecated
+  "gomodguard",
+  "wsl",
+
+  # needs explicit configuration
+  "depguard",
+  "forbidigo",
+
+  # things we don't care about at the moment
+  "errcheck",
+  "goconst",
+  "gochecknoglobals",
+  "mnd",
+  "paralleltest",
+  "testpackage",
+  "varnamelen",
+
+  # fix me first
+  "gosec",
+  "revive",
+]
+
+[formatters]
+enable = [
+  "gofmt",
+  "goimports"
+]
+[linters.settings.wrapcheck]
+# Errors from this module's own packages are already wrapped with context.
+ignore-package-globs = ["github.com/t-richards/vulnsearch/*"]

@@ -1,0 +1,44 @@
+{{ define "title" }}{{ .FullName }} - Vulnsearch{{ end }}
+
+{{ define "content" }}
+<h1>{{ .FullName }}</h1>
+
+{{ if .CVEs }}
+<div class="row mt-4">
+  {{ range .Severities }}{{ template "severity" . }}{{ end }}
+</div>
+
+<h2 class="h4 mt-4">CVE List ({{ len .CVEs }})</h2>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">CVE ID</th>
+        <th scope="col">Affected Versions</th>
+        <th scope="col">CWE</th>
+        <th scope="col" class="text-end">v4.0</th>
+        <th scope="col" class="text-end">v3.x</th>
+        <th scope="col" class="text-end">v2.0</th>
+      </tr>
+    </thead>
+    {{ range .CVEs }}
+    <tbody>
+      <tr>
+        <td class="border-0 pb-0 text-nowrap"><a href="https://nvd.nist.gov/vuln/detail/{{ .ID }}" rel="noreferrer">{{ .ID }}</a></td>
+        <td class="border-0 pb-0">{{ range .Matches }}<div class="text-nowrap">{{ . }}</div>{{ end }}</td>
+        <td class="border-0 pb-0">{{ .CWEIDs }}</td>
+        <td class="border-0 pb-0 text-end">{{ score .CVSSv4Score }}</td>
+        <td class="border-0 pb-0 text-end">{{ score .CVSSv3Score }}</td>
+        <td class="border-0 pb-0 text-end">{{ score .CVSSv2Score }}</td>
+      </tr>
+      <tr>
+        <td colspan="6" class="text-body-secondary text-break">{{ .Description }}</td>
+      </tr>
+    </tbody>
+    {{ end }}
+  </table>
+</div>
+{{ else }}
+<p class="lead mt-4">No known CVEs. Check that the vendor and product names match a suggestion, or <a href="/">try another search</a>.</p>
+{{ end }}
+{{ end }}

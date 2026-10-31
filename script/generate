@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+
+# Regenerates sqlc queries. These are committed, so that `go install` works
+# without sqlc.
+exec go generate ./...

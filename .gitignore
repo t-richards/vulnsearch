@@ -1,6 +1,6 @@
-# Test coverage output
-coverage
-
 # Compiled binaries
-__debug_bin
-vulnsearch
+/vulnsearch
+__debug_bin*
+
+# Test output
+coverage/
