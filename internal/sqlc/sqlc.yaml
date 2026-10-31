@@ -1,0 +1,18 @@
+version: "2"
+sql:
+  - engine: sqlite
+    schema: schema.sql
+    queries: queries.sql
+    gen:
+      go:
+        package: db
+        out: "../db"
+        emit_interface: true
+        emit_sql_as_comment: true
+        rename:
+          cfe: CVE
+          cve_id: CVEID
+          cwe_ids: CWEIDs
+          cvss_v4_score: CVSSv4Score
+          cvss_v3_score: CVSSv3Score
+          cvss_v2_score: CVSSv2Score

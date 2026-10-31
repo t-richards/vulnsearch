@@ -1,0 +1,29 @@
+{{ define "severity" }}
+<div class="col-md-4">
+  <h3 class="h5">{{ .Title }}</h3>
+  <table class="table table-sm table-striped text-nowrap">
+    <thead>
+      <tr>
+        <th scope="col">Severity</th>
+        <th scope="col" class="text-end">Score</th>
+        <th scope="col" class="text-end">Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range .Rows }}
+      <tr>
+        <td>{{ .Severity }}</td>
+        <td class="text-end">{{ .Scale }}</td>
+        <td class="text-end">{{ .Count }}</td>
+      </tr>
+      {{ end }}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th scope="row" colspan="2">Total</th>
+        <td class="text-end fw-bold">{{ .Total }}</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+{{ end }}

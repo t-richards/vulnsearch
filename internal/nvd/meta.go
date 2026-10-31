@@ -1,16 +1,16 @@
 package nvd
 
 import (
+	"bufio"
+	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
-	"log"
 	"strconv"
 	"strings"
 	"time"
 )
 
-// Meta represents the meta status of a given year's feed
+// Meta represents the meta status of a given year's feed.
 type Meta struct {
 	LastModified time.Time
 	Size         int
@@ -19,60 +19,52 @@ type Meta struct {
 	Sha256       string
 }
 
-// DownloadMeta fetches the latest meta file from NVD and caches it
-func DownloadMeta(year int) (*Meta, error) {
-	url := metaURL(year)
-	response, err := client.Get(url)
+// FetchMeta fetches the meta file for the given year's feed.
+func FetchMeta(ctx context.Context, year int) (Meta, error) {
+	resp, err := get(ctx, metaURL(year))
 	if err != nil {
-		log.Fatalf("Failed to fetch NVD meta status: %v", err)
+		return Meta{}, err
 	}
-	defer response.Body.Close()
+	defer resp.Body.Close()
 
-	meta, err := DecodeMeta(response.Body)
-	if err != nil {
-		return nil, fmt.Errorf("failed to parse NVD metadata: %v", err)
-	}
-
-	return meta, nil
+	return DecodeMeta(resp.Body)
 }
 
-// DecodeMeta takes data from the reader and returns a meta object
-func DecodeMeta(r io.Reader) (*Meta, error) {
-	meta := new(Meta)
+// DecodeMeta parses a meta file, which consists of "key:value" lines.
+func DecodeMeta(r io.Reader) (Meta, error) {
+	var meta Meta
 
-	body, err := ioutil.ReadAll(r)
-	if err != nil {
-		log.Fatalf("Failed to read meta for unmarshalling")
-	}
-
-	lines := strings.Split(string(body), "\r\n")
-	for _, line := range lines {
-		if line == "" {
+	scanner := bufio.NewScanner(r)
+	for scanner.Scan() {
+		key, value, ok := strings.Cut(strings.TrimSpace(scanner.Text()), ":")
+		if !ok {
 			continue
 		}
 
-		parts := strings.SplitN(line, ":", 2)
-		if len(parts) != 2 {
-			continue
-		}
+		var err error
 
-		switch parts[0] {
+		switch key {
 		case "lastModifiedDate":
-			meta.LastModified, _ = time.Parse(time.RFC3339, parts[1])
+			meta.LastModified, err = time.Parse(time.RFC3339, value)
 		case "size":
-			meta.Size, _ = strconv.Atoi(parts[1])
+			meta.Size, err = strconv.Atoi(value)
 		case "zipSize":
-			meta.ZipSize, _ = strconv.Atoi(parts[1])
+			meta.ZipSize, err = strconv.Atoi(value)
 		case "gzSize":
-			meta.GzipSize, _ = strconv.Atoi(parts[1])
+			meta.GzipSize, err = strconv.Atoi(value)
 		case "sha256":
-			meta.Sha256 = parts[1]
+			meta.Sha256 = value
+		}
+
+		if err != nil {
+			return Meta{}, fmt.Errorf("while parsing meta %s: %w", key, err)
 		}
 	}
 
-	return meta, nil
-}
+	err := scanner.Err()
+	if err != nil {
+		return Meta{}, fmt.Errorf("while reading meta: %w", err)
+	}
 
-func metaURL(year int) string {
-	return fmt.Sprintf("%v/feeds/json/cve/%v/nvdcve-%v-%v.meta", BaseURI, Version, Version, year)
+	return meta, nil
 }

@@ -1,0 +1,30 @@
+{{ define "content" }}
+<h1 class="mb-4">Start typing to find a product...</h1>
+<form id="search" action="/search" method="get">
+  <div class="row g-3">
+    <div class="col-md">
+      <div class="form-floating">
+        <input class="form-control" type="text" id="vendor" name="vendor" list="vendor-list" placeholder="apache" autocomplete="off" required>
+        <label for="vendor">Vendor</label>
+        <datalist id="vendor-list"></datalist>
+      </div>
+    </div>
+    <div class="col-md">
+      <div class="form-floating">
+        <input class="form-control" type="text" id="name" name="name" list="name-list" placeholder="http_server" autocomplete="off" required>
+        <label for="name">Product</label>
+        <datalist id="name-list"></datalist>
+      </div>
+    </div>
+    <div class="col-md">
+      <div class="form-floating">
+        <input class="form-control" type="text" id="version" name="version" list="version-list" placeholder="2.4.49" autocomplete="off">
+        <label for="version">Version (blank for all)</label>
+        <datalist id="version-list"></datalist>
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary mt-3">Show Product Details</button>
+</form>
+<script type="module" src="/application.js"></script>
+{{ end }}

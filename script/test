@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+
+mkdir -p coverage
+go test -race -coverpkg=./... -covermode=atomic -coverprofile coverage/cover.out ./...
+go tool cover -html=coverage/cover.out -o coverage/index.html

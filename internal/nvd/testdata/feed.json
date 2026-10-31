@@ -1,0 +1,317 @@
+{
+  "resultsPerPage": 3,
+  "startIndex": 0,
+  "totalResults": 3,
+  "format": "NVD_CVE",
+  "version": "2.0",
+  "timestamp": "2026-10-21T03:04:59.7088326",
+  "vulnerabilities": [
+    {
+      "cve": {
+        "id": "CVE-2025-22275",
+        "sourceIdentifier": "cve@mitre.org",
+        "published": "2025-01-03T05:15:08.243",
+        "lastModified": "2026-06-17T08:46:05.040",
+        "vulnStatus": "Analyzed",
+        "cveTags": [],
+        "descriptions": [
+          {
+            "lang": "en",
+            "value": "iTerm2 3.5.6 through 3.5.10 before 3.5.11 sometimes allows remote attackers to obtain sensitive information from terminal commands by reading the /tmp/framer.txt file. This can occur for certain it2ssh and SSH Integration configurations, during remote logins to hosts that have a common Python installation."
+          },
+          {
+            "lang": "es",
+            "value": "iTerm2 3.5.6 a 3.5.10 antes de 3.5.11 a veces permite a atacantes remotos obtener información confidencial de comandos de terminal mediante la lectura del archivo /tmp/framer.txt. Esto puede ocurrir en ciertas configuraciones de it2ssh y de integración SSH, durante inicios de sesión remotos en hosts que tienen una instalación de Python común."
+          }
+        ],
+        "affected": [
+          {
+            "source": "cve@mitre.org",
+            "affectedData": [
+              {
+                "vendor": "iTerm2",
+                "product": "iTerm2",
+                "defaultStatus": "unaffected",
+                "versions": [
+                  {
+                    "version": "3.5.6",
+                    "lessThan": "3.5.11",
+                    "versionType": "semver",
+                    "status": "affected"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "metrics": {
+          "cvssMetricV31": [
+            {
+              "source": "cve@mitre.org",
+              "type": "Secondary",
+              "cvssData": {
+                "version": "3.1",
+                "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:L/A:N",
+                "baseScore": 9.3,
+                "baseSeverity": "CRITICAL",
+                "attackVector": "NETWORK",
+                "attackComplexity": "LOW",
+                "privilegesRequired": "NONE",
+                "userInteraction": "NONE",
+                "scope": "CHANGED",
+                "confidentialityImpact": "HIGH",
+                "integrityImpact": "LOW",
+                "availabilityImpact": "NONE"
+              },
+              "exploitabilityScore": 3.9,
+              "impactScore": 4.7
+            }
+          ],
+          "ssvcV203": [
+            {
+              "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+              "ssvcData": {
+                "timestamp": "2025-01-03T14:58:43.443113Z",
+                "id": "CVE-2025-22275",
+                "options": [
+                  {
+                    "exploitation": "none"
+                  },
+                  {
+                    "automatable": "yes"
+                  },
+                  {
+                    "technicalImpact": "partial"
+                  }
+                ],
+                "role": "CISA Coordinator",
+                "version": "2.0.3"
+              }
+            }
+          ]
+        },
+        "weaknesses": [
+          {
+            "source": "cve@mitre.org",
+            "type": "Secondary",
+            "description": [
+              {
+                "lang": "en",
+                "value": "CWE-532"
+              }
+            ]
+          }
+        ],
+        "configurations": [
+          {
+            "nodes": [
+              {
+                "operator": "OR",
+                "negate": false,
+                "cpeMatch": [
+                  {
+                    "vulnerable": true,
+                    "criteria": "cpe:2.3:a:iterm2:iterm2:*:*:*:*:*:*:*:*",
+                    "versionStartIncluding": "3.5.6",
+                    "versionEndExcluding": "3.5.11",
+                    "matchCriteriaId": "53EB11E1-F547-407A-A808-8E9C3042A4E3"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "url": "https://gitlab.com/gnachman/iterm2/-/wikis/SSH-Integration-Information-Leak",
+            "source": "cve@mitre.org",
+            "tags": [
+              "Third Party Advisory"
+            ]
+          },
+          {
+            "url": "https://iterm2.com/downloads/stable/iTerm2-3_5_11.changelog",
+            "source": "cve@mitre.org",
+            "tags": [
+              "Release Notes"
+            ]
+          },
+          {
+            "url": "https://news.ycombinator.com/item?id=42579472",
+            "source": "cve@mitre.org",
+            "tags": [
+              "Issue Tracking"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cve": {
+        "id": "CVE-2010-0157",
+        "sourceIdentifier": "cve@mitre.org",
+        "published": "2010-01-06T22:00:12.450",
+        "lastModified": "2026-06-16T23:15:35.200",
+        "vulnStatus": "Modified",
+        "cveTags": [],
+        "descriptions": [
+          {
+            "lang": "en",
+            "value": "Directory traversal vulnerability in the Bible Study (com_biblestudy) component 6.1 for Joomla! allows remote attackers to include and execute arbitrary local files via a .. (dot dot) in the controller parameter in a studieslist action to index.php."
+          },
+          {
+            "lang": "es",
+            "value": "Vulnerabilidad de salto de directorio en el componente Bible Study (com_biblestudy) v6.1 para Joomla! permite a atacantes remotos incluir y ejecutar ficheros locales de su elección a través de un .. (punto punto) en el parámetro controller en una acción studieslist en index.php."
+          }
+        ],
+        "affected": [
+          {
+            "source": "cve@mitre.org",
+            "affectedData": [
+              {
+                "vendor": "n/a",
+                "product": "n/a",
+                "versions": [
+                  {
+                    "version": "n/a",
+                    "status": "affected"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "metrics": {
+          "cvssMetricV2": [
+            {
+              "source": "nvd@nist.gov",
+              "type": "Primary",
+              "cvssData": {
+                "version": "2.0",
+                "vectorString": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+                "baseScore": 7.5,
+                "accessVector": "NETWORK",
+                "accessComplexity": "LOW",
+                "authentication": "NONE",
+                "confidentialityImpact": "PARTIAL",
+                "integrityImpact": "PARTIAL",
+                "availabilityImpact": "PARTIAL"
+              },
+              "baseSeverity": "HIGH",
+              "exploitabilityScore": 10.0,
+              "impactScore": 6.4,
+              "acInsufInfo": false,
+              "obtainAllPrivilege": false,
+              "obtainUserPrivilege": false,
+              "obtainOtherPrivilege": false,
+              "userInteractionRequired": false
+            }
+          ]
+        },
+        "weaknesses": [
+          {
+            "source": "nvd@nist.gov",
+            "type": "Primary",
+            "description": [
+              {
+                "lang": "en",
+                "value": "CWE-22"
+              }
+            ]
+          }
+        ],
+        "configurations": [
+          {
+            "operator": "AND",
+            "nodes": [
+              {
+                "operator": "OR",
+                "negate": false,
+                "cpeMatch": [
+                  {
+                    "vulnerable": false,
+                    "criteria": "cpe:2.3:a:joomla:joomla\\!:*:*:*:*:*:*:*:*",
+                    "matchCriteriaId": "2AC7400C-F6AF-4B5E-A34B-0222F94DCC46"
+                  }
+                ]
+              },
+              {
+                "operator": "OR",
+                "negate": false,
+                "cpeMatch": [
+                  {
+                    "vulnerable": true,
+                    "criteria": "cpe:2.3:a:joomlabiblestudy:com_biblestudy:6.1:*:*:*:*:*:*:*",
+                    "matchCriteriaId": "4F11AE9D-E107-4CDF-AE2D-C0657E13A47A"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "url": "http://packetstormsecurity.org/1001-exploits/joomlabiblestudy-lfi.txt",
+            "source": "cve@mitre.org",
+            "tags": [
+              "Exploit"
+            ]
+          },
+          {
+            "url": "http://secunia.com/advisories/37896",
+            "source": "cve@mitre.org",
+            "tags": [
+              "Vendor Advisory"
+            ]
+          },
+          {
+            "url": "http://www.securityfocus.com/bid/37583",
+            "source": "cve@mitre.org",
+            "tags": [
+              "Exploit"
+            ]
+          },
+          {
+            "url": "http://packetstormsecurity.org/1001-exploits/joomlabiblestudy-lfi.txt",
+            "source": "af854a3a-2127-422b-91ae-364da2661108",
+            "tags": [
+              "Exploit"
+            ]
+          },
+          {
+            "url": "http://secunia.com/advisories/37896",
+            "source": "af854a3a-2127-422b-91ae-364da2661108",
+            "tags": [
+              "Vendor Advisory"
+            ]
+          },
+          {
+            "url": "http://www.securityfocus.com/bid/37583",
+            "source": "af854a3a-2127-422b-91ae-364da2661108",
+            "tags": [
+              "Exploit"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "cve": {
+        "id": "CVE-2010-0735",
+        "sourceIdentifier": "secalert@redhat.com",
+        "published": "2010-03-18T19:30:02.243",
+        "lastModified": "2023-11-07T02:05:08.600",
+        "vulnStatus": "Rejected",
+        "cveTags": [],
+        "descriptions": [
+          {
+            "lang": "en",
+            "value": "Rejected reason: DO NOT USE THIS CANDIDATE NUMBER.  ConsultIDs: CVE-2010-0969.  Reason: This candidate is a duplicate of CVE-2010-0969.  Notes: All CVE users should reference CVE-2010-0969 instead of this candidate.  All references and descriptions in this candidate have been removed to prevent accidental usage"
+          }
+        ],
+        "metrics": {},
+        "references": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+name: go
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v7
+
+    - name: Setup go
+      uses: actions/setup-go@v7
+      with:
+        go-version-file: go.mod
+
+    - name: Setup sqlc
+      uses: sqlc-dev/setup-sqlc@v5
+      with:
+        sqlc-version: '1.31.1'
+
+    - name: Check generated code is up to date
+      run: |
+        go generate ./...
+        git diff --exit-code
+
+    - name: Build app
+      env:
+        GOFLAGS: "-trimpath -mod=readonly"
+        CGO_ENABLED: 0
+      run: go build -ldflags="-s -w" -o vulnsearch
+
+    - name: CLI functional test
+      run: ./vulnsearch help
+
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v7
+
+    - name: Setup go
+      uses: actions/setup-go@v7
+      with:
+        go-version-file: go.mod
+
+    - name: Run tests
+      run: script/test
+
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v7
+
+    - name: Setup go
+      uses: actions/setup-go@v7
+      with:
+        go-version-file: go.mod
+
+    - name: Lint code
+      uses: golangci/golangci-lint-action@v9
+      with:
+        version: v2.15.0
