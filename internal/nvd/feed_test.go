@@ -58,13 +58,22 @@ func TestDecode(t *testing.T) {
 		VersionEndExcluding:   "3.5.11",
 	}})
 
-	// A CVE which only affects a product running on a (non-vulnerable) platform.
-	bible := cves[1]
-	is.Equal(bible.ID, "CVE-2010-0157")
+	// A CVE affecting a library on a (non-vulnerable) platform: Ruby's CGI gem.
+	cgi := cves[1]
+	is.Equal(cgi.ID, "CVE-2025-27220")
+	is.Equal(cgi.CWEIDs(), "CWE-1333") // Listed by two sources, merged.
 
-	matches := bible.VulnerableMatches()
-	is.Equal(len(matches), 1)
-	is.Equal(matches[0].Criteria, "cpe:2.3:a:joomlabiblestudy:com_biblestudy:6.1:*:*:*:*:*:*:*")
+	score, ok = cgi.Metrics.V3Score()
+	is.True(ok)
+	is.Equal(score, 7.5) // NVD's primary score wins over the CNA's 4.0.
+
+	// Ruby itself is the platform, so only the cgi criteria are vulnerable.
+	matches := cgi.VulnerableMatches()
+	is.Equal(len(matches), 3)
+
+	for _, match := range matches {
+		is.True(strings.HasPrefix(match.Criteria, "cpe:2.3:a:ruby-lang:cgi:"))
+	}
 
 	// A rejected CVE.
 	is.Equal(cves[2].VulnStatus, nvd.StatusRejected)

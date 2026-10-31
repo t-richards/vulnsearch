@@ -59,7 +59,7 @@ func TestAffectedCVEsRange(t *testing.T) {
 	is.Equal(cves[0].ID, "CVE-2025-22275")
 	is.Equal(cves[0].CVSSv3Score.Float64, 9.3)
 	is.True(!cves[0].CVSSv2Score.Valid)
-	is.Equal(cves[0].Matches[0].String(), ">= 3.5.6, < 3.5.11")
+	is.Equal(cves[0].AffectedVersions(), "3.5.6 ≤ v < 3.5.11")
 }
 
 func TestAffectedCVEsSkipsPlatforms(t *testing.T) {
@@ -67,13 +67,21 @@ func TestAffectedCVEsSkipsPlatforms(t *testing.T) {
 	st := openFixture(t)
 	ctx := t.Context()
 
-	// The vulnerable component is linked...
-	cves, err := st.AffectedCVEs(ctx, "joomlabiblestudy", "com_biblestudy", "6.1")
-	is.NoErr(err)
-	is.Equal(len(cves), 1)
+	// The vulnerable CGI gem is linked, across its ranges and exact version...
+	for version, want := range map[string]int{
+		"0.3.5":   1, // < 0.3.5.1
+		"0.3.5.1": 0,
+		"0.3.6":   1, // Exact.
+		"0.4.1":   1, // >= 0.4.0, < 0.4.2
+		"0.4.2":   0,
+	} {
+		cves, err := st.AffectedCVEs(ctx, "ruby-lang", "cgi", version)
+		is.NoErr(err)
+		is.Equal(len(cves), want) // version
+	}
 
-	// ...but the platform it runs on is not.
-	cves, err = st.AffectedCVEs(ctx, "joomla", "joomla!", "")
+	// ...but Ruby, the platform it runs on, is not.
+	cves, err := st.AffectedCVEs(ctx, "ruby-lang", "ruby", "3.2.0")
 	is.NoErr(err)
 	is.Equal(len(cves), 0)
 }
@@ -119,14 +127,16 @@ func TestSuggestions(t *testing.T) {
 	is.NoErr(err)
 	is.Equal(vendors, []string{"iterm2"})
 
-	// LIKE wildcards in the prefix are matched literally.
-	products, err := st.Products(ctx, "joomlabiblestudy", "com_")
+	products, err := st.Products(ctx, "ruby-lang", "c")
 	is.NoErr(err)
-	is.Equal(products, []string{"com_biblestudy"})
+	is.Equal(products, []string{"cgi"}) // Not ruby, which is only a platform.
 
-	products, err = st.Products(ctx, "joomlabiblestudy", "co%")
-	is.NoErr(err)
-	is.Equal(len(products), 0)
+	// LIKE wildcards in the prefix are matched literally.
+	for _, prefix := range []string{"c_i", "c%"} {
+		products, err = st.Products(ctx, "ruby-lang", prefix)
+		is.NoErr(err)
+		is.Equal(len(products), 0) // prefix
+	}
 
 	// Range bounds become version suggestions, in version order.
 	versions, err := st.Versions(ctx, "iterm2", "iterm2", "")
@@ -134,4 +144,34 @@ func TestSuggestions(t *testing.T) {
 	is.Equal(versions, []string{"3.5.6", "3.5.11"})
 
 	is.NoErr(st.Optimize(ctx))
+}
+
+func TestAffectedVersionsDeduplicated(t *testing.T) {
+	is := is.New(t)
+	st := openFixture(t)
+	ctx := t.Context()
+
+	// One criterion per patch level, which only differ in the update field.
+	criteria := func(version, update string) nvd.CPEMatch {
+		return nvd.CPEMatch{Vulnerable: true, Criteria: "cpe:2.3:a:acme:widget:" + version + ":" + update + ":*:*:*:*:*:*"}
+	}
+
+	cve := nvd.CVE{
+		ID: "CVE-2025-0001",
+		Configurations: []nvd.Configuration{{Nodes: []nvd.Node{{CPEMatch: []nvd.CPEMatch{
+			criteria("2.4.5", "p1"),
+			criteria("2.4.4", "p1"),
+			criteria("2.4.4", "p2"),
+			criteria("2.4.10", "-"),
+			{Vulnerable: true, Criteria: "cpe:2.3:a:acme:widget:*:*:*:*:*:*:*:*", VersionEndExcluding: "2.4.0"},
+		}}}}},
+	}
+
+	_, err := st.Import(ctx, func(yield func(nvd.CVE, error) bool) { yield(cve, nil) })
+	is.NoErr(err)
+
+	cves, err := st.AffectedCVEs(ctx, "acme", "widget", "")
+	is.NoErr(err)
+	is.Equal(len(cves), 1)
+	is.Equal(cves[0].AffectedVersions(), "< 2.4.0, 2.4.4, 2.4.5, 2.4.10")
 }

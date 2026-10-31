@@ -35,7 +35,7 @@ type Name struct {
 // Parse parses a CPE 2.3 formatted string such as
 // "cpe:2.3:a:apache:http_server:2.4.49:*:*:*:*:*:*:*".
 //
-// Quoted characters (e.g. "joomla\!") are unescaped. Components are split
+// Quoted characters (e.g. "notepad\+\+") are unescaped. Components are split
 // on unescaped colons only, so "\:" may appear within a component.
 func Parse(s string) (Name, error) {
 	rest, ok := strings.CutPrefix(s, formattedPrefix)

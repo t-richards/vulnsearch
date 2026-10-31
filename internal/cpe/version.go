@@ -1,6 +1,7 @@
 package cpe
 
 import (
+	"cmp"
 	"strings"
 	"unicode"
 )
@@ -30,7 +31,8 @@ func (m Match) Contains(version string) bool {
 	return m.inRange(version)
 }
 
-// String describes the constraint, e.g. ">= 2.4.0, < 2.4.50".
+// String describes the constraint, e.g. "2.4.0 ≤ v < 2.4.50" or "< 2.4.66".
+// It never contains a comma, so lists of constraints can be comma-separated.
 func (m Match) String() string {
 	switch m.Version {
 	case Any, "":
@@ -40,29 +42,47 @@ func (m Match) String() string {
 		return m.Version
 	}
 
-	var bounds []string
-
-	if m.StartIncluding != "" {
-		bounds = append(bounds, ">= "+m.StartIncluding)
+	start, startOp := m.StartIncluding, "≤"
+	if start == "" {
+		start, startOp = m.StartExcluding, "<"
 	}
 
-	if m.StartExcluding != "" {
-		bounds = append(bounds, "> "+m.StartExcluding)
+	end, endOp := m.EndIncluding, "≤"
+	if end == "" {
+		end, endOp = m.EndExcluding, "<"
 	}
 
-	if m.EndIncluding != "" {
-		bounds = append(bounds, "<= "+m.EndIncluding)
+	switch {
+	case start != "" && end != "":
+		return start + " " + startOp + " v " + endOp + " " + end
+	case start != "":
+		return strings.NewReplacer("≤", "≥", "<", ">").Replace(startOp) + " " + start
+	case end != "":
+		return endOp + " " + end
 	}
 
-	if m.EndExcluding != "" {
-		bounds = append(bounds, "< "+m.EndExcluding)
+	return "all versions"
+}
+
+// CompareMatches orders matches by the lowest version they include, so that
+// exact versions and ranges sort together.
+func CompareMatches(a, b Match) int {
+	c := Compare(a.lowerBound(), b.lowerBound())
+	if c != 0 {
+		return c
 	}
 
-	if len(bounds) == 0 {
-		return "all versions"
-	}
+	return strings.Compare(a.String(), b.String())
+}
 
-	return strings.Join(bounds, ", ")
+// lowerBound is the lowest version the constraint includes, or "" if unbounded.
+func (m Match) lowerBound() string {
+	switch m.Version {
+	case Any, "":
+		return cmp.Or(m.StartIncluding, m.StartExcluding)
+	default:
+		return m.Version
+	}
 }
 
 // inRange reports whether version is within the (possibly unbounded) range.

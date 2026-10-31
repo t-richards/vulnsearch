@@ -91,7 +91,7 @@ func TestSearchAffected(t *testing.T) {
 	is.Equal(res.StatusCode, http.StatusOK)
 	is.True(strings.Contains(res.Body, "<title>iterm2 iterm2 3.5.10 - Vulnsearch</title>"))
 	is.True(strings.Contains(res.Body, "CVE-2025-22275"))
-	is.True(strings.Contains(res.Body, "&gt;= 3.5.6, &lt; 3.5.11"))
+	is.True(strings.Contains(res.Body, "3.5.6 ≤ v &lt; 3.5.11"))
 	is.True(strings.Contains(res.Body, "9.3"))
 }
 
@@ -123,7 +123,7 @@ func TestSuggestions(t *testing.T) {
 	}{
 		{"/api/vendors?vendor=iter", []string{"iterm2"}},
 		{"/api/vendors?vendor=nope", []string{}},
-		{"/api/products?vendor=joomlabiblestudy&name=com", []string{"com_biblestudy"}},
+		{"/api/products?vendor=ruby-lang&name=c", []string{"cgi"}},
 		{"/api/versions?vendor=iterm2&name=iterm2&version=3.5", []string{"3.5.6", "3.5.11"}},
 	}
 

@@ -19,12 +19,12 @@ func TestParse(t *testing.T) {
 			cpe.Name{Part: "a", Vendor: "apache", Product: "http_server", Version: "2.4.49", Update: "*"},
 		},
 		{
-			`cpe:2.3:a:joomla:joomla\!:*:*:*:*:*:*:*:*`,
-			cpe.Name{Part: "a", Vendor: "joomla", Product: "joomla!", Version: "*", Update: "*"},
+			`cpe:2.3:a:notepad-plus-plus:notepad\+\+:8.7.5:*:*:*:*:*:*:*`,
+			cpe.Name{Part: "a", Vendor: "notepad-plus-plus", Product: "notepad++", Version: "8.7.5", Update: "*"},
 		},
 		{
-			`cpe:2.3:a:aenrich:a\+hrd:7.5:*:*:*:*:*:*:*`,
-			cpe.Name{Part: "a", Vendor: "aenrich", Product: "a+hrd", Version: "7.5", Update: "*"},
+			`cpe:2.3:a:ruby-lang:cgi:*:*:*:*:*:ruby:*:*`,
+			cpe.Name{Part: "a", Vendor: "ruby-lang", Product: "cgi", Version: "*", Update: "*"},
 		},
 		{
 			`cpe:2.3:o:example:fw\:x:1\.0:sp1:*:*:*:*:*:*`,

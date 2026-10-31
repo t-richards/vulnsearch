@@ -1,6 +1,7 @@
 package cpe_test
 
 import (
+	"slices"
 	"testing"
 
 	"github.com/matryer/is"
@@ -79,5 +80,32 @@ func TestMatchString(t *testing.T) {
 	is.Equal(cpe.Match{Version: "2.4.49"}.String(), "2.4.49")
 	is.Equal(cpe.Match{Version: cpe.Any}.String(), "all versions")
 	is.Equal(cpe.Match{Version: cpe.NotApplicable}.String(), "n/a")
-	is.Equal(cpe.Match{Version: cpe.Any, StartIncluding: "2.4.0", EndExcluding: "2.4.50"}.String(), ">= 2.4.0, < 2.4.50")
+	is.Equal(cpe.Match{Version: cpe.Any, StartIncluding: "2.4.0", EndExcluding: "2.4.50"}.String(), "2.4.0 ≤ v < 2.4.50")
+	is.Equal(cpe.Match{Version: cpe.Any, StartExcluding: "1.0", EndIncluding: "1.5"}.String(), "1.0 < v ≤ 1.5")
+	is.Equal(cpe.Match{Version: cpe.Any, StartIncluding: "3.0"}.String(), "≥ 3.0")
+	is.Equal(cpe.Match{Version: cpe.Any, StartExcluding: "3.0"}.String(), "> 3.0")
+	is.Equal(cpe.Match{Version: cpe.Any, EndIncluding: "7.5"}.String(), "≤ 7.5")
+	is.Equal(cpe.Match{Version: cpe.Any, EndExcluding: "2.4.66"}.String(), "< 2.4.66")
+}
+
+func TestCompareMatches(t *testing.T) {
+	is := is.New(t)
+
+	matches := []cpe.Match{
+		{Version: "2.4.10"},
+		{Version: cpe.Any, StartIncluding: "2.4.5", EndExcluding: "2.4.8"},
+		{Version: "2.4.9"},
+		{Version: cpe.Any, EndExcluding: "2.4.0"},
+		{Version: "2.4.4"},
+	}
+
+	slices.SortFunc(matches, cpe.CompareMatches)
+
+	got := make([]string, len(matches))
+	for i, m := range matches {
+		got[i] = m.String()
+	}
+
+	// Unbounded ranges first, then by lowest included version.
+	is.Equal(got, []string{"< 2.4.0", "2.4.4", "2.4.5 ≤ v < 2.4.8", "2.4.9", "2.4.10"})
 }

@@ -25,7 +25,7 @@
     <tbody>
       <tr>
         <td class="border-0 pb-0 text-nowrap"><a href="https://nvd.nist.gov/vuln/detail/{{ .ID }}" rel="noreferrer">{{ .ID }}</a></td>
-        <td class="border-0 pb-0">{{ range .Matches }}<div class="text-nowrap">{{ . }}</div>{{ end }}</td>
+        <td class="border-0 pb-0">{{ .AffectedVersions }}</td>
         <td class="border-0 pb-0">{{ .CWEIDs }}</td>
         <td class="border-0 pb-0 text-end">{{ score .CVSSv4Score }}</td>
         <td class="border-0 pb-0 text-end">{{ score .CVSSv3Score }}</td>

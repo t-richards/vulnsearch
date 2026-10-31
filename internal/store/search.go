@@ -65,7 +65,17 @@ func (s *Store) Versions(ctx context.Context, vendor, product, prefix string) ([
 type AffectedCVE struct {
 	db.CVE
 
-	Matches []cpe.Match
+	Matches []cpe.Match // Distinct and sorted.
+}
+
+// AffectedVersions describes the matching versions, e.g. "2.4.4, 2.4.5".
+func (c AffectedCVE) AffectedVersions() string {
+	versions := make([]string, len(c.Matches))
+	for i, match := range c.Matches {
+		versions[i] = match.String()
+	}
+
+	return strings.Join(versions, ", ")
 }
 
 // AffectedCVEs finds the CVEs affecting a version of a product, most recently
@@ -104,6 +114,13 @@ func (s *Store) AffectedCVEs(ctx context.Context, vendor, product, version strin
 		}
 
 		cves[i].Matches = append(cves[i].Matches, match)
+	}
+
+	// Criteria can repeat once the CPE fields we don't store are dropped, e.g.
+	// one per patch level ("2.4.4:p1", "2.4.4:p2", ...) all become "2.4.4".
+	for i := range cves {
+		slices.SortFunc(cves[i].Matches, cpe.CompareMatches)
+		cves[i].Matches = slices.Compact(cves[i].Matches)
 	}
 
 	return cves, nil
