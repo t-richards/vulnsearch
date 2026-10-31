@@ -6,9 +6,9 @@ A fast, offline-capable replacement for other CVE search tools.
 
 ## Screenshots
 
-![home](https://user-images.githubusercontent.com/3905798/100484708-86068280-30cb-11eb-8f9a-a3b610e17845.png)
+<img width="1676" height="1048" alt="Home" src="https://github.com/user-attachments/assets/ba5ec405-1aa0-4a41-a438-6a2df0456b51" />
 
-![search](https://user-images.githubusercontent.com/3905798/100484711-8737af80-30cb-11eb-97c0-ec5a7eba8408.png)
+<img width="1676" height="1048" alt="Search" src="https://github.com/user-attachments/assets/d8950831-6add-42fe-abbf-920dc7ade825" />
 
 ## System requirements
 
